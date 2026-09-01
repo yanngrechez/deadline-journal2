@@ -1,0 +1,121 @@
+If GitHub does not show a file named .pages.yml after upload:
+1. In GitHub click Add file > Create new file.
+2. Name it exactly: .pages.yml
+3. Copy everything BELOW this line into it.
+4. Commit the new file.
+
+---------------- COPY BELOW ----------------
+
+media:
+  input: media
+  output: /media
+  rename: safe
+  categories: [image]
+
+content:
+  - name: articles
+    label: Articles
+    type: collection
+    path: content/articles
+    format: json
+    filename:
+      template: "{fields.slug}.json"
+      field: false
+    view:
+      primary: title
+      fields: [title, status, region, country, published_at]
+      sort: [published_at, title]
+      search: [title, author, country, region]
+      default:
+        sort: published_at
+        order: desc
+    fields:
+      - name: title
+        label: Headline
+        type: string
+        required: true
+      - name: slug
+        label: URL slug
+        type: string
+        required: true
+        description: "Lowercase words separated by hyphens, e.g. spain-housing-crisis"
+        pattern:
+          regex: "^[a-z0-9-]+$"
+          message: "Use lowercase letters, numbers and hyphens only."
+      - name: dek
+        label: Subtitle / deck
+        type: text
+        required: true
+      - name: author
+        label: Author
+        type: string
+        required: true
+      - name: country
+        label: Country
+        type: string
+        required: true
+      - name: region
+        label: Region
+        type: select
+        required: true
+        options:
+          values:
+            - Europe
+            - North America
+            - Latin America
+            - Middle East & North Africa
+            - Sub-Saharan Africa
+            - Asia-Pacific
+      - name: type
+        label: Article type
+        type: select
+        required: true
+        options:
+          values: [Analysis, Dispatch, Explained, Essay, Perspective]
+      - name: hero_image
+        label: Hero image
+        type: image
+        required: true
+      - name: published_at
+        label: Publication date
+        type: date
+        required: true
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: draft
+        options:
+          values:
+            - name: draft
+              label: Draft
+            - name: published
+              label: Published
+      - name: featured
+        label: Featured on homepage
+        type: boolean
+        default: false
+      - name: homepage_rank
+        label: Homepage rank
+        type: number
+        default: 999
+        description: "Lower numbers get more prominent positions. Use 1 for the lead story, 2 for the story beneath it, 3-4 for the middle column, 5-8 for the right rail."
+      - name: body
+        label: Article body
+        type: rich-text
+        required: true
+        options:
+          format: html
+          media: false
+          switcher: true
+
+settings:
+  commit:
+    identity: user
+    templates:
+      create: "Publish content: {path}"
+      update: "Update content: {path}"
+      delete: "Remove content: {path}"

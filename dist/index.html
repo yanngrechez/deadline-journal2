@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Deadline Journal</title><link rel="stylesheet" href="styles.css"></head><body>
+<div class="utility"><div class="container"><div class="tag">Student-led international affairs journal</div><div class="utility-links"><a href="about.html">About</a><a href="write.html">Write for Us</a><a href="#" onclick="openSearch();return false;">Search</a></div></div></div>
+<header class="brand container"><div class="slogan">POLITICS FROM THE PEOPLE CLOSEST TO IT</div><a href="index.html"><h1 class="masthead">Deadline Journal</h1></a></header>
+<div class="nav-wrap"><nav class="nav container"><a href="index.html#latest">Latest</a><a href="region.html?region=Europe">Europe</a><a href="region.html?region=North%20America">North America</a><a href="region.html?region=Latin%20America">Latin America</a><a href="region.html?region=Middle%20East%20%26%20North%20Africa">Middle East &amp; North Africa</a><a href="region.html?region=Sub-Saharan%20Africa">Sub-Saharan Africa</a><a href="region.html?region=Asia-Pacific">Asia-Pacific</a></nav></div>
+<main>
+<section class="section container"><div class="top-grid">
+  <div class="top-col" id="heroColumn"></div>
+  <div class="top-col" id="middleColumn"></div>
+  <div class="top-col" id="railColumn"></div>
+</div></section>
+<section class="latest-strip" id="latest"><div class="container section"><h2 class="section-title"><span>Latest</span><small>New perspectives from across the journal</small></h2><div class="latest-grid" id="latestGrid"></div></div></section>
+<section class="regions-wrap"><div class="container section"><h2 class="section-title"><span>Around the World</span><small>Browse by region</small></h2><div class="region-grid" id="regionGrid"></div></div></section>
+<section class="container mission"><h2>The world, explained <em>from within.</em></h2><div><p>Deadline Journal is a student-led international publication where young writers explain the politics, history and economics of the places they know best.</p><p>We prioritize proximity over punditry: local context, lived knowledge and stories that deserve a wider audience.</p><a class="cta" href="write.html">Write for Deadline Journal</a></div></section>
+</main>
+<footer class="footer container"><div class="footer-top"><div class="footer-brand">Deadline Journal</div><div class="footer-note">A student-led international journal for politics, history and economics — told by people with a direct connection to the places they cover.</div></div></footer>
+<div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-top"><input id="searchInput" placeholder="Search Deadline Journal"><button class="close-search" onclick="closeSearch()">×</button></div><div id="searchResults"></div></div></div>
+<script src="data.js"></script><script src="script.js"></script>
+<script>
+const all = window.DEADLINE_ARTICLES || [];
+const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
+const ranked = [...all].sort((a,b)=>(Number(a.homepage_rank)||999)-(Number(b.homepage_rank)||999) || new Date(b.published_at||0)-new Date(a.published_at||0));
+
+function aurl(a){return `article.html?slug=${encodeURIComponent(a.slug)}`}
+function meta(a){return `${a.country} · ${a.type}`}
+
+const hero=ranked[0], secondary=ranked[1], mids=ranked.slice(2,4), rails=ranked.slice(4,8);
+
+if(hero){
+ document.getElementById('heroColumn').innerHTML = `
+ <article class="hero"><a href="${aurl(hero)}"><img src="${hero.hero_image}" alt=""></a>
+ <div class="kicker" style="text-align:center">${meta(hero)}</div>
+ <a href="${aurl(hero)}"><h2 class="headline">${hero.title}</h2></a>
+ <p class="dek">${hero.dek||''}</p><div class="byline">BY ${hero.author}</div></article>` +
+ (secondary ? `<a class="small-horizontal" href="${aurl(secondary)}"><img src="${secondary.hero_image}" alt=""><div><div class="kicker">${meta(secondary)}</div><h3 class="headline">${secondary.title}</h3><p>${secondary.dek||''}</p><div class="byline">BY ${secondary.author}</div></div></a>` : '');
+}
+document.getElementById('middleColumn').innerHTML = mids.map(a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">BY ${a.author}</div></article>`).join('');
+document.getElementById('railColumn').innerHTML = rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('');
+
+document.getElementById('latestGrid').innerHTML = byDate.slice(0,4).map(a=>`<a class="latest-item" href="${aurl(a)}"><img src="${a.hero_image}" alt=""><div><div class="kicker">${meta(a)}</div><h3>${a.title}</h3></div></a>`).join('');
+
+const regions=[
+ ['Europe','EUROPE'],['North America','NORTH AMERICA'],['Latin America','LATIN AMERICA'],
+ ['Middle East & North Africa','MENA'],['Sub-Saharan Africa','SUB-SAHARAN AFRICA'],['Asia-Pacific','ASIA-PACIFIC']
+];
+document.getElementById('regionGrid').innerHTML = regions.map(([region,label])=>{
+ const items=byDate.filter(a=>a.region===region);
+ if(!items.length)return `<div class="region-col"><div class="region-label">${label}</div><div class="mini">No published stories yet.</div></div>`;
+ const f=items[0], minis=items.slice(1,5);
+ return `<div class="region-col"><div class="region-label">${label}</div>
+ <a href="${aurl(f)}"><img src="${f.hero_image}" alt=""></a>
+ <a href="${aurl(f)}"><h3 class="feature-title">${f.title}</h3></a>
+ <div class="byline">${f.type} | ${f.author}</div>
+ ${minis.map(x=>`<a class="mini" href="${aurl(x)}">${x.title}</a>`).join('')}</div>`;
+}).join('');
+</script></body></html>

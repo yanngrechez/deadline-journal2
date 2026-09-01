@@ -1,0 +1,29 @@
+DEADLINE JOURNAL — BEGINNER CHECKLIST
+
+Your GitHub repository root should contain:
+.pages.yml
+README.md
+BEGINNER-CHECKLIST.txt
+PAGES-CONFIG-BACKUP.txt
+package.json
+build.js
+index.html
+article.html
+region.html
+about.html
+write.html
+styles.css
+script.js
+assets/
+content/
+media/
+
+Cloudflare Pages:
+Production branch: main
+Build command: npm run build
+Build output directory: dist
+
+Pages CMS:
+Sign in at app.pagescms.org with GitHub.
+Open the deadline-journal repository.
+Choose Articles.
