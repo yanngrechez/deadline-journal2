@@ -27,7 +27,8 @@ const articles = fs.readdirSync(articleDir)
   }))
   .sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
 
-fs.writeFileSync(path.join(dist,'data.js'),
-  'window.DEADLINE_ARTICLES=' + JSON.stringify(articles) + ';\\n'
+fs.writeFileSync(
+  path.join(dist, 'data.js'),
+  'window.DEADLINE_ARTICLES=' + JSON.stringify(articles) + ';\n'
 );
 console.log(`Built Deadline Journal with ${articles.length} published articles.`);
