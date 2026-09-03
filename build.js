@@ -31,4 +31,49 @@ fs.writeFileSync(
   path.join(dist, 'data.js'),
   'window.DEADLINE_ARTICLES=' + JSON.stringify(articles) + ';\n'
 );
+const baseUrl = 'https://deadline-journal2.yanngrechez.workers.dev';
+
+// Create sitemap entries for the main pages
+const staticPages = [
+  '/',
+  '/about.html',
+  '/write.html'
+];
+
+const staticEntries = staticPages.map(page => `
+  <url>
+    <loc>${baseUrl}${page}</loc>
+  </url>
+`).join('');
+
+// Create sitemap entries automatically for every published article
+const articleEntries = articles.map(article => `
+  <url>
+    <loc>${baseUrl}/article.html?slug=${encodeURIComponent(article.slug)}</loc>
+    ${article.published_at ? `<lastmod>${new Date(article.published_at).toISOString().slice(0, 10)}</lastmod>` : ''}
+  </url>
+`).join('');
+
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticEntries}
+${articleEntries}
+</urlset>`;
+
+fs.writeFileSync(
+  path.join(dist, 'sitemap.xml'),
+  sitemap
+);
+
+// Also tell search engines where the sitemap is
+const robots = `User-agent: *
+Allow: /
+
+Sitemap: ${baseUrl}/sitemap.xml
+`;
+
+fs.writeFileSync(
+  path.join(dist, 'robots.txt'),
+  robots
+);
 console.log(`Built Deadline Journal with ${articles.length} published articles.`);
