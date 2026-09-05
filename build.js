@@ -8,7 +8,7 @@ fs.rmSync(dist, {recursive:true, force:true});
 fs.mkdirSync(dist, {recursive:true});
 
 const copyFile = (name) => fs.copyFileSync(path.join(root,name), path.join(dist,name));
-['index.html','article.html','region.html','about.html','write.html','styles.css','script.js','googlef859bf9f1619f912.html'].forEach(copyFile);
+['index.html','article.html','region.html','about.html','write.html','styles.css','script.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
 
 for (const dir of ['assets','media']) {
   fs.cpSync(path.join(root,dir), path.join(dist,dir), {recursive:true});
