@@ -21,7 +21,7 @@ const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.publi
 const ranked = [...all].sort((a,b)=>(Number(a.homepage_rank)||999)-(Number(b.homepage_rank)||999) || new Date(b.published_at||0)-new Date(a.published_at||0));
 
 function aurl(a){return `article.html?slug=${encodeURIComponent(a.slug)}`}
-function meta(a){return `${a.country} · ${a.type}`}
+function meta(a){return articleMeta(a)}
 
 const hero=ranked[0], secondary=ranked[1], mids=ranked.slice(2,4), rails=ranked.slice(4,8);
 
@@ -49,7 +49,7 @@ document.getElementById('regionGrid').innerHTML = regions.map(([region,label])=>
  return `<div class="region-col"><div class="region-label">${label}</div>
  <a href="${aurl(f)}"><img src="${f.hero_image}" alt=""></a>
  <a href="${aurl(f)}"><h3 class="feature-title">${f.title}</h3></a>
- <div class="byline">${f.type} | ${f.author}</div>
+ <div class="byline">${topicMeta(f)} | ${f.author}</div>
  ${minis.map(x=>`<a class="mini" href="${aurl(x)}">${x.title}</a>`).join('')}</div>`;
 }).join('');
 </script></body></html>

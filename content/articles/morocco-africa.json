@@ -5,7 +5,7 @@
   "author": "SALMA BENNANI",
   "country": "MOROCCO",
   "region": "Middle East & North Africa",
-  "type": "Analysis",
+  "topics": ["politics"],
   "hero_image": "/assets/mena.svg",
   "published_at": "2026-08-29T12:00",
   "status": "published",

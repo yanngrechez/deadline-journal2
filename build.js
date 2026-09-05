@@ -19,12 +19,18 @@ const articles = fs.readdirSync(articleDir)
   .filter(f=>f.endsWith('.json'))
   .map(f=>JSON.parse(fs.readFileSync(path.join(articleDir,f),'utf8')))
   .filter(a=>a.status === 'published')
-  .map(a=>({
-    ...a,
-    country:String(a.country||'').toUpperCase(),
-    type:String(a.type||'').toUpperCase(),
-    homepage_rank:Number(a.homepage_rank||999)
-  }))
+  .map(a=>{
+    const allowedTopics = ['politics','economics','history','philosophy'];
+    const sourceTopics = Array.isArray(a.topics) ? a.topics : (a.type ? ['politics'] : []);
+    const topics = [...new Set(sourceTopics.map(topic=>String(topic).toLowerCase()).filter(topic=>allowedTopics.includes(topic)))];
+    const {type, ...article} = a;
+    return {
+      ...article,
+      country:String(a.country||'').toUpperCase(),
+      topics:topics.length ? topics : ['politics'],
+      homepage_rank:Number(a.homepage_rank||999)
+    };
+  })
   .sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
 
 fs.writeFileSync(

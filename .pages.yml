@@ -58,12 +58,23 @@ content:
             - Middle East & North Africa
             - Sub-Saharan Africa
             - Asia-Pacific
-      - name: type
-        label: Article type
+      - name: topics
+        label: Subjects
         type: select
         required: true
         options:
-          values: [Analysis, Dispatch, Explained, Essay, Perspective]
+          multiple: true
+          min: 1
+          max: 4
+          values:
+            - name: politics
+              label: Politics
+            - name: economics
+              label: Economics
+            - name: history
+              label: History
+            - name: philosophy
+              label: Philosophy
       - name: hero_image
         label: Hero image
         type: image

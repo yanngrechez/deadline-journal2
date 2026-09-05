@@ -5,7 +5,7 @@
   "author": "SOFÍA ÁLVAREZ",
   "country": "ARGENTINA",
   "region": "Latin America",
-  "type": "Explained",
+  "topics": ["economics", "history", "politics"],
   "hero_image": "/assets/latam.svg",
   "published_at": "2026-08-27T12:00",
   "status": "published",

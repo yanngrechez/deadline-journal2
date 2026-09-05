@@ -13,7 +13,7 @@ if(!a){page.innerHTML='<h1>Article not found</h1><p>This article may be a draft 
 else{
  document.title=a.title+' | Deadline Journal';
  const date=a.published_at ? new Date(a.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) : '';
- page.innerHTML=`<div class="article-kicker">${a.country} · ${a.type}</div><h1>${a.title}</h1>
+ page.innerHTML=`<div class="article-kicker">${articleMeta(a)}</div><h1>${a.title}</h1>
  <div class="article-dek">${a.dek||''}</div><div class="article-meta">BY ${a.author} &nbsp; · &nbsp; ${date} &nbsp; · &nbsp; DEADLINE JOURNAL</div>
  <img src="${a.hero_image}" alt=""><div class="body">${a.body||''}</div>`;
 }

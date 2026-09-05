@@ -5,3 +5,10 @@
 
 .masthead{white-space:nowrap}
 .mission h2{color:var(--purple)}
+.country-label{color:var(--ink)}
+.topic-separator{color:var(--muted)}
+.topic-label{font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.topic-politics{color:var(--purple)}
+.topic-economics{color:#b3261e}
+.topic-history{color:#1d5d9b}
+.topic-philosophy{color:#2e7d4f}

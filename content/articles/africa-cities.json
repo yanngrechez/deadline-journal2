@@ -5,7 +5,7 @@
   "author": "AMANI NJOROGE",
   "country": "KENYA",
   "region": "Sub-Saharan Africa",
-  "type": "Essay",
+  "topics": ["politics"],
   "hero_image": "/assets/africa.svg",
   "published_at": "2026-08-28T12:00",
   "status": "published",

@@ -5,7 +5,7 @@
   "author": "LIN WEI",
   "country": "CHINA",
   "region": "Asia-Pacific",
-  "type": "Explained",
+  "topics": ["economics", "politics"],
   "hero_image": "/assets/china.svg",
   "published_at": "2026-08-30T12:00",
   "status": "published",

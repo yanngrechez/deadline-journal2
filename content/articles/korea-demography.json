@@ -5,7 +5,7 @@
   "author": "MIN-JI PARK",
   "country": "SOUTH KOREA",
   "region": "Asia-Pacific",
-  "type": "Analysis",
+  "topics": ["economics", "politics"],
   "hero_image": "/assets/asia.svg",
   "published_at": "2026-08-25T12:00",
   "status": "published",
