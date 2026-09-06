@@ -38,3 +38,11 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHORS DISCLAIM ALL WARRANTIES WITH
 REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
 AND FITNESS. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, DIRECT,
 INDIRECT, OR CONSEQUENTIAL DAMAGES ARISING FROM USE OF THIS SOFTWARE.
+
+## flag-icons
+
+Country flag artwork is supplied by `flag-icons`, copyright (c) 2013 Panayiotis
+Lipiridis, under the MIT License. Permission is granted, free of charge, to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+software, provided the copyright and permission notices are included. The
+software is provided "as is", without warranty of any kind.

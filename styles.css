@@ -30,9 +30,8 @@
 .map-country.is-covered{fill:var(--purple);stroke:var(--purple-dark)}
 .map-country-link:hover .map-country.is-covered,.map-country-link:focus .map-country.is-covered{fill:var(--purple-dark)}
 .map-country-static{fill:#eee9ef;pointer-events:none}
-.map-marker{fill:var(--paper);stroke:var(--purple);stroke-width:2;vector-effect:non-scaling-stroke;transition:fill .14s ease,r .14s ease}
-.map-marker.is-covered{fill:var(--purple)}
-.map-country-link:hover .map-marker,.map-country-link:focus .map-marker{fill:#cbb5d9;r:6px}
+.map-marker{fill:transparent;stroke:transparent;stroke-width:8;opacity:0;pointer-events:all;vector-effect:non-scaling-stroke;transition:fill .14s ease,stroke .14s ease,opacity .14s ease,r .14s ease}
+.map-country-link:hover .map-marker,.map-country-link:focus .map-marker{fill:var(--paper);stroke:var(--purple);stroke-width:2;opacity:1;r:6px}
 .map-country-link:hover .map-marker.is-covered,.map-country-link:focus .map-marker.is-covered{fill:var(--purple-dark)}
 .map-country-link:focus{outline:none}
 .map-country-link:focus .map-country,.map-country-link:focus .map-marker{filter:drop-shadow(0 0 3px rgba(91,42,134,.7))}
@@ -54,11 +53,11 @@
 .country-directory-link strong{display:block;font:700 17px/1.1 Georgia,'Times New Roman',serif}
 .country-directory-link small{display:block;margin-top:4px;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .country-directory-link.has-stories small{color:var(--purple);font-weight:900}
-.country-flag{font-size:23px;line-height:1}
+.country-flag{display:block;width:32px;height:24px;object-fit:cover;border:1px solid rgba(23,20,26,.14);box-shadow:0 1px 2px rgba(23,20,26,.08)}
 .country-page-head{display:flex;align-items:end;justify-content:space-between;padding:42px 0 22px;border-bottom:2px solid var(--ink)}
 .country-page-head h1{font:700 clamp(50px,8vw,100px)/.86 Georgia,'Times New Roman',serif;letter-spacing:-.055em;margin:10px 0 0}
 .country-page-head .kicker a:hover{text-decoration:underline}
-.country-page-flag{font-size:clamp(54px,8vw,96px);line-height:.8}
+.country-page-flag{display:block;width:clamp(72px,10vw,118px);height:auto;border:1px solid rgba(23,20,26,.14);box-shadow:0 2px 7px rgba(23,20,26,.12)}
 .country-stories{padding:25px 0 52px;border-bottom:1px solid var(--rule)}
 .country-stories-head{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--purple);padding-bottom:11px;border-bottom:1px solid var(--rule)}
 .country-story-card{display:grid;grid-template-columns:minmax(260px,.8fr) 1.2fr;gap:28px;padding:22px 0;border-bottom:1px solid var(--rule)}
@@ -69,4 +68,4 @@
 .country-empty p{font:700 clamp(30px,4vw,48px)/1 Georgia,'Times New Roman',serif;margin:0 0 24px}
 .country-back{display:inline-block;margin-top:20px;color:var(--purple);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
 @media(max-width:900px){.country-directory-grid{grid-template-columns:repeat(3,1fr)}.country-directory-link:not(:nth-child(4n+1)){border-left:0}.country-directory-link:not(:nth-child(3n+1)){border-left:1px solid var(--rule)}}
-@media(max-width:700px){.coverage-map-section .section{padding:24px 0}.map-heading h2{font-size:34px}.world-map-shell{margin-top:15px;overflow-x:auto}.world-map{min-width:660px}.map-key{justify-content:flex-start}.map-key-note{flex-basis:100%}.country-directory-head{display:block}.country-directory-head h2{font-size:28px;margin-top:5px}.country-directory-grid{grid-template-columns:repeat(2,1fr)}.country-directory-link:not(:nth-child(3n+1)){border-left:0}.country-directory-link:nth-child(even){border-left:1px solid var(--rule)}.country-directory-link strong{font-size:15px}.country-page-head{padding:30px 0 18px}.country-page-flag{font-size:50px}.country-story-card{grid-template-columns:1fr;gap:13px}.country-story-card h2{font-size:30px}.country-empty{padding:40px 0 50px}}
+@media(max-width:700px){.coverage-map-section .section{padding:24px 0}.map-heading h2{font-size:34px}.world-map-shell{margin-top:15px;overflow-x:auto}.world-map{min-width:660px}.map-key{justify-content:flex-start}.map-key-note{flex-basis:100%}.country-directory-head{display:block}.country-directory-head h2{font-size:28px;margin-top:5px}.country-directory-grid{grid-template-columns:repeat(2,1fr)}.country-directory-link:not(:nth-child(3n+1)){border-left:0}.country-directory-link:nth-child(even){border-left:1px solid var(--rule)}.country-directory-link strong{font-size:15px}.country-page-head{padding:30px 0 18px}.country-page-flag{width:72px}.country-story-card{grid-template-columns:1fr;gap:13px}.country-story-card h2{font-size:30px}.country-empty{padding:40px 0 50px}}

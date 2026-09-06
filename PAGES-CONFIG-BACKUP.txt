@@ -51,9 +51,10 @@ content:
         type: string
         required: true
       - name: country
-        label: Country
+        label: Country or actor
         type: string
         required: true
+        description: "Use a country name, or an institution or organization name for Actors articles."
       - name: region
         label: Region
         type: select
@@ -61,17 +62,28 @@ content:
         options:
           values:
             - Europe
-            - North America
-            - Latin America
+            - Americas
             - Middle East & North Africa
             - Sub-Saharan Africa
             - Asia-Pacific
-      - name: type
-        label: Article type
+            - Actors
+      - name: topics
+        label: Subjects
         type: select
         required: true
         options:
-          values: [Analysis, Dispatch, Explained, Essay, Perspective]
+          multiple: true
+          min: 1
+          max: 4
+          values:
+            - name: politics
+              label: Politics
+            - name: economics
+              label: Economics
+            - name: history
+              label: History
+            - name: philosophy
+              label: Philosophy
       - name: hero_image
         label: Hero image
         type: image
@@ -98,6 +110,11 @@ content:
         label: Featured on homepage
         type: boolean
         default: false
+      - name: is_placeholder
+        label: Template placeholder
+        type: boolean
+        default: false
+        description: "Turn this on for demonstration articles. Placeholder stories stay visible but do not count toward country coverage."
       - name: homepage_rank
         label: Homepage rank
         type: number

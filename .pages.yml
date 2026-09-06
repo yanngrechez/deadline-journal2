@@ -43,9 +43,10 @@ content:
         type: string
         required: true
       - name: country
-        label: Country
+        label: Country or actor
         type: string
         required: true
+        description: "Use a country name, or an institution or organization name for Actors articles."
       - name: region
         label: Region
         type: select
@@ -53,11 +54,11 @@ content:
         options:
           values:
             - Europe
-            - North America
-            - Latin America
+            - Americas
             - Middle East & North Africa
             - Sub-Saharan Africa
             - Asia-Pacific
+            - Actors
       - name: topics
         label: Subjects
         type: select

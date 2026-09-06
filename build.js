@@ -13,6 +13,7 @@ const copyFile = (name) => fs.copyFileSync(path.join(root,name), path.join(dist,
 for (const dir of ['assets','media']) {
   fs.cpSync(path.join(root,dir), path.join(dist,dir), {recursive:true});
 }
+fs.cpSync(path.join(root,'node_modules','flag-icons','flags','4x3'), path.join(dist,'flags'), {recursive:true});
 
 const articleDir = path.join(root,'content','articles');
 const articles = fs.readdirSync(articleDir)

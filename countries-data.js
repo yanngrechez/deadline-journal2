@@ -1,8 +1,7 @@
 (function(root){
   const regionCodes={
     'Europe':'AL AD AT BY BE BA BG HR CY CZ DK EE FI FR DE GR HU IS IE IT XK LV LI LT LU MT MD MC ME NL MK NO PL PT RO RU SM RS SK SI ES SE CH UA GB VA'.split(' '),
-    'North America':'CA US'.split(' '),
-    'Latin America':'AG AR BS BB BZ BO BR CL CO CR CU DM DO EC SV GD GT GY HT HN JM MX NI PA PY PE KN LC VC SR TT UY VE'.split(' '),
+    'Americas':'AG AR BS BB BZ BO BR CA CL CO CR CU DM DO EC SV GD GT GY HT HN JM MX NI PA PY PE KN LC VC SR TT US UY VE'.split(' '),
     'Middle East & North Africa':'DZ BH EG EH IR IQ IL JO KW LB LY MR MA OM PS QA SA SD SY TN TR AE YE'.split(' '),
     'Sub-Saharan Africa':'AO BJ BW BF BI CV CM CF TD KM CD CG CI DJ GQ ER SZ ET GA GM GH GN GW KE LS LR MG MW ML MU MZ NA NE NG RW ST SN SC SL SO ZA SS TZ TG UG ZM ZW'.split(' '),
     'Asia-Pacific':'AF AM AZ AU BD BT BN KH CN FJ GE IN ID JP KZ KI KP KR KG LA MY MV MH FM MN MM NR NP NZ PK PW PG PH WS SG SB LK TW TJ TH TL TO TM TV UZ VU VN'.split(' ')
@@ -14,7 +13,7 @@
     SZ:'Eswatini',TW:'Taiwan',TZ:'Tanzania',US:'United States',VA:'Vatican City',VE:'Venezuela',VN:'Vietnam',XK:'Kosovo'
   };
   const displayNames=typeof Intl!=='undefined'&&Intl.DisplayNames?new Intl.DisplayNames(['en'],{type:'region'}):null;
-  const flag=code=>code==='XK'?'🇽🇰':String.fromCodePoint(...code.split('').map(letter=>127397+letter.charCodeAt()));
+  const flag=code=>`/flags/${code.toLowerCase()}.svg`;
   const countries=[];
   Object.entries(regionCodes).forEach(([region,codes])=>codes.forEach(code=>countries.push({
     code,
