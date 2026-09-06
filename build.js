@@ -38,7 +38,7 @@ fs.writeFileSync(
   path.join(dist, 'data.js'),
   'window.DEADLINE_ARTICLES=' + JSON.stringify(articles) + ';\n'
 );
-const baseUrl = 'https://deadline-journal2.yanngrechez.workers.dev';
+const baseUrl = 'https://deadlinejournal.org';
 const countries = require('./countries-data.js');
 
 // Create sitemap entries for the main pages
