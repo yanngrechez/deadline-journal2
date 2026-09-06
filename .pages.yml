@@ -101,6 +101,11 @@ content:
         label: Featured on homepage
         type: boolean
         default: false
+      - name: is_placeholder
+        label: Template placeholder
+        type: boolean
+        default: false
+        description: "Turn this on for demonstration articles. Placeholder stories stay visible but do not count toward country coverage."
       - name: homepage_rank
         label: Homepage rank
         type: number

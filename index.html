@@ -8,13 +8,13 @@
   <div class="top-col" id="middleColumn"></div>
   <div class="top-col" id="railColumn"></div>
 </div></section>
-<section class="latest-strip" id="latest"><div class="container section"><h2 class="section-title"><span>Latest</span><small>New perspectives from across the journal</small></h2><div class="latest-grid" id="latestGrid"></div></div></section>
+<section class="coverage-map-section" id="latest"><div class="container section"><div class="map-heading"><div class="kicker">THE JOURNAL AROUND THE WORLD</div><h2 id="mapTitle">Voices from 0 countries, and counting.</h2></div><div class="world-map-shell" id="worldMapShell"><svg class="world-map" id="worldMap" role="img" aria-labelledby="mapTitle mapDescription"></svg><p class="visually-hidden" id="mapDescription">An interactive world map. Select a country to see its Deadline Journal stories.</p><div class="map-tooltip" id="mapTooltip" role="status" aria-hidden="true"></div></div><div class="map-key"><span><i class="map-key-covered"></i>Published coverage</span><span><i class="map-key-open"></i>No stories yet</span><span class="map-key-note">Select any country to visit its page.</span></div></div></section>
 <section class="regions-wrap"><div class="container section"><h2 class="section-title"><span>Around the World</span><small>Browse by region</small></h2><div class="region-grid" id="regionGrid"></div></div></section>
 <section class="container mission"><h2>Politics from the people closest to it.</h2><div><p>Deadline Journal is a student-led publication that gives young writers a platform to highlight political developments in their own communities that they believe deserve greater, or different, attention.</p><p>We prioritize proximity. Political issues are best understood through local context, lived knowledge, and personal stories.</p><a class="cta" href="write.html">Write for Deadline Journal</a></div></section>
 </main>
 <footer class="footer container"><div class="footer-top"><div class="footer-brand">Deadline Journal</div><div class="footer-note">A student-led international journal told by people with a direct connection to the topics they cover.</div></div></footer>
 <div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-top"><input id="searchInput" placeholder="Search Deadline Journal"><button class="close-search" onclick="closeSearch()">×</button></div><div id="searchResults"></div></div></div>
-<script src="data.js"></script><script src="script.js"></script>
+<script src="data.js"></script><script src="countries-data.js"></script><script src="world-map-data.js"></script><script src="script.js"></script>
 <script>
 const all = window.DEADLINE_ARTICLES || [];
 const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
@@ -36,7 +36,53 @@ if(hero){
 document.getElementById('middleColumn').innerHTML = mids.map(a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">BY ${a.author}</div></article>`).join('');
 document.getElementById('railColumn').innerHTML = rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('');
 
-document.getElementById('latestGrid').innerHTML = byDate.slice(0,4).map(a=>`<a class="latest-item" href="${aurl(a)}"><img src="${a.hero_image}" alt=""><div><div class="kicker">${meta(a)}</div><h3>${a.title}</h3></div></a>`).join('');
+const realArticles=all.filter(isRealArticle);
+const countsByCountry=new Map();
+realArticles.forEach(article=>{
+ const country=countryForArticle(article);
+ if(country)countsByCountry.set(country.code,(countsByCountry.get(country.code)||0)+1);
+});
+const coveredCountryCount=countsByCountry.size;
+document.getElementById('mapTitle').textContent=`Voices from ${coveredCountryCount} ${coveredCountryCount===1?'country':'countries'}, and counting.`;
+
+const map=window.DEADLINE_MAP;
+const mapSvg=document.getElementById('worldMap');
+const mapTooltip=document.getElementById('mapTooltip');
+const tooltipText=(country,count)=>`${country.name} — ${count} ${count===1?'article':'articles'}`;
+const mapLink=(country,count,shape)=>`<a class="map-country-link" href="${countryUrl(country)}" aria-label="${tooltipText(country,count)}" data-tooltip="${tooltipText(country,count)}">${shape}<title>${tooltipText(country,count)}</title></a>`;
+if(map&&mapSvg){
+ mapSvg.setAttribute('viewBox',map.viewBox);
+ const pathMarkup=map.paths.map(item=>{
+   const country=countryByCode(item.code);
+   if(!country)return `<path class="map-country map-country-static" d="${item.d}"></path>`;
+   const count=countsByCountry.get(country.code)||0;
+   return mapLink(country,count,`<path class="map-country ${count?'is-covered':''}" d="${item.d}"></path>`);
+ }).join('');
+ const markerMarkup=map.markers.map(item=>{
+   const country=countryByCode(item.code);
+   if(!country)return '';
+   const count=countsByCountry.get(country.code)||0;
+   return mapLink(country,count,`<circle class="map-marker ${count?'is-covered':''}" cx="${item.x}" cy="${item.y}" r="5"></circle>`);
+ }).join('');
+ mapSvg.innerHTML=`<path class="map-sphere" d="${map.sphere}"></path><g>${pathMarkup}</g><g class="map-markers">${markerMarkup}</g>`;
+ mapSvg.querySelectorAll('.map-country-link').forEach(link=>{
+   const show=(clientX,clientY)=>{
+     const bounds=document.getElementById('worldMapShell').getBoundingClientRect();
+     mapTooltip.textContent=link.dataset.tooltip;
+     mapTooltip.style.left=`${Math.max(8,Math.min(bounds.width-170,clientX-bounds.left+12))}px`;
+     mapTooltip.style.top=`${Math.max(8,clientY-bounds.top-38)}px`;
+     mapTooltip.setAttribute('aria-hidden','false');
+   };
+   link.addEventListener('pointerenter',event=>show(event.clientX,event.clientY));
+   link.addEventListener('pointermove',event=>show(event.clientX,event.clientY));
+   link.addEventListener('pointerleave',()=>mapTooltip.setAttribute('aria-hidden','true'));
+   link.addEventListener('focus',()=>{
+     const bounds=document.getElementById('worldMapShell').getBoundingClientRect();
+     show(bounds.left+bounds.width/2,bounds.top+54);
+   });
+   link.addEventListener('blur',()=>mapTooltip.setAttribute('aria-hidden','true'));
+ });
+}
 
 const regions=[
  ['Europe','EUROPE'],['North America','NORTH AMERICA'],['Latin America','LATIN AMERICA'],

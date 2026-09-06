@@ -8,7 +8,7 @@ fs.rmSync(dist, {recursive:true, force:true});
 fs.mkdirSync(dist, {recursive:true});
 
 const copyFile = (name) => fs.copyFileSync(path.join(root,name), path.join(dist,name));
-['index.html','article.html','region.html','about.html','write.html','styles.css','script.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
+['index.html','article.html','region.html','country.html','about.html','write.html','styles.css','script.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
 
 for (const dir of ['assets','media']) {
   fs.cpSync(path.join(root,dir), path.join(dist,dir), {recursive:true});
@@ -38,6 +38,7 @@ fs.writeFileSync(
   'window.DEADLINE_ARTICLES=' + JSON.stringify(articles) + ';\n'
 );
 const baseUrl = 'https://deadline-journal2.yanngrechez.workers.dev';
+const countries = require('./countries-data.js');
 
 // Create sitemap entries for the main pages
 const staticPages = [
@@ -60,9 +61,23 @@ const articleEntries = articles.map(article => `
   </url>
 `).join('');
 
+const regionEntries = [...new Set(countries.map(country=>country.region))].map(region => `
+  <url>
+    <loc>${baseUrl}/region.html?region=${encodeURIComponent(region)}</loc>
+  </url>
+`).join('');
+
+const countryEntries = countries.map(country => `
+  <url>
+    <loc>${baseUrl}/country.html?country=${country.code}</loc>
+  </url>
+`).join('');
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticEntries}
+${regionEntries}
+${countryEntries}
 ${articleEntries}
 </urlset>`;
 
