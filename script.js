@@ -42,14 +42,14 @@ function articleMeta(article,linkCountry=false){
 const pageTransitionKey='deadline-page-transition';
 const pageTransitionWindowPrefix='deadline-page-transition:';
 function savePageTransition(transition){
-  const value=JSON.stringify({kind:transition.kind,name:transition.name,path:transition.url.pathname+transition.url.search,time:Date.now()});
+  const value=JSON.stringify({kind:transition.kind,name:transition.name,path:transition.url.pathname+transition.url.search,flags:transition.flags||[],time:Date.now()});
   try{sessionStorage.setItem(pageTransitionKey,value);return value}catch(error){}
   window.name=pageTransitionWindowPrefix+value;
   return value;
 }
 function takePageTransition(){
-  let value=null;
-  try{value=sessionStorage.getItem(pageTransitionKey);sessionStorage.removeItem(pageTransitionKey)}catch(error){}
+  let value=window.__DEADLINE_TRANSITION_BOOT?JSON.stringify(window.__DEADLINE_TRANSITION_BOOT):null;
+  try{value=value||sessionStorage.getItem(pageTransitionKey);sessionStorage.removeItem(pageTransitionKey)}catch(error){}
   if(!value&&String(window.name||'').startsWith(pageTransitionWindowPrefix)){
     value=String(window.name).slice(pageTransitionWindowPrefix.length);
     window.name='';
@@ -66,7 +66,8 @@ function transitionDestination(link){
   if(url.origin!==location.origin)return null;
   if(url.pathname.endsWith('/region.html')){
     const name=url.searchParams.get('region');
-    return name?{kind:'region',name,url}:null;
+    const flags=countries.filter(country=>country.region===name).map(country=>country.flag);
+    return name?{kind:'region',name,url,flags}:null;
   }
   if(url.pathname.endsWith('/country.html')){
     const country=countryByCode(url.searchParams.get('country'))||countryForName(url.searchParams.get('country'));
@@ -74,7 +75,28 @@ function transitionDestination(link){
   }
   return null;
 }
-function createPageTransitionLayer(name){
+function addTransitionFlags(layer,flags){
+  if(!flags?.length)return null;
+  const frame=document.createElement('span');
+  frame.className='page-transition-flag-frame';
+  flags.forEach((flag,index)=>{
+    const image=document.createElement('img');
+    image.src=flag;
+    image.alt='';
+    const width=100,height=58,perimeter=2*(width+height),distance=index/flags.length*perimeter;
+    let x,y;
+    if(distance<width){x=distance;y=0}
+    else if(distance<width+height){x=width;y=distance-width}
+    else if(distance<2*width+height){x=width-(distance-width-height);y=height}
+    else{x=0;y=height-(distance-2*width-height)}
+    image.style.left=`${x}%`;
+    image.style.top=`${y/height*100}%`;
+    frame.appendChild(image);
+  });
+  layer.appendChild(frame);
+  return frame;
+}
+function createPageTransitionLayer(name,flags=[]){
   const layer=document.createElement('div');
   layer.className='page-transition-layer';
   layer.setAttribute('aria-hidden','true');
@@ -83,8 +105,9 @@ function createPageTransitionLayer(name){
   word.className='page-transition-word';
   word.textContent=name;
   layer.appendChild(word);
+  const flagFrame=addTransitionFlags(layer,flags);
   document.body.appendChild(layer);
-  return {layer,backdrop:layer.firstElementChild,word};
+  return {layer,backdrop:layer.firstElementChild,word,flagFrame};
 }
 function transitionHeroSize(name){
   const base=Math.min(112,Math.max(46,window.innerWidth*.082));
@@ -105,7 +128,7 @@ function startPageTransition(event,link,transition){
   const source=link.closest('svg')&&event.clientX
     ? {left:event.clientX,top:event.clientY,width:1,height:1}
     : (link.querySelector('strong')||link).getBoundingClientRect();
-  const {backdrop,word}=createPageTransitionLayer(transition.name);
+  const {backdrop,word,flagFrame}=createPageTransitionLayer(transition.name,transition.kind==='region'?transition.flags:[]);
   const sourceSize=Math.max(10,Math.min(28,parseFloat(getComputedStyle(link).fontSize)||10));
   word.style.left=`${source.left}px`;
   word.style.top=`${source.top}px`;
@@ -119,24 +142,42 @@ function startPageTransition(event,link,transition){
   const transitionValue=savePageTransition(transition);
   const navigationUrl=new URL(transition.url.href);
   navigationUrl.hash=`deadline-transition=${encodeURIComponent(transitionValue)}`;
-  backdrop.animate([{opacity:0},{opacity:.985}],{duration:420,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
+  backdrop.animate([{opacity:0},{opacity:.985}],{duration:480,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
   word.animate([
     {transform:'translate(0,0) scale(1)',letterSpacing:getComputedStyle(link).letterSpacing,opacity:.82},
     {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:1}
-  ],{duration:440,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
-  window.setTimeout(()=>location.assign(navigationUrl.href),450);
+  ],{duration:520,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
+  flagFrame?.animate([
+    {opacity:0,transform:'translate(-50%,-50%) scale(.94)',offset:0},
+    {opacity:0,transform:'translate(-50%,-50%) scale(.94)',offset:.42},
+    {opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:.72},
+    {opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:1}
+  ],{duration:850,easing:'ease-out',fill:'forwards'});
+  window.setTimeout(()=>location.assign(navigationUrl.href),880);
 }
 function showArrivalTransition(){
   const saved=takePageTransition();
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  if(!saved||Date.now()-saved.time>3000||saved.path!==location.pathname+location.search)return;
+  if(!saved||Date.now()-saved.time>30000||saved.path!==location.pathname+location.search)return;
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
   if(!target)return;
   const targetRange=document.createRange();
   targetRange.selectNodeContents(target);
   const bounds=targetRange.getBoundingClientRect();
   const targetStyle=getComputedStyle(target);
-  const {layer,backdrop,word}=createPageTransitionLayer(saved.name);
+  const bootLayer=document.querySelector('.page-transition-layer[data-transition-boot]');
+  const layer=bootLayer||createPageTransitionLayer(saved.name,saved.kind==='region'?saved.flags:[]).layer;
+  const backdrop=layer.querySelector('.page-transition-backdrop');
+  const word=layer.querySelector('.page-transition-word');
+  const flagFrame=layer.querySelector('.page-transition-flag-frame');
+  if(!bootLayer){
+    word.classList.add('is-centered');
+    word.style.fontSize=`${transitionHeroSize(saved.name)}px`;
+    backdrop.style.opacity='.985';
+    flagFrame?.classList.add('is-visible');
+  }
+  const startBounds=word.getBoundingClientRect();
+  word.classList.remove('is-centered');
   word.style.left=`${bounds.left}px`;
   word.style.top=`${bounds.top}px`;
   word.style.fontFamily=targetStyle.fontFamily;
@@ -147,20 +188,19 @@ function showArrivalTransition(){
   word.style.whiteSpace='normal';
   word.style.width=`${bounds.width}px`;
   const wordBounds=word.getBoundingClientRect();
-  const targetSize=Math.max(1,parseFloat(targetStyle.fontSize));
-  const heroSize=transitionHeroSize(saved.name);
-  const desiredScale=Math.max(1.06,Math.min(1.35,heroSize/targetSize));
-  const scale=Math.min(desiredScale,(window.innerWidth-8)/Math.max(1,wordBounds.width));
-  const x=(window.innerWidth-wordBounds.width*scale)/2-bounds.left;
-  const y=(window.innerHeight-wordBounds.height*scale)/2-bounds.top;
+  const scale=Math.max(.01,startBounds.width/Math.max(1,wordBounds.width));
+  const x=startBounds.left-wordBounds.left;
+  const y=startBounds.top-wordBounds.top;
   target.classList.add('page-transition-target');
   document.body.classList.add('page-transition-arriving');
   backdrop.style.opacity='.985';
   const wordAnimation=word.animate([
-    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em'},
+    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',offset:0},
+    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',offset:.2},
     {transform:'translate(0,0) scale(1)',letterSpacing:targetStyle.letterSpacing}
-  ],{duration:560,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
-  backdrop.animate([{opacity:.985},{opacity:.985,offset:.5},{opacity:0}],{duration:560,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
+  ],{duration:720,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
+  backdrop.animate([{opacity:.985},{opacity:.985,offset:.55},{opacity:0}],{duration:720,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
+  flagFrame?.animate([{opacity:1},{opacity:1,offset:.28},{opacity:0,offset:.7},{opacity:0}],{duration:720,easing:'ease-out',fill:'forwards'});
   wordAnimation.finished.finally(()=>{target.classList.remove('page-transition-target');layer.remove();document.body.classList.remove('page-transition-arriving')});
 }
 
