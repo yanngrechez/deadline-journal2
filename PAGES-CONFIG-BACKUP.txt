@@ -88,6 +88,14 @@ content:
         label: Hero image
         type: image
         required: true
+      - name: hero_caption
+        label: Hero image caption
+        type: text
+        description: "Briefly explain what the image shows. This appears directly beneath the image."
+      - name: hero_credit
+        label: Hero image credit / source
+        type: string
+        description: "Photographer, publication, archive, or source citation."
       - name: published_at
         label: Publication date
         type: date
