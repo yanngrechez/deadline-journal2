@@ -31,8 +31,61 @@ function topicMeta(article,withLeadingSeparator=false){
     `${index||withLeadingSeparator?'<span class="topic-separator"> · </span>':''}<span class="topic-label topic-${topic}">${topicNames[topic]}</span>`
   ).join('');
 }
-function articleMeta(article){
-  return `<span class="country-label">${article.country}</span>${topicMeta(article,true)}`;
+function articleMeta(article,linkCountry=false){
+  const country=linkCountry?countryForArticle(article):null;
+  const countryLabel=country
+    ? `<a class="country-label country-transition-link" href="${countryUrl(country)}" aria-label="View ${country.name} stories">${article.country}</a>`
+    : `<span class="country-label">${article.country}</span>`;
+  return `${countryLabel}${topicMeta(article,true)}`;
+}
+
+function clearCountryTransition(){
+  document.body.classList.remove('country-transitioning');
+  document.querySelector('.country-transition-word')?.remove();
+}
+function startCountryTransition(event,link){
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank'||link.hasAttribute('download'))return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  event.preventDefault();
+  if(document.body.classList.contains('country-transitioning'))return;
+  const destination=link.href;
+  const bounds=link.getBoundingClientRect();
+  const word=link.cloneNode(true);
+  word.removeAttribute('href');
+  word.removeAttribute('aria-label');
+  word.setAttribute('aria-hidden','true');
+  word.className='country-transition-word';
+  word.style.left=`${bounds.left}px`;
+  word.style.top=`${bounds.top}px`;
+  word.style.fontSize=getComputedStyle(link).fontSize;
+  document.body.appendChild(word);
+  document.body.classList.add('country-transitioning');
+  requestAnimationFrame(()=>word.classList.add('is-active'));
+  window.setTimeout(()=>location.assign(destination),380);
+}
+
+function initializeReadingProgress(){
+  const bar=document.getElementById('readingProgressBar');
+  const article=document.getElementById('articlePage');
+  if(!bar||!article)return;
+  let scheduled=false;
+  const update=()=>{
+    const articleStart=article.getBoundingClientRect().top+window.scrollY;
+    const articleEnd=articleStart+article.offsetHeight-window.innerHeight;
+    const distance=Math.max(1,articleEnd-articleStart);
+    const progress=Math.max(0,Math.min(1,(window.scrollY-articleStart)/distance));
+    bar.style.transform=`scaleX(${progress})`;
+    bar.parentElement.dataset.progress=Math.round(progress*100);
+    scheduled=false;
+  };
+  const requestUpdate=()=>{
+    if(!scheduled){scheduled=true;requestAnimationFrame(update)}
+  };
+  update();
+  window.addEventListener('scroll',requestUpdate,{passive:true});
+  window.addEventListener('resize',requestUpdate);
+  window.addEventListener('load',requestUpdate,{once:true});
+  if('ResizeObserver' in window)new ResizeObserver(requestUpdate).observe(article);
 }
 
 function openSearch(){
@@ -51,5 +104,11 @@ function renderSearch(q){
 document.addEventListener('DOMContentLoaded',()=>{
   const i=document.getElementById('searchInput');
   if(i)i.addEventListener('input',e=>renderSearch(e.target.value));
+  initializeReadingProgress();
 });
+document.addEventListener('click',event=>{
+  const link=event.target.closest?.('.country-transition-link');
+  if(link)startCountryTransition(event,link);
+});
+window.addEventListener('pageshow',clearCountryTransition);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch()});
