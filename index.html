@@ -90,9 +90,10 @@ const regions=[
 ];
 document.getElementById('regionGrid').innerHTML = regions.map(([region,label])=>{
  const items=byDate.filter(a=>a.region===region);
- if(!items.length)return `<div class="region-col"><div class="region-label">${label}</div><div class="mini">No published stories yet.</div></div>`;
+ const regionUrl=`region.html?region=${encodeURIComponent(region)}`;
+ if(!items.length)return `<div class="region-col"><a class="region-label" href="${regionUrl}">${label}</a><div class="mini">No published stories yet.</div></div>`;
  const f=items[0], minis=items.slice(1,5);
- return `<div class="region-col"><div class="region-label">${label}</div>
+ return `<div class="region-col"><a class="region-label" href="${regionUrl}">${label}</a>
  <a href="${aurl(f)}"><img src="${f.hero_image}" alt=""></a>
  <a href="${aurl(f)}"><h3 class="feature-title">${f.title}</h3></a>
  <div class="byline">${topicMeta(f)} | ${f.author}</div>

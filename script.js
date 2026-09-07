@@ -39,29 +39,117 @@ function articleMeta(article,linkCountry=false){
   return `${countryLabel}${topicMeta(article,true)}`;
 }
 
-function clearCountryTransition(){
-  document.body.classList.remove('country-transitioning');
-  document.querySelector('.country-transition-word')?.remove();
+const pageTransitionKey='deadline-page-transition';
+const pageTransitionWindowPrefix='deadline-page-transition:';
+function savePageTransition(transition){
+  const value=JSON.stringify({kind:transition.kind,name:transition.name,path:transition.url.pathname+transition.url.search,time:Date.now()});
+  try{sessionStorage.setItem(pageTransitionKey,value);return value}catch(error){}
+  window.name=pageTransitionWindowPrefix+value;
+  return value;
 }
-function startCountryTransition(event,link){
+function takePageTransition(){
+  let value=null;
+  try{value=sessionStorage.getItem(pageTransitionKey);sessionStorage.removeItem(pageTransitionKey)}catch(error){}
+  if(!value&&String(window.name||'').startsWith(pageTransitionWindowPrefix)){
+    value=String(window.name).slice(pageTransitionWindowPrefix.length);
+    window.name='';
+  }
+  const hashPrefix='#deadline-transition=';
+  if(location.hash.startsWith(hashPrefix)){
+    if(!value){try{value=decodeURIComponent(location.hash.slice(hashPrefix.length))}catch(error){}}
+    history.replaceState(history.state,'',location.pathname+location.search);
+  }
+  try{return JSON.parse(value||'null')}catch(error){return null}
+}
+function transitionDestination(link){
+  const url=new URL(link.href,location.href);
+  if(url.origin!==location.origin)return null;
+  if(url.pathname.endsWith('/region.html')){
+    const name=url.searchParams.get('region');
+    return name?{kind:'region',name,url}:null;
+  }
+  if(url.pathname.endsWith('/country.html')){
+    const country=countryByCode(url.searchParams.get('country'))||countryForName(url.searchParams.get('country'));
+    return country?{kind:'country',name:country.name,url}:null;
+  }
+  return null;
+}
+function createPageTransitionLayer(name){
+  const layer=document.createElement('div');
+  layer.className='page-transition-layer';
+  layer.setAttribute('aria-hidden','true');
+  layer.innerHTML='<span class="page-transition-backdrop"></span>';
+  const word=document.createElement('span');
+  word.className='page-transition-word';
+  word.textContent=name;
+  layer.appendChild(word);
+  document.body.appendChild(layer);
+  return {layer,backdrop:layer.firstElementChild,word};
+}
+function clearPageTransition(){
+  document.body.classList.remove('page-transition-outgoing','page-transition-arriving');
+  document.querySelectorAll('.page-transition-layer').forEach(layer=>layer.remove());
+  document.querySelectorAll('.page-transition-target').forEach(target=>target.classList.remove('page-transition-target'));
+}
+function startPageTransition(event,link,transition){
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank'||link.hasAttribute('download'))return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   event.preventDefault();
-  if(document.body.classList.contains('country-transitioning'))return;
-  const destination=link.href;
-  const bounds=link.getBoundingClientRect();
-  const word=link.cloneNode(true);
-  word.removeAttribute('href');
-  word.removeAttribute('aria-label');
-  word.setAttribute('aria-hidden','true');
-  word.className='country-transition-word';
+  if(document.body.classList.contains('page-transition-outgoing'))return;
+  const source=link.closest('svg')&&event.clientX
+    ? {left:event.clientX,top:event.clientY,width:1,height:1}
+    : (link.querySelector('strong')||link).getBoundingClientRect();
+  const {backdrop,word}=createPageTransitionLayer(transition.name);
+  const sourceSize=Math.max(10,Math.min(28,parseFloat(getComputedStyle(link).fontSize)||10));
+  word.style.left=`${source.left}px`;
+  word.style.top=`${source.top}px`;
+  word.style.fontSize=`${sourceSize}px`;
+  const wordBounds=word.getBoundingClientRect();
+  const heroSize=Math.min(140,Math.max(56,window.innerWidth*.105));
+  const scale=Math.min(heroSize/sourceSize,(window.innerWidth-32)/Math.max(1,wordBounds.width));
+  const x=(window.innerWidth-wordBounds.width*scale)/2-source.left;
+  const y=(window.innerHeight-wordBounds.height*scale)/2-source.top;
+  document.body.classList.add('page-transition-outgoing');
+  const transitionValue=savePageTransition(transition);
+  const navigationUrl=new URL(transition.url.href);
+  navigationUrl.hash=`deadline-transition=${encodeURIComponent(transitionValue)}`;
+  backdrop.animate([{opacity:0},{opacity:.97}],{duration:330,easing:'ease-out',fill:'forwards'});
+  word.animate([
+    {transform:'translate(0,0) scale(1)',letterSpacing:getComputedStyle(link).letterSpacing,opacity:.82},
+    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:1}
+  ],{duration:360,easing:'cubic-bezier(.22,.76,.22,1)',fill:'forwards'});
+  window.setTimeout(()=>location.assign(navigationUrl.href),370);
+}
+function showArrivalTransition(){
+  const saved=takePageTransition();
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!saved||Date.now()-saved.time>3000||saved.path!==location.pathname+location.search)return;
+  const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
+  if(!target)return;
+  const bounds=target.getBoundingClientRect();
+  const targetStyle=getComputedStyle(target);
+  const {layer,backdrop,word}=createPageTransitionLayer(saved.name);
   word.style.left=`${bounds.left}px`;
   word.style.top=`${bounds.top}px`;
-  word.style.fontSize=getComputedStyle(link).fontSize;
-  document.body.appendChild(word);
-  document.body.classList.add('country-transitioning');
-  requestAnimationFrame(()=>word.classList.add('is-active'));
-  window.setTimeout(()=>location.assign(destination),380);
+  word.style.fontFamily=targetStyle.fontFamily;
+  word.style.fontWeight=targetStyle.fontWeight;
+  word.style.fontSize=targetStyle.fontSize;
+  word.style.letterSpacing=targetStyle.letterSpacing;
+  const wordBounds=word.getBoundingClientRect();
+  const targetSize=Math.max(1,parseFloat(targetStyle.fontSize));
+  const heroSize=Math.min(140,Math.max(56,window.innerWidth*.105));
+  const scale=Math.min(heroSize/targetSize,(window.innerWidth-32)/Math.max(1,wordBounds.width));
+  const x=(window.innerWidth-wordBounds.width*scale)/2-bounds.left;
+  const y=(window.innerHeight-wordBounds.height*scale)/2-bounds.top;
+  target.classList.add('page-transition-target');
+  document.body.classList.add('page-transition-arriving');
+  backdrop.style.opacity='.97';
+  const wordAnimation=word.animate([
+    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em'},
+    {transform:'translate(0,0) scale(1)',letterSpacing:targetStyle.letterSpacing}
+  ],{duration:430,easing:'cubic-bezier(.22,.76,.22,1)',fill:'forwards'});
+  backdrop.animate([{opacity:.97},{opacity:.97,offset:.55},{opacity:0}],{duration:430,easing:'ease-out',fill:'forwards'});
+  wordAnimation.finished.finally(()=>{target.classList.remove('page-transition-target');layer.remove();document.body.classList.remove('page-transition-arriving')});
 }
 
 function initializeReadingProgress(){
@@ -105,10 +193,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   const i=document.getElementById('searchInput');
   if(i)i.addEventListener('input',e=>renderSearch(e.target.value));
   initializeReadingProgress();
+  requestAnimationFrame(showArrivalTransition);
 });
 document.addEventListener('click',event=>{
-  const link=event.target.closest?.('.country-transition-link');
-  if(link)startCountryTransition(event,link);
+  const link=event.target.closest?.('a[href]');
+  const transition=link&&transitionDestination(link);
+  if(transition)startPageTransition(event,link,transition);
 });
-window.addEventListener('pageshow',clearCountryTransition);
+window.addEventListener('pageshow',event=>{if(event.persisted)clearPageTransition()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch()});

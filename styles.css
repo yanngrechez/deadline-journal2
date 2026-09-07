@@ -4,6 +4,7 @@
 @media(max-width:700px){.container{width:calc(100% - 24px)}.utility .tag{display:none}.brand{padding:18px 0 10px}.slogan{font-size:8.5px;letter-spacing:.15em}.masthead{font-size:clamp(43px,15vw,74px)}.nav{justify-content:flex-start}.top-grid{display:block}.top-col{padding:0}.top-col+.top-col{border-left:0;border-top:1px solid var(--rule);padding-top:14px;margin-top:14px}.top-col:last-child{display:block}.rail-story+.rail-story{border-left:0}.hero .headline{font-size:30px}.hero .dek{margin-left:0;margin-right:0}.latest-grid,.region-grid,.region-list{grid-template-columns:1fr}.latest-item+.latest-item,.region-col+.region-col,.region-card{border-left:0!important;border-top:1px solid var(--rule)}.mission,.about-grid{grid-template-columns:1fr;gap:20px}.mission h2{font-size:35px}.footer-top{display:block}.footer-note{margin-top:12px}.article-page{margin:28px 0 50px}.article-page h1{font-size:40px}.article-dek{font-size:18px}.body{font-size:18px}.region-head h1{font-size:44px}}
 
 .masthead{white-space:nowrap}
+.region-label{display:block}
 .mission h2{color:var(--purple)}
 .country-label{color:var(--ink)}
 .article-kicker .country-transition-link{color:var(--purple);display:inline-block;text-decoration-thickness:1px;text-underline-offset:3px}
@@ -11,10 +12,12 @@
 .article-kicker .country-transition-link:focus-visible{outline:1px solid var(--purple);outline-offset:4px}
 .reading-progress{position:fixed;inset:0 0 auto;height:3px;z-index:300;pointer-events:none}
 .reading-progress span{display:block;width:100%;height:100%;background:var(--purple);transform:scaleX(0);transform-origin:left center;transition:transform 80ms linear;will-change:transform}
-.country-transition-word{position:fixed;z-index:250;color:var(--purple);font-weight:900;letter-spacing:.08em;line-height:1;text-transform:uppercase;white-space:nowrap;pointer-events:none;transform:scale(1);transform-origin:left top;opacity:1;transition:transform 340ms cubic-bezier(.22,.75,.22,1),letter-spacing 340ms ease,opacity 340ms ease}
-.country-transition-word.is-active{transform:scale(2.35);letter-spacing:.12em;opacity:.96}
-body.country-transitioning{overflow:hidden}
-body.country-transitioning>:not(.country-transition-word):not(script){opacity:.28;filter:blur(3px);transition:opacity 260ms ease,filter 260ms ease;pointer-events:none}
+.page-transition-layer{position:fixed;inset:0;z-index:500;pointer-events:none;overflow:hidden}
+.page-transition-backdrop{position:absolute;inset:0;background:var(--paper);opacity:0}
+.page-transition-word{position:fixed;z-index:1;color:var(--purple);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:.86;white-space:nowrap;transform-origin:left top}
+.page-transition-target{visibility:hidden}
+body.page-transition-outgoing{overflow:hidden}
+body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.34;filter:blur(2px);transition:opacity 230ms ease,filter 230ms ease;pointer-events:none}
 .topic-separator{color:var(--muted)}
 .topic-label{font-weight:900;text-transform:uppercase;letter-spacing:.04em}
 .topic-politics{color:var(--purple)}
@@ -25,8 +28,7 @@ body.country-transitioning>:not(.country-transition-word):not(script){opacity:.2
 .region-page-head{padding:40px 0 20px;border-bottom:1px solid var(--rule)}
 .region-page-head h1{font:700 clamp(44px,6vw,72px)/.98 Georgia,'Times New Roman',serif;letter-spacing:-.04em;margin:0}
 @media(max-width:700px){.region-page-head{padding:30px 0 16px}.region-page-head h1{font-size:42px}}
-@media(max-width:700px){.country-transition-word.is-active{transform:scale(1.85)}}
-@media(prefers-reduced-motion:reduce){.country-transition-word,body.country-transitioning>:not(.country-transition-word):not(script),.reading-progress span{transition:none!important}}
+@media(prefers-reduced-motion:reduce){body.page-transition-outgoing>:not(.page-transition-layer):not(script),.reading-progress span{transition:none!important}}
 
 .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .coverage-map-section{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
