@@ -158,9 +158,14 @@ function startPageTransition(event,link,transition){
 function showArrivalTransition(){
   const saved=takePageTransition();
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  if(!saved||Date.now()-saved.time>30000||saved.path!==location.pathname+location.search)return;
+  const params=new URLSearchParams(location.search);
+  const destinationName=saved?.kind==='region'
+    ? params.get('region')
+    : (countryByCode(params.get('country'))||countryForName(params.get('country')))?.name;
+  const correctPage=saved?.kind==='region'?location.pathname.endsWith('/region.html'):location.pathname.endsWith('/country.html');
+  if(!saved||Date.now()-saved.time>30000||!correctPage||destinationName!==saved.name){clearPageTransition();return}
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
-  if(!target)return;
+  if(!target){clearPageTransition();return}
   const targetRange=document.createRange();
   targetRange.selectNodeContents(target);
   const bounds=targetRange.getBoundingClientRect();
@@ -201,7 +206,16 @@ function showArrivalTransition(){
   ],{duration:720,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
   backdrop.animate([{opacity:.985},{opacity:.985,offset:.55},{opacity:0}],{duration:720,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
   flagFrame?.animate([{opacity:1},{opacity:1,offset:.28},{opacity:0,offset:.7},{opacity:0}],{duration:720,easing:'ease-out',fill:'forwards'});
-  wordAnimation.finished.finally(()=>{target.classList.remove('page-transition-target');layer.remove();document.body.classList.remove('page-transition-arriving')});
+  let finished=false;
+  const finish=()=>{
+    if(finished)return;
+    finished=true;
+    target.classList.remove('page-transition-target');
+    layer.remove();
+    document.body.classList.remove('page-transition-arriving');
+  };
+  wordAnimation.finished.then(finish,finish);
+  window.setTimeout(finish,900);
 }
 
 function initializeReadingProgress(){
