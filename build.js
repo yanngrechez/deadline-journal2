@@ -13,9 +13,9 @@ const htmlFiles=['index.html','article.html','region.html','country.html','about
 htmlFiles.forEach(name=>{
   const output=path.join(dist,name);
   const versioned=fs.readFileSync(output,'utf8')
-    .replaceAll('href="styles.css"','href="styles.css?v=4"')
-    .replaceAll('src="script.js"','src="script.js?v=4"')
-    .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=4"');
+    .replaceAll('href="styles.css"','href="styles.css?v=5"')
+    .replaceAll('src="script.js"','src="script.js?v=5"')
+    .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=5"');
   fs.writeFileSync(output,versioned);
 });
 

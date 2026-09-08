@@ -64,69 +64,16 @@ function takePageTransition(){
 function transitionDestination(link){
   const url=new URL(link.href,location.href);
   if(url.origin!==location.origin)return null;
-  if(url.pathname.endsWith('/region.html')){
+  if(/\/region(?:\.html)?$/.test(url.pathname)){
     const name=url.searchParams.get('region');
     const flags=countries.filter(country=>country.region===name).map(country=>country.flag);
     return name?{kind:'region',name,url,flags}:null;
   }
-  if(url.pathname.endsWith('/country.html')){
+  if(/\/country(?:\.html)?$/.test(url.pathname)){
     const country=countryByCode(url.searchParams.get('country'))||countryForName(url.searchParams.get('country'));
     return country?{kind:'country',name:country.name,url}:null;
   }
   return null;
-}
-function transitionDisplayName(name){
-  if(name==='Middle East & North Africa')return 'Middle East &\nNorth Africa';
-  if(name==='Sub-Saharan Africa')return 'Sub-Saharan\nAfrica';
-  return name;
-}
-function addTransitionFlags(layer,flags){
-  if(!flags?.length)return null;
-  const frame=document.createElement('span');
-  frame.className='page-transition-flag-frame';
-  flags.forEach((flag,index)=>{
-    const image=document.createElement('img');
-    image.src=flag;
-    image.alt='';
-    const width=100,height=58,perimeter=2*(width+height),distance=index/flags.length*perimeter;
-    let x,y;
-    if(distance<width){x=distance;y=0}
-    else if(distance<width+height){x=width;y=distance-width}
-    else if(distance<2*width+height){x=width-(distance-width-height);y=height}
-    else{x=0;y=height-(distance-2*width-height)}
-    image.style.left=`${x}%`;
-    image.style.top=`${y/height*100}%`;
-    frame.appendChild(image);
-  });
-  layer.appendChild(frame);
-  return frame;
-}
-function createPageTransitionLayer(name,flags=[],framed=false){
-  const layer=document.createElement('div');
-  layer.className='page-transition-layer';
-  layer.setAttribute('aria-hidden','true');
-  layer.innerHTML='<span class="page-transition-backdrop"></span>';
-  const word=document.createElement('span');
-  word.className='page-transition-word';
-  word.textContent=name;
-  layer.appendChild(word);
-  const flagFrame=addTransitionFlags(layer,flags);
-  let centerWord=null;
-  if(framed){
-    centerWord=document.createElement('span');
-    centerWord.className='page-transition-word page-transition-center-word is-centered';
-    centerWord.textContent=transitionDisplayName(name);
-    centerWord.style.fontSize=`${transitionHeroSize(name)}px`;
-    layer.appendChild(centerWord);
-  }
-  document.body.appendChild(layer);
-  return {layer,backdrop:layer.firstElementChild,word,centerWord,flagFrame};
-}
-function transitionHeroSize(name){
-  const base=Math.min(112,Math.max(46,window.innerWidth*.082));
-  if(name.length>=24)return base*.72;
-  if(name.length>=18)return base*.82;
-  return base;
 }
 function clearPageTransition(){
   document.body.classList.remove('page-transition-outgoing','page-transition-arriving');
@@ -141,99 +88,76 @@ function startPageTransition(event,link,transition){
   const source=link.closest('svg')&&event.clientX
     ? {left:event.clientX,top:event.clientY,width:1,height:1}
     : (link.querySelector('strong')||link).getBoundingClientRect();
-  const isRegion=transition.kind==='region';
-  const {backdrop,word,centerWord,flagFrame}=createPageTransitionLayer(transition.name,isRegion?transition.flags:[],isRegion);
-  const sourceSize=Math.max(10,Math.min(28,parseFloat(getComputedStyle(link).fontSize)||10));
-  word.style.left=`${source.left}px`;
-  word.style.top=`${source.top}px`;
-  word.style.fontSize=`${sourceSize}px`;
-  const wordBounds=word.getBoundingClientRect();
-  const heroSize=transitionHeroSize(transition.name);
-  const scale=Math.min(heroSize/sourceSize,(window.innerWidth-32)/Math.max(1,wordBounds.width));
-  const x=(window.innerWidth-wordBounds.width*scale)/2-source.left;
-  const y=(window.innerHeight-wordBounds.height*scale)/2-source.top;
+  const {backdrop,word,flagFrame}=window.createDeadlineTitle(transition.name,transition.kind==='region'?transition.flags:[]);
+  const hero=word.getBoundingClientRect();
+  const scale=Math.min(.45,Math.max(.12,source.width/hero.width));
+  const x=source.left+source.width/2-innerWidth/2;
+  const y=source.top+source.height/2-innerHeight/2;
   document.body.classList.add('page-transition-outgoing');
-  const transitionValue=savePageTransition(transition);
   const navigationUrl=new URL(transition.url.href);
-  navigationUrl.hash=`deadline-transition=${encodeURIComponent(transitionValue)}`;
-  backdrop.animate([{opacity:0},{opacity:.985}],{duration:480,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
+  navigationUrl.hash=`deadline-transition=${encodeURIComponent(savePageTransition(transition))}`;
+  const timing={duration:500,easing:'cubic-bezier(.22,.7,.22,1)',fill:'forwards'};
+  backdrop.animate([{opacity:0},{opacity:1}],timing);
   word.animate([
-    {transform:'translate(0,0) scale(1)',letterSpacing:getComputedStyle(link).letterSpacing,opacity:.82,offset:0},
-    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:1,offset:.72},
-    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:isRegion?0:1,offset:1}
-  ],{duration:isRegion?720:520,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
-  centerWord?.animate([{opacity:0},{opacity:0,offset:.48},{opacity:1,offset:.72},{opacity:1}],{duration:850,easing:'ease-out',fill:'forwards'});
-  flagFrame?.animate([
-    {opacity:0,transform:'translate(-50%,-50%) scale(.94)',offset:0},
-    {opacity:0,transform:'translate(-50%,-50%) scale(.94)',offset:.42},
-    {opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:.72},
-    {opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:1}
-  ],{duration:850,easing:'ease-out',fill:'forwards'});
-  window.setTimeout(()=>location.assign(navigationUrl.href),880);
+    {transform:`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(${scale})`,opacity:0},
+    {opacity:1,offset:.2},
+    {transform:'translate(-50%,-50%) scale(1)',opacity:1}
+  ],timing);
+  flagFrame?.animate([{opacity:0},{opacity:0,offset:.35},{opacity:1}],timing);
+  window.setTimeout(()=>location.assign(navigationUrl.href),700);
 }
 function showArrivalTransition(){
   const saved=takePageTransition();
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){clearPageTransition();return}
   const params=new URLSearchParams(location.search);
-  const destinationName=saved?.kind==='region'
-    ? params.get('region')
-    : (countryByCode(params.get('country'))||countryForName(params.get('country')))?.name;
-  const correctPage=saved?.kind==='region'?location.pathname.endsWith('/region.html'):location.pathname.endsWith('/country.html');
-  if(!saved||Date.now()-saved.time>30000||!correctPage||destinationName!==saved.name){clearPageTransition();return}
+  const destinationName=saved?.kind==='region'?params.get('region'):(countryByCode(params.get('country'))||countryForName(params.get('country')))?.name;
+  const route=location.pathname.replace(/\.html$/,'').replace(/\/$/,'');
+  if(!saved||Date.now()-saved.time>30000||route!==`/${saved.kind}`||destinationName!==saved.name){clearPageTransition();return}
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
   if(!target){clearPageTransition();return}
-  const targetRange=document.createRange();
-  targetRange.selectNodeContents(target);
-  const bounds=targetRange.getBoundingClientRect();
-  const targetStyle=getComputedStyle(target);
-  const bootLayer=document.querySelector('.page-transition-layer[data-transition-boot]');
-  const created=bootLayer?null:createPageTransitionLayer(saved.name,saved.kind==='region'?saved.flags:[],saved.kind==='region');
-  const layer=bootLayer||created.layer;
+  const layer=document.querySelector('[data-transition-boot]')||window.createDeadlineTitle(saved.name,saved.kind==='region'?saved.flags:[]).layer;
+  const word=layer.querySelector('.page-transition-word');
   const backdrop=layer.querySelector('.page-transition-backdrop');
-  const word=bootLayer?layer.querySelector('.page-transition-word'):(created.centerWord||created.word);
-  const flagFrame=layer.querySelector('.page-transition-flag-frame');
-  if(!bootLayer){
-    if(created.centerWord)created.word.remove();
-    word.classList.add('is-centered');
-    word.style.fontSize=`${transitionHeroSize(saved.name)}px`;
-    backdrop.style.opacity='.985';
-    flagFrame?.classList.add('is-visible');
+  const frame=layer.querySelector('.page-transition-flag-frame');
+  const style=getComputedStyle(target);
+  // Measure individual destination letters without modifying the real heading.
+  const destinations=[];
+  const walker=document.createTreeWalker(target,NodeFilter.SHOW_TEXT);
+  let node;
+  while((node=walker.nextNode())){
+    for(let i=0;i<node.length;i++){
+      if(/\s/.test(node.textContent[i]))continue;
+      const range=document.createRange();range.setStart(node,i);range.setEnd(node,i+1);
+      destinations.push(range.getBoundingClientRect());
+    }
   }
-  const startBounds=word.getBoundingClientRect();
-  word.classList.remove('is-centered');
-  word.style.left=`${bounds.left}px`;
-  word.style.top=`${bounds.top}px`;
-  word.style.fontFamily=targetStyle.fontFamily;
-  word.style.fontWeight=targetStyle.fontWeight;
-  word.style.fontSize=targetStyle.fontSize;
-  word.style.letterSpacing=targetStyle.letterSpacing;
-  word.style.lineHeight=targetStyle.lineHeight;
-  word.style.whiteSpace='normal';
-  word.style.width=`${bounds.width}px`;
-  const wordBounds=word.getBoundingClientRect();
-  const scale=Math.max(.01,startBounds.width/Math.max(1,wordBounds.width));
-  const x=startBounds.left-wordBounds.left;
-  const y=startBounds.top-wordBounds.top;
+  const glyphs=[...word.querySelectorAll('.page-transition-glyph')].filter(glyph=>glyph.textContent.trim());
+  if(glyphs.length!==destinations.length){clearPageTransition();return}
+  const starts=glyphs.map(glyph=>glyph.getBoundingClientRect());
+  const heroFont=parseFloat(getComputedStyle(word).fontSize);
+  const scale=parseFloat(style.fontSize)/heroFont;
   target.classList.add('page-transition-target');
-  document.body.classList.add('page-transition-arriving');
-  backdrop.style.opacity='.985';
-  const wordAnimation=word.animate([
-    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',offset:0},
-    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',offset:.2},
-    {transform:'translate(0,0) scale(1)',letterSpacing:targetStyle.letterSpacing}
-  ],{duration:720,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
-  backdrop.animate([{opacity:.985},{opacity:.985,offset:.55},{opacity:0}],{duration:720,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
-  flagFrame?.animate([{opacity:1},{opacity:1,offset:.28},{opacity:0,offset:.7},{opacity:0}],{duration:720,easing:'ease-out',fill:'forwards'});
-  let finished=false;
-  const finish=()=>{
-    if(finished)return;
-    finished=true;
-    target.classList.remove('page-transition-target');
-    layer.remove();
-    document.body.classList.remove('page-transition-arriving');
-  };
-  wordAnimation.finished.then(finish,finish);
-  window.setTimeout(finish,900);
+  backdrop.style.opacity='1';
+  const timing={duration:680,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'};
+  const animations=glyphs.map((glyph,i)=>{
+    const start=starts[i],end=destinations[i];
+    const clone=glyph.cloneNode(true);
+    Object.assign(clone.style,{position:'fixed',left:`${start.left}px`,top:`${start.top}px`,fontFamily:style.fontFamily,fontWeight:style.fontWeight,fontSize:`${heroFont}px`,lineHeight:'normal',color:getComputedStyle(word).color,transformOrigin:'0 0',whiteSpace:'pre'});
+    // Range rectangles include font ascent/descent, so anchor each glyph by its own measured rectangle.
+    layer.appendChild(clone);
+    const range=document.createRange();range.selectNodeContents(clone);
+    const glyphRect=range.getBoundingClientRect(),box=clone.getBoundingClientRect();
+    const dx=glyphRect.left-box.left,dy=glyphRect.top-box.top;
+    clone.style.left=`${start.left-dx}px`;
+    clone.style.top=`${start.top-dy}px`;
+    return clone.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${end.left-start.left+dx*(1-scale)}px,${end.top-start.top+dy*(1-scale)}px) scale(${scale})`,color:style.color}],timing);
+  });
+  word.style.visibility='hidden';
+  backdrop.animate([{opacity:1},{opacity:0}],timing);
+  frame?.animate([{opacity:1},{opacity:0,offset:.55},{opacity:0}],timing);
+  const finish=()=>clearPageTransition();
+  Promise.all(animations.map(animation=>animation.finished)).then(finish,finish);
+  window.setTimeout(finish,950);
 }
 
 function initializeReadingProgress(){
