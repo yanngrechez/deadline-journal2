@@ -8,7 +8,16 @@ fs.rmSync(dist, {recursive:true, force:true});
 fs.mkdirSync(dist, {recursive:true});
 
 const copyFile = (name) => fs.copyFileSync(path.join(root,name), path.join(dist,name));
-['index.html','article.html','region.html','country.html','about.html','write.html','styles.css','script.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
+const htmlFiles=['index.html','article.html','region.html','country.html','about.html','write.html'];
+[...htmlFiles,'styles.css','script.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
+htmlFiles.forEach(name=>{
+  const output=path.join(dist,name);
+  const versioned=fs.readFileSync(output,'utf8')
+    .replaceAll('href="styles.css"','href="styles.css?v=4"')
+    .replaceAll('src="script.js"','src="script.js?v=4"')
+    .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=4"');
+  fs.writeFileSync(output,versioned);
+});
 
 for (const dir of ['assets','media']) {
   fs.cpSync(path.join(root,dir), path.join(dist,dir), {recursive:true});

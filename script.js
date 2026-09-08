@@ -75,6 +75,11 @@ function transitionDestination(link){
   }
   return null;
 }
+function transitionDisplayName(name){
+  if(name==='Middle East & North Africa')return 'Middle East &\nNorth Africa';
+  if(name==='Sub-Saharan Africa')return 'Sub-Saharan\nAfrica';
+  return name;
+}
 function addTransitionFlags(layer,flags){
   if(!flags?.length)return null;
   const frame=document.createElement('span');
@@ -96,7 +101,7 @@ function addTransitionFlags(layer,flags){
   layer.appendChild(frame);
   return frame;
 }
-function createPageTransitionLayer(name,flags=[]){
+function createPageTransitionLayer(name,flags=[],framed=false){
   const layer=document.createElement('div');
   layer.className='page-transition-layer';
   layer.setAttribute('aria-hidden','true');
@@ -106,13 +111,21 @@ function createPageTransitionLayer(name,flags=[]){
   word.textContent=name;
   layer.appendChild(word);
   const flagFrame=addTransitionFlags(layer,flags);
+  let centerWord=null;
+  if(framed){
+    centerWord=document.createElement('span');
+    centerWord.className='page-transition-word page-transition-center-word is-centered';
+    centerWord.textContent=transitionDisplayName(name);
+    centerWord.style.fontSize=`${transitionHeroSize(name)}px`;
+    layer.appendChild(centerWord);
+  }
   document.body.appendChild(layer);
-  return {layer,backdrop:layer.firstElementChild,word,flagFrame};
+  return {layer,backdrop:layer.firstElementChild,word,centerWord,flagFrame};
 }
 function transitionHeroSize(name){
   const base=Math.min(112,Math.max(46,window.innerWidth*.082));
-  if(name.length>=24)return base*.55;
-  if(name.length>=18)return base*.7;
+  if(name.length>=24)return base*.72;
+  if(name.length>=18)return base*.82;
   return base;
 }
 function clearPageTransition(){
@@ -128,7 +141,8 @@ function startPageTransition(event,link,transition){
   const source=link.closest('svg')&&event.clientX
     ? {left:event.clientX,top:event.clientY,width:1,height:1}
     : (link.querySelector('strong')||link).getBoundingClientRect();
-  const {backdrop,word,flagFrame}=createPageTransitionLayer(transition.name,transition.kind==='region'?transition.flags:[]);
+  const isRegion=transition.kind==='region';
+  const {backdrop,word,centerWord,flagFrame}=createPageTransitionLayer(transition.name,isRegion?transition.flags:[],isRegion);
   const sourceSize=Math.max(10,Math.min(28,parseFloat(getComputedStyle(link).fontSize)||10));
   word.style.left=`${source.left}px`;
   word.style.top=`${source.top}px`;
@@ -144,9 +158,11 @@ function startPageTransition(event,link,transition){
   navigationUrl.hash=`deadline-transition=${encodeURIComponent(transitionValue)}`;
   backdrop.animate([{opacity:0},{opacity:.985}],{duration:480,easing:'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
   word.animate([
-    {transform:'translate(0,0) scale(1)',letterSpacing:getComputedStyle(link).letterSpacing,opacity:.82},
-    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:1}
-  ],{duration:520,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
+    {transform:'translate(0,0) scale(1)',letterSpacing:getComputedStyle(link).letterSpacing,opacity:.82,offset:0},
+    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:1,offset:.72},
+    {transform:`translate(${x}px,${y}px) scale(${scale})`,letterSpacing:'.015em',opacity:isRegion?0:1,offset:1}
+  ],{duration:isRegion?720:520,easing:'cubic-bezier(.2,.72,.2,1)',fill:'forwards'});
+  centerWord?.animate([{opacity:0},{opacity:0,offset:.48},{opacity:1,offset:.72},{opacity:1}],{duration:850,easing:'ease-out',fill:'forwards'});
   flagFrame?.animate([
     {opacity:0,transform:'translate(-50%,-50%) scale(.94)',offset:0},
     {opacity:0,transform:'translate(-50%,-50%) scale(.94)',offset:.42},
@@ -171,11 +187,13 @@ function showArrivalTransition(){
   const bounds=targetRange.getBoundingClientRect();
   const targetStyle=getComputedStyle(target);
   const bootLayer=document.querySelector('.page-transition-layer[data-transition-boot]');
-  const layer=bootLayer||createPageTransitionLayer(saved.name,saved.kind==='region'?saved.flags:[]).layer;
+  const created=bootLayer?null:createPageTransitionLayer(saved.name,saved.kind==='region'?saved.flags:[],saved.kind==='region');
+  const layer=bootLayer||created.layer;
   const backdrop=layer.querySelector('.page-transition-backdrop');
-  const word=layer.querySelector('.page-transition-word');
+  const word=bootLayer?layer.querySelector('.page-transition-word'):(created.centerWord||created.word);
   const flagFrame=layer.querySelector('.page-transition-flag-frame');
   if(!bootLayer){
+    if(created.centerWord)created.word.remove();
     word.classList.add('is-centered');
     word.style.fontSize=`${transitionHeroSize(saved.name)}px`;
     backdrop.style.opacity='.985';

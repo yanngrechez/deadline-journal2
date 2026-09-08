@@ -15,9 +15,9 @@
   backdrop.style.opacity='.985';
   const word=document.createElement('span');
   word.className='page-transition-word is-centered';
-  word.textContent=state.name;
+  word.textContent=state.name==='Middle East & North Africa'?'Middle East &\nNorth Africa':state.name==='Sub-Saharan Africa'?'Sub-Saharan\nAfrica':state.name;
   const base=Math.min(112,Math.max(46,window.innerWidth*.082));
-  const factor=state.name.length>=24?.55:state.name.length>=18?.7:1;
+  const factor=state.name.length>=24?.72:state.name.length>=18?.82:1;
   word.style.fontSize=`${base*factor}px`;
   layer.append(backdrop,word);
 
