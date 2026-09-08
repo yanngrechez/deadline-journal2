@@ -31,16 +31,26 @@
       frame.className='page-transition-flag-frame is-visible';
       layer.appendChild(frame);
       const {width,height}=frame.getBoundingClientRect();
-      const perimeter=2*(width+height),gap=perimeter/flags.length;
+      // Reserve a flag at every corner, then balance intervals on each side.
+      const lengths=[width,height,width,height];
+      const intervals=[1,1,1,1];
+      for(let remaining=flags.length-4;remaining>0;remaining--){
+        let side=0;
+        for(let i=1;i<4;i++)if(lengths[i]/intervals[i]>lengths[side]/intervals[side])side=i;
+        intervals[side]++;
+      }
+      const gap=Math.min(...lengths.map((length,i)=>length/intervals[i]));
+      const positions=[];
+      intervals.forEach((count,side)=>{
+        for(let step=0;step<count;step++){
+          const t=step/count;
+          positions.push(side===0?[width*t,0]:side===1?[width,height*t]:side===2?[width*(1-t),height]:[0,height*(1-t)]);
+        }
+      });
       flags.forEach((flag,index)=>{
         const image=document.createElement('img');
         image.src=flag;image.alt='';
-        const distance=(index+.5)*gap;
-        let x,y;
-        if(distance<width){x=distance;y=0}
-        else if(distance<width+height){x=width;y=distance-width}
-        else if(distance<2*width+height){x=2*width+height-distance;y=height}
-        else{x=0;y=perimeter-distance}
+        const [x,y]=positions[index];
         image.style.left=`${x}px`;image.style.top=`${y}px`;
         image.style.width=`${Math.min(innerWidth<=700?19:28,gap*.58)}px`;
         image.style.height='auto';

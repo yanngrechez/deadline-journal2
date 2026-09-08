@@ -103,7 +103,18 @@ function startPageTransition(event,link,transition){
     {opacity:1,offset:.2},
     {transform:'translate(-50%,-50%) scale(1)',opacity:1}
   ],timing);
-  flagFrame?.animate([{opacity:0},{opacity:0,offset:.35},{opacity:1}],timing);
+  if(flagFrame){
+    const flags=[...flagFrame.querySelectorAll('img')];
+    flags.forEach((flag,index)=>{
+      const x=(parseFloat(flag.style.left)/flagFrame.offsetWidth-.5)*-28;
+      const y=(parseFloat(flag.style.top)/flagFrame.offsetHeight-.5)*-28;
+      flag.animate([
+        {opacity:0,transform:`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(.65) rotate(-5deg)`,filter:'blur(2px)'},
+        {opacity:1,transform:'translate(-50%,-50%) scale(1.06) rotate(1deg)',filter:'blur(0px)',offset:.75},
+        {opacity:1,transform:'translate(-50%,-50%) scale(1) rotate(0deg)',filter:'blur(0px)'}
+      ],{duration:380,delay:100+index/Math.max(1,flags.length-1)*170,easing:'cubic-bezier(.22,.7,.22,1)',fill:'both'});
+    });
+  }
   window.setTimeout(()=>location.assign(navigationUrl.href),700);
 }
 function showArrivalTransition(){
