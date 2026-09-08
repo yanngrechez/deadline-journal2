@@ -93,3 +93,60 @@ body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.
 @media(max-width:700px){.coverage-map-section .section{padding:24px 0}.map-heading h2{font-size:34px}.world-map-shell{margin-top:15px;overflow-x:auto}.world-map{min-width:660px}.map-key{justify-content:flex-start}.map-key-note{flex-basis:100%}.country-directory-head{display:block}.country-directory-head h2{font-size:28px;margin-top:5px}.country-directory-grid{grid-template-columns:repeat(2,1fr)}.country-directory-link:not(:nth-child(3n+1)){border-left:0}.country-directory-link:nth-child(even){border-left:1px solid var(--rule)}.country-directory-link strong{font-size:15px}.country-page-head{padding:30px 0 18px}.country-page-flag{width:72px}.country-story-card{grid-template-columns:1fr;gap:13px}.country-story-card h2{font-size:30px}.country-empty{padding:40px 0 50px}}
 
 .page-transition-line{white-space:nowrap}.page-transition-glyph{white-space:pre}
+
+/* Phone layouts only: keep the desktop editorial layout unchanged. */
+@media(max-width:700px){
+  .container{width:calc(100% - 32px)}
+  .utility-links{width:100%;justify-content:space-between;gap:12px}
+  .utility-links a{display:flex;align-items:center;min-height:44px;font-size:11px}
+  .brand{padding:20px 0 16px}
+  .masthead{font-size:clamp(32px,11.2vw,74px)}
+  .slogan{font-size:8px;letter-spacing:.12em;line-height:1.5}
+  .nav{width:100%;padding-inline:16px;scroll-padding-inline:16px;overscroll-behavior-x:contain}
+  .nav a{display:flex;align-items:center;min-height:46px;padding:12px 16px;font-size:11px;flex-shrink:0}
+  .hero .headline{font-size:clamp(27px,8vw,36px);line-height:1.07}
+  .hero .dek{font-size:16px;line-height:1.45}
+  .small-horizontal{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:14px}
+  .small-horizontal .headline{font-size:21px;line-height:1.1}
+  .small-horizontal p,.medium-story .dek{font-size:15px;line-height:1.45}
+  .kicker,.byline,.meta{font-size:10px;line-height:1.5}
+  .region-card{padding:20px 0}
+  .region-card h2{font-size:27px;line-height:1.1}
+  .region-card p{font-size:16px;line-height:1.45}
+  .region-page-head h1,.about-grid h1{font-size:clamp(32px,9vw,46px);line-height:1.06;overflow-wrap:break-word}
+  .about-grid{padding:30px 0;gap:20px}
+  .about-grid p{margin-top:0;line-height:1.6}
+  .article-page h1{font-size:clamp(32px,9vw,42px);line-height:1.06}
+  .article-dek{line-height:1.5}
+  .article-meta{font-size:11px;line-height:1.6}
+  .article-kicker{line-height:1.8}
+  .article-kicker .country-transition-link{padding:10px 0}
+  .body{font-size:18px;line-height:1.7;overflow-wrap:break-word}
+  .article-hero figcaption{font-size:12px;line-height:1.5}
+  .country-page-head{align-items:flex-start;gap:16px}
+  .country-page-head>div{min-width:0;flex:1}
+  .country-page-head h1{font-size:clamp(32px,9vw,48px);line-height:1.04;overflow-wrap:break-word}
+  .country-page-flag{width:52px;flex:0 0 52px;margin-top:24px}
+  .country-directory-link{padding:14px 9px;gap:8px;min-height:76px}
+  .country-directory-link>span{min-width:0}
+  .country-directory-link strong{line-height:1.2;overflow-wrap:break-word}
+  .country-directory-link small{font-size:9px;line-height:1.4}
+  .country-flag{width:27px;height:20px;flex-shrink:0}
+  .map-heading h2{font-size:clamp(29px,8vw,38px);line-height:1.08}
+  .world-map-shell{overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--purple) var(--rule)}
+  .map-key{font-size:10px;line-height:1.5;gap:10px 18px}
+  .map-key-note::before{content:'Swipe the map to explore. ';font-weight:700}
+  .form input,.form textarea{font-size:16px;line-height:1.5;padding:12px;min-height:48px;border-radius:0}
+  .form textarea{height:190px;resize:vertical}
+  .form label{font-size:11px;margin-top:18px}
+  .form button,.cta{min-height:48px;padding:16px 20px;font-size:12px;line-height:1.4;text-align:center}
+  .form button{width:100%}
+  .form input:focus-visible,.form textarea:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+  .search-overlay{padding:24px 16px;padding-top:max(24px,env(safe-area-inset-top));overflow-y:auto;overscroll-behavior:contain}
+  .search-top input{min-width:0;font-size:clamp(20px,5.8vw,28px)}
+  .close-search{flex:0 0 44px;min-height:44px}
+  .search-result{padding:18px 0}
+  .search-result h3{font-size:24px;line-height:1.15}
+  .footer-note{font-size:12px;line-height:1.6}
+  .footer{padding-bottom:max(32px,env(safe-area-inset-bottom))}
+}
