@@ -13,7 +13,7 @@ const htmlFiles=['index.html','article.html','region.html','country.html','about
 htmlFiles.forEach(name=>{
   const output=path.join(dist,name);
   const versioned=fs.readFileSync(output,'utf8')
-    .replaceAll('href="styles.css"','href="styles.css?v=8"')
+    .replaceAll('href="styles.css"','href="styles.css?v=9"')
     .replaceAll('src="script.js"','src="script.js?v=7"')
     .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=7"')
     .replace('</head>','<script defer src="analytics.js?v=1"></script></head>');

@@ -5,6 +5,20 @@
 
 .masthead{white-space:nowrap}
 .region-label{display:block}
+.utility-links .utility-action{position:relative;display:inline-flex;align-items:center;isolation:isolate;white-space:nowrap;transition:color 180ms ease,transform 150ms ease}
+.utility-link-label{position:relative}
+.utility-text .utility-link-label::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--purple);transform:scaleX(0);transform-origin:left center;transition:transform 180ms ease}
+.utility-links .utility-text:hover{color:var(--purple)}
+.utility-text:is(:hover,:focus-visible) .utility-link-label::after{transform:scaleX(1)}
+.utility-links .utility-submit{color:var(--purple)}
+.utility-submit::before{content:'';position:absolute;z-index:-1;left:-6px;right:-6px;top:50%;height:24px;transform:translateY(-50%);border:1px solid var(--purple);background:transparent;transition:background-color 180ms ease}
+.utility-links .utility-submit:is(:hover,:focus-visible){color:#fff}
+.utility-submit:is(:hover,:focus-visible)::before{background:var(--purple)}
+.utility-search-icon{position:absolute;right:-14px;top:50%;transform:translateY(-50%)}
+.utility-links .utility-action:active{transform:translateY(1px)}
+.utility-links .utility-action:focus-visible{outline:1px solid var(--purple);outline-offset:6px}
+@media(max-width:700px){.utility-search-icon{right:auto;left:-15px}}
+@media(prefers-reduced-motion:reduce){.utility-links .utility-action,.utility-text .utility-link-label::after,.utility-submit::before{transition:none}.utility-links .utility-action:active{transform:none}}
 .mission h2{color:var(--purple)}
 .country-label{color:var(--ink)}
 .article-kicker .country-transition-link{color:var(--purple);display:inline-block;text-decoration-thickness:1px;text-underline-offset:3px}
