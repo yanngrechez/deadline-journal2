@@ -9,13 +9,14 @@ fs.mkdirSync(dist, {recursive:true});
 
 const copyFile = (name) => fs.copyFileSync(path.join(root,name), path.join(dist,name));
 const htmlFiles=['index.html','article.html','region.html','country.html','about.html','write.html'];
-[...htmlFiles,'styles.css','script.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
+[...htmlFiles,'styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
 htmlFiles.forEach(name=>{
   const output=path.join(dist,name);
   const versioned=fs.readFileSync(output,'utf8')
-    .replaceAll('href="styles.css"','href="styles.css?v=7"')
+    .replaceAll('href="styles.css"','href="styles.css?v=8"')
     .replaceAll('src="script.js"','src="script.js?v=7"')
-    .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=7"');
+    .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=7"')
+    .replace('</head>','<script defer src="analytics.js?v=1"></script></head>');
   fs.writeFileSync(output,versioned);
 });
 
