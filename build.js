@@ -58,6 +58,7 @@ for(const name of htmlFiles){
   let html=fs.readFileSync(path.join(root,name),'utf8')
     .replaceAll('href="/styles.css"','href="/styles.css?v=10"')
     .replaceAll('src="/script.js"','src="/script.js?v=8"')
+    .replaceAll('src="/countries-data.js"','src="/countries-data.js?v=2"')
     .replaceAll('src="/transition-boot.js?v=2"','src="/transition-boot.js?v=7"')
     .replace('</head>','<script defer src="/analytics.js?v=3"></script></head>');
   if(name==='about.html'||name==='write.html')html=canonical(html,'/'+name.replace('.html',''));
