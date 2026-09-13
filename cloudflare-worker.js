@@ -15,10 +15,10 @@ export default {
         url.searchParams.delete('region');
         return Response.redirect(url.href,301);
       }
-      // Pages serves directory index files at the trailing-slash asset path.
+      // Workers static assets use drop-trailing-slash HTML handling.
       // Fetch through ASSETS (not the public Worker URL) to avoid redirect loops.
       const assetUrl=new URL(url);
-      assetUrl.pathname=destination+'/';
+      assetUrl.pathname=destination;
       return env.ASSETS.fetch(new Request(assetUrl,request));
     }
     if(legacy){

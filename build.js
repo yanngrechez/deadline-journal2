@@ -78,11 +78,12 @@ for(const name of Object.keys(routes.regions))writeRoute(routes.regionUrl(name),
 fs.writeFileSync(path.join(dist,'data.js'),'window.DEADLINE_ARTICLES='+JSON.stringify(articles)+';\n');
 fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | Deadline Journal</title><link rel="stylesheet" href="/styles.css?v=10"><link rel="icon" href="/favicon.svg"><meta name="robots" content="noindex"></head><body><main class="container section"><h1 class="headline">Page not found</h1><p>This page may have moved or is not published.</p><a class="cta" href="/">Return to Deadline Journal</a></main></body></html>');
 
-// Query-aware 301 redirects and slashless directory routes need Pages Functions;
-// _redirects cannot match legacy query parameters. All content stays static.
+// Keep the Worker entry outside public assets. The existing Workers Builds
+// deploy command reads wrangler.jsonc and uploads dist as static assets.
 const manifest=articles.map(({slug})=>({slug}));
-fs.writeFileSync(path.join(dist,'_worker.js'),fs.readFileSync(path.join(root,'routes.js'),'utf8')+'\nconst publishedRoutes='+JSON.stringify(manifest)+';\n'+fs.readFileSync(path.join(root,'pages-worker.js'),'utf8'));
-fs.writeFileSync(path.join(dist,'_routes.json'),JSON.stringify({version:1,include:['/*'],exclude:['/','/index','/index.html','/about','/about.html','/write','/write.html','/country','/country.html','/assets/*','/media/*','/flags/*','/*.js','/*.css','/favicon.svg','/robots.txt','/sitemap.xml','/googlef859bf9f1619f912.html']},null,2));
+fs.mkdirSync(path.join(root,'.cloudflare'),{recursive:true});
+const workerRoutes=fs.readFileSync(path.join(root,'routes.js'),'utf8').replace("  if(typeof module==='object'&&module.exports)module.exports=routes;\n",'');
+fs.writeFileSync(path.join(root,'.cloudflare/worker.mjs'),workerRoutes+'\nconst publishedRoutes='+JSON.stringify(manifest)+';\n'+fs.readFileSync(path.join(root,'cloudflare-worker.js'),'utf8'));
 
 // Country URLs intentionally retain their existing query-based format. Keep
 // this sitemap limited to clean canonical routes; countries remain linked on site.

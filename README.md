@@ -4,13 +4,14 @@ This project preserves the Deadline Journal editorial template and adds a free p
 
 - GitHub — source/content repository
 - Pages CMS — visual article editor
-- Cloudflare Pages — public hosting and automatic deployment
+- Cloudflare Workers with static assets — public hosting and automatic deployment
 
 ## Cloudflare build settings
-- Framework preset: None
 - Production branch: main
 - Build command: npm run build
-- Build output directory: dist
+- Deploy command: npx wrangler deploy --assets ./dist --compatibility-date 2026-08-28 --name deadline-journal2
+- Static asset directory: dist
+- Worker and asset settings: wrangler.jsonc
 
 ## Publishing
 Open https://app.pagescms.org, sign in with GitHub, select this repository, open Articles, edit/create a story, set Status to Published, and Save.
@@ -28,15 +29,15 @@ The build rejects reserved, malformed, and duplicate slugs before changing
 the output. Region paths, static pages (`about`, `write`, `country`, etc.),
 and asset directories are reserved. Change a conflicting slug in Pages CMS.
 
-Cloudflare still builds `main` with `npm run build` and publishes `dist`.
-The generated `_worker.js` uses Pages advanced mode to redirect old
-`/article[.html]?slug=...` and `/region[.html]?region=...` URLs with HTTP 301.
-Campaign parameters are retained. Unknown/unpublished legacy articles return
-404. Clean routes return static directory content through `env.ASSETS`;
-trailing-slash and `/index.html` variants redirect to the slashless canonical
-path. `_routes.json` bypasses the Worker for common static pages and assets.
-No framework, external redirect service, or query-based rendering is required
-for the new article and region routes.
+Cloudflare Workers Builds still builds `main` with `npm run build` and the
+existing `wrangler deploy --assets ./dist` command. `wrangler.jsonc` points to
+`.cloudflare/worker.mjs`, generated outside the public asset directory. The
+Worker redirects `/article[.html]?slug=...` and `/region[.html]?region=...` URLs
+with HTTP 301, retaining campaign parameters. Unknown/unpublished legacy
+articles return 404. Assets use `drop-trailing-slash` HTML handling so directory
+pages are served at slashless canonical paths. The Worker runs before assets
+only for legacy URLs and non-canonical path variants; clean pages use the
+static asset service. No framework or external redirect service is needed.
 
 Country links retain `/country.html?country=ES` (Cloudflare's existing `.html`
 normalization still applies). The sitemap lists only clean canonical home,

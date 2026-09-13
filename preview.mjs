@@ -1,10 +1,10 @@
-// Dependency-free local preview of the generated Pages Worker and static files.
+// Dependency-free local preview of the generated Cloudflare Worker and static files.
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(process.env.DEADLINE_DIST||path.join(path.dirname(fileURLToPath(import.meta.url)),'dist'));
-const worker=(await import('data:text/javascript;base64,'+fs.readFileSync(path.join(root,'_worker.js')).toString('base64'))).default;
+const worker=(await import('data:text/javascript;base64,'+fs.readFileSync(process.env.DEADLINE_WORKER||path.join(path.dirname(fileURLToPath(import.meta.url)),'.cloudflare/worker.mjs')).toString('base64'))).default;
 const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.svg':'image/svg+xml','.json':'application/json','.xml':'application/xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp'};
 const assets={async fetch(request){
   const url=new URL(request.url);
@@ -18,7 +18,6 @@ const assets={async fetch(request){
     return Response.redirect(url.href,301);
   }
   if(fs.existsSync(file)&&fs.statSync(file).isDirectory()){
-    if(!pathname.endsWith('/')){url.pathname+='/';return Response.redirect(url.href,301)}
     file=path.join(file,'index.html');
   }else if(!path.extname(file))file+='.html';
   const exists=fs.existsSync(file)&&fs.statSync(file).isFile();

@@ -9,9 +9,16 @@ const dist=path.join(root,'dist');
 const routes=require('../routes.js');
 const articles=JSON.parse(fs.readFileSync(path.join(dist,'data.js'),'utf8').replace(/^window.DEADLINE_ARTICLES=/,'').replace(/;\s*$/,''));
 const origin='https://deadlinejournal.org';
-const workerPromise=import('data:text/javascript;base64,'+fs.readFileSync(path.join(dist,'_worker.js')).toString('base64')).then(module=>module.default);
+const workerPromise=import('data:text/javascript;base64,'+fs.readFileSync(path.join(root,'.cloudflare/worker.mjs')).toString('base64')).then(module=>module.default);
 
 test('all published articles and every region have clean canonical static pages',()=>{
+  const config=JSON.parse(fs.readFileSync(path.join(root,'wrangler.jsonc'),'utf8'));
+  assert.equal(config.name,'deadline-journal2');
+  assert.equal(config.main,'.cloudflare/worker.mjs');
+  assert.equal(config.assets.binding,'ASSETS');
+  assert.equal(config.assets.html_handling,'drop-trailing-slash');
+  for(const route of ['/article','/article.html','/region','/region.html'])assert(config.assets.run_worker_first.includes(route));
+  assert(!fs.existsSync(path.join(dist,'_worker.js')),'server code must not be uploaded as a public asset');
   const expected=[...articles.map(routes.articleUrl),...Object.keys(routes.regions).map(routes.regionUrl)];
   for(const route of expected){
     const html=fs.readFileSync(path.join(dist,route,'index.html'),'utf8');
@@ -42,7 +49,7 @@ test('legacy URLs permanently redirect once; clean paths serve static directory 
       assert.equal(response.headers.get('location'),origin+target);
       const next=await worker.fetch(new Request(response.headers.get('location')),env);
       assert.equal(next.status,200);
-      assert.equal(await next.text(),target+'/');
+      assert.equal(await next.text(),target);
     }
   }
   for(const [name,slug] of Object.entries(routes.regions)){
@@ -63,7 +70,7 @@ test('legacy URLs permanently redirect once; clean paths serve static directory 
 test('new CMS articles generate automatically; draft, reserved, invalid and duplicate slugs stay safe',()=>{
   const fixture=fs.mkdtempSync(path.join(os.tmpdir(),'deadline-routing-'));
   try{
-    for(const name of ['build.js','routes.js','pages-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
+    for(const name of ['build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
     for(const name of ['assets','media','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
     fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
     const file=path.join(fixture,'content/articles/new.json');
@@ -72,7 +79,7 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     const build=()=>execFileSync(process.execPath,[path.join(fixture,'build.js')],{stdio:'pipe'});
     write(article);build();
     assert(fs.existsSync(path.join(fixture,'dist/future-cms-story/index.html')));
-    assert(fs.readFileSync(path.join(fixture,'dist/_worker.js'),'utf8').includes('future-cms-story'));
+    assert(fs.readFileSync(path.join(fixture,'.cloudflare/worker.mjs'),'utf8').includes('future-cms-story'));
     assert(fs.readFileSync(path.join(fixture,'dist/sitemap.xml'),'utf8').includes('/future-cms-story</loc>'));
     for(const slug of [...routes.reserved,'../escape','bad/slug','Bad-Slug','two--hyphens']){
       write({...article,slug});
