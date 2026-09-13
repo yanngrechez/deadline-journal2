@@ -19,7 +19,9 @@ function countryForName(name){
 }
 function countryForArticle(article){return countryByCode(article.country_code)||countryForName(article.country)}
 function isRealArticle(article){return !article.is_placeholder}
-function countryUrl(country){return `country.html?country=${encodeURIComponent(country.code)}`}
+function countryUrl(country){return `/country.html?country=${encodeURIComponent(country.code)}`}
+function articleUrl(article){return DeadlineRoutes.articleUrl(article)}
+function regionUrl(name){return DeadlineRoutes.regionUrl(name)}
 function realArticlesForCountry(country){return articles.filter(article=>isRealArticle(article)&&countryForArticle(article)?.code===country.code)}
 
 function articleTopics(article){
@@ -64,8 +66,9 @@ function takePageTransition(){
 function transitionDestination(link){
   const url=new URL(link.href,location.href);
   if(url.origin!==location.origin)return null;
-  if(/\/region(?:\.html)?$/.test(url.pathname)){
-    const name=url.searchParams.get('region');
+  const route=DeadlineRoutes.resolve(url,articles);
+  if(route.kind==='region'){
+    const name=route.name;
     const flags=countries.filter(country=>country.region===name).map(country=>country.flag);
     return name?{kind:'region',name,url,flags}:null;
   }
@@ -121,9 +124,9 @@ function showArrivalTransition(){
   const saved=takePageTransition();
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){clearPageTransition();return}
   const params=new URLSearchParams(location.search);
-  const destinationName=saved?.kind==='region'?params.get('region'):(countryByCode(params.get('country'))||countryForName(params.get('country')))?.name;
-  const route=location.pathname.replace(/\.html$/,'').replace(/\/$/,'');
-  if(!saved||Date.now()-saved.time>30000||route!==`/${saved.kind}`||destinationName!==saved.name){clearPageTransition();return}
+  const route=DeadlineRoutes.resolve(new URL(location.href),articles);
+  const destinationName=saved?.kind==='region'?route.name:(countryByCode(params.get('country'))||countryForName(params.get('country')))?.name;
+  if(!saved||Date.now()-saved.time>30000||route.kind!==saved.kind||destinationName!==saved.name){clearPageTransition();return}
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
   if(!target){clearPageTransition();return}
   const layer=document.querySelector('[data-transition-boot]')||window.createDeadlineTitle(saved.name,saved.kind==='region'?saved.flags:[]).layer;
@@ -205,7 +208,7 @@ function renderSearch(q){
   const t=(q||'').toLowerCase(),o=document.getElementById('searchResults');
   if(!o)return;
   o.innerHTML=articles.filter(a=>!t||[a.title,a.country,articleTopics(a).join(' '),a.author,a.region,a.dek].join(' ').toLowerCase().includes(t))
-    .map(a=>`<a class="search-result" href="article.html?slug=${a.slug}">
+    .map(a=>`<a class="search-result" href="${articleUrl(a)}">
       <div>${articleMeta(a)}</div><h3>${a.title}</h3></a>`).join('');
 }
 document.addEventListener('DOMContentLoaded',()=>{

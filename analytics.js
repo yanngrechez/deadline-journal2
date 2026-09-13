@@ -22,10 +22,13 @@
       if(!hosts.includes(url.hostname))return referrer?url.origin:'';
       url.hostname='deadlinejournal.org';
       url.hash='';
-      url.pathname=url.pathname.replace(/\.html$/,'').replace(/\/$/,'')||'/';
+      const route=DeadlineRoutes.resolve(url,window.DEADLINE_ARTICLES||[]);
+      url.pathname=DeadlineRoutes.pathKey(url.pathname)||'/';
+      if(route.kind==='article'&&route.slug)url.pathname=DeadlineRoutes.articleUrl(route.slug);
+      if(route.kind==='region'&&route.name)url.pathname=DeadlineRoutes.regionUrl(route.name);
       if(url.pathname==='/index')url.pathname='/';
       const kept=new URLSearchParams();
-      const routeParam={'/article':'slug','/region':'region','/country':'country'}[url.pathname];
+      const routeParam=url.pathname==='/country'?'country':null;
       const keys=[routeParam,...(referrer?[]:['utm_source','utm_medium','utm_campaign','utm_content','utm_term'])].filter(Boolean);
       keys.forEach(key=>{if(url.searchParams.has(key))kept.set(key,url.searchParams.get(key).slice(0,300))});
       url.search=kept.toString();
@@ -35,17 +38,19 @@
 
   function pageProperties(){
     const url=new URL(cleanUrl(location.href));
-    const type={'/':'home','/article':'article','/region':'region','/country':'country','/about':'about','/write':'write'}[url.pathname]||'other';
-    const article=type==='article'?(window.DEADLINE_ARTICLES||[]).find(item=>item.slug===params.get('slug')):null;
+    const route=DeadlineRoutes.resolve(new URL(location.href),window.DEADLINE_ARTICLES||[]);
+    const type=route.kind;
+    const article=type==='article'?(window.DEADLINE_ARTICLES||[]).find(item=>item.slug===route.slug):null;
     const properties={page_type:type,page_path:url.pathname,$pathname:url.pathname,$current_url:url.href,$title:document.title};
-    if(type==='region')properties.region=params.get('region');
+    if(type==='region')properties.region=route.name;
     if(type==='country')properties.country_code=params.get('country');
     if(type==='article')properties.article_found=Boolean(article);
     if(article)Object.assign(properties,{
       article_slug:article.slug,article_title:article.title,article_author:article.author,
       article_region:article.region,article_country:article.country,
       article_country_code:typeof countryForArticle==='function'?countryForArticle(article)?.code:null,
-      article_topics:article.topics||[],is_placeholder:Boolean(article.is_placeholder)
+      article_topics:article.topics||[],is_placeholder:Boolean(article.is_placeholder),
+      author:article.author,country:article.country,region:article.region,topics:article.topics||[]
     });
     return properties;
   }

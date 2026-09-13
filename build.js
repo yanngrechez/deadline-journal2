@@ -1,111 +1,92 @@
-const fs = require('fs');
-const path = require('path');
-
-const root = __dirname;
-const dist = path.join(root, 'dist');
-
-fs.rmSync(dist, {recursive:true, force:true});
-fs.mkdirSync(dist, {recursive:true});
-
-const copyFile = (name) => fs.copyFileSync(path.join(root,name), path.join(dist,name));
+const fs=require('fs');
+const path=require('path');
+const routes=require('./routes.js');
+const root=__dirname;
+const dist=path.join(root,'dist');
+const baseUrl='https://deadlinejournal.org';
 const htmlFiles=['index.html','article.html','region.html','country.html','about.html','write.html'];
-[...htmlFiles,'styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'].forEach(copyFile);
-htmlFiles.forEach(name=>{
-  const output=path.join(dist,name);
-  const versioned=fs.readFileSync(output,'utf8')
-    .replaceAll('href="styles.css"','href="styles.css?v=10"')
-    .replaceAll('src="script.js"','src="script.js?v=7"')
-    .replaceAll('src="transition-boot.js?v=2"','src="transition-boot.js?v=7"')
-    .replace('</head>','<script defer src="analytics.js?v=2"></script></head>');
-  fs.writeFileSync(output,versioned);
-});
+const articles=fs.readdirSync(path.join(root,'content/articles'))
+  .filter(file=>file.endsWith('.json'))
+  .map(file=>JSON.parse(fs.readFileSync(path.join(root,'content/articles',file),'utf8')))
+  .filter(article=>article.status==='published')
+  .map(article=>{
+    const allowed=['politics','economics','history','philosophy'];
+    const source=Array.isArray(article.topics)?article.topics:(article.type?['politics']:[]);
+    const topics=[...new Set(source.map(topic=>String(topic).toLowerCase()).filter(topic=>allowed.includes(topic)))];
+    const {type,...rest}=article;
+    return {...rest,country:String(article.country||'').toUpperCase(),topics:topics.length?topics:['politics'],homepage_rank:Number(article.homepage_rank||999)};
+  }).sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
 
-for (const dir of ['assets','media']) {
-  fs.cpSync(path.join(root,dir), path.join(dist,dir), {recursive:true});
+// Validate before replacing output: a bad CMS slug must fail the build, not
+// overwrite a region, public asset, or another article's directory.
+const reserved=new Set([...routes.reserved,...fs.readdirSync(root).map(name=>name.split('.')[0])]);
+const seen=new Set();
+for(const article of articles){
+  if(typeof article.slug!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug)||article.slug.length>120)
+    throw new Error(`Invalid article slug: ${article.slug}. Use lowercase words separated by hyphens (maximum 120 characters).`);
+  if(reserved.has(article.slug))throw new Error(`Reserved article slug: ${article.slug}. Choose a different slug in Pages CMS.`);
+  if(seen.has(article.slug))throw new Error(`Duplicate published article slug: ${article.slug}.`);
+  seen.add(article.slug);
 }
-fs.cpSync(path.join(root,'node_modules','flag-icons','flags','4x3'), path.join(dist,'flags'), {recursive:true});
+function cleanContentLinks(html){
+  return String(html||'').replace(/href=(['"])(.*?)\1/g,(match,quote,value)=>{
+    let url;
+    try{url=new URL(value,baseUrl)}catch(error){return match}
+    if(url.origin!==baseUrl)return match;
+    const route=routes.resolve(url,articles);
+    const clean=route.kind==='article'&&seen.has(route.slug)?routes.articleUrl(route.slug):route.kind==='region'&&route.name?routes.regionUrl(route.name):null;
+    if(!clean)return match;
+    url.searchParams.delete('slug');url.searchParams.delete('region');
+    return `href=${quote}${clean}${url.search}${url.hash}${quote}`;
+  });
+}
+articles.forEach(article=>{if(article.body)article.body=cleanContentLinks(article.body)});
 
-const articleDir = path.join(root,'content','articles');
-const articles = fs.readdirSync(articleDir)
-  .filter(f=>f.endsWith('.json'))
-  .map(f=>JSON.parse(fs.readFileSync(path.join(articleDir,f),'utf8')))
-  .filter(a=>a.status === 'published')
-  .map(a=>{
-    const allowedTopics = ['politics','economics','history','philosophy'];
-    const sourceTopics = Array.isArray(a.topics) ? a.topics : (a.type ? ['politics'] : []);
-    const topics = [...new Set(sourceTopics.map(topic=>String(topic).toLowerCase()).filter(topic=>allowedTopics.includes(topic)))];
-    const {type, ...article} = a;
-    return {
-      ...article,
-      country:String(a.country||'').toUpperCase(),
-      topics:topics.length ? topics : ['politics'],
-      homepage_rank:Number(a.homepage_rank||999)
-    };
-  })
-  .sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
+fs.rmSync(dist,{recursive:true,force:true});
+fs.mkdirSync(dist,{recursive:true});
+for(const name of ['styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+  fs.copyFileSync(path.join(root,name),path.join(dist,name));
+for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
+fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
 
-fs.writeFileSync(
-  path.join(dist, 'data.js'),
-  'window.DEADLINE_ARTICLES=' + JSON.stringify(articles) + ';\n'
-);
-const baseUrl = 'https://deadlinejournal.org';
-const countries = require('./countries-data.js');
+const escapeHtml=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+function canonical(html,route){
+  return html.replace(/<link\s+rel="canonical"[^>]*>/g,'').replace('</head>',`<link rel="canonical" href="${baseUrl}${route}"></head>`);
+}
+const templates={};
+for(const name of htmlFiles){
+  let html=fs.readFileSync(path.join(root,name),'utf8')
+    .replaceAll('href="/styles.css"','href="/styles.css?v=10"')
+    .replaceAll('src="/script.js"','src="/script.js?v=8"')
+    .replaceAll('src="/transition-boot.js?v=2"','src="/transition-boot.js?v=7"')
+    .replace('</head>','<script defer src="/analytics.js?v=3"></script></head>');
+  if(name==='about.html'||name==='write.html')html=canonical(html,'/'+name.replace('.html',''));
+  templates[name]=html;
+  // Legacy entry points are redirect-only on Cloudflare; don't index their shells.
+  const output=/^(article|region)\.html$/.test(name)?html.replace('</head>','<meta name="robots" content="noindex"></head>'):html;
+  fs.writeFileSync(path.join(dist,name),output);
+}
+function writeRoute(route,template,title,description){
+  let html=canonical(template,route).replace(/<title>[^<]*<\/title>/,`<title>${escapeHtml(title)}</title>`);
+  if(description)html=html.replace('</head>',`<meta name="description" content="${escapeHtml(description.replace(/<[^>]*>/g,''))}"></head>`);
+  const directory=path.join(dist,route.slice(1));
+  fs.mkdirSync(directory,{recursive:true});
+  fs.writeFileSync(path.join(directory,'index.html'),html);
+}
+for(const article of articles)writeRoute(routes.articleUrl(article),templates['article.html'],article.title+' | Deadline Journal',article.dek);
+for(const name of Object.keys(routes.regions))writeRoute(routes.regionUrl(name),templates['region.html'],name+' | Deadline Journal');
+fs.writeFileSync(path.join(dist,'data.js'),'window.DEADLINE_ARTICLES='+JSON.stringify(articles)+';\n');
+fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | Deadline Journal</title><link rel="stylesheet" href="/styles.css?v=10"><link rel="icon" href="/favicon.svg"><meta name="robots" content="noindex"></head><body><main class="container section"><h1 class="headline">Page not found</h1><p>This page may have moved or is not published.</p><a class="cta" href="/">Return to Deadline Journal</a></main></body></html>');
 
-// Create sitemap entries for the main pages
-const staticPages = [
-  '/',
-  '/about.html',
-  '/write.html'
-];
+// Query-aware 301 redirects and slashless directory routes need Pages Functions;
+// _redirects cannot match legacy query parameters. All content stays static.
+const manifest=articles.map(({slug})=>({slug}));
+fs.writeFileSync(path.join(dist,'_worker.js'),fs.readFileSync(path.join(root,'routes.js'),'utf8')+'\nconst publishedRoutes='+JSON.stringify(manifest)+';\n'+fs.readFileSync(path.join(root,'pages-worker.js'),'utf8'));
+fs.writeFileSync(path.join(dist,'_routes.json'),JSON.stringify({version:1,include:['/*'],exclude:['/','/index','/index.html','/about','/about.html','/write','/write.html','/country','/country.html','/assets/*','/media/*','/flags/*','/*.js','/*.css','/favicon.svg','/robots.txt','/sitemap.xml','/googlef859bf9f1619f912.html']},null,2));
 
-const staticEntries = staticPages.map(page => `
-  <url>
-    <loc>${baseUrl}${page}</loc>
-  </url>
-`).join('');
-
-// Create sitemap entries automatically for every published article
-const articleEntries = articles.map(article => `
-  <url>
-    <loc>${baseUrl}/article.html?slug=${encodeURIComponent(article.slug)}</loc>
-    ${article.published_at ? `<lastmod>${new Date(article.published_at).toISOString().slice(0, 10)}</lastmod>` : ''}
-  </url>
-`).join('');
-
-const regionEntries = [...new Set(countries.map(country=>country.region))].map(region => `
-  <url>
-    <loc>${baseUrl}/region.html?region=${encodeURIComponent(region)}</loc>
-  </url>
-`).join('');
-
-const countryEntries = countries.map(country => `
-  <url>
-    <loc>${baseUrl}/country.html?country=${country.code}</loc>
-  </url>
-`).join('');
-
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${staticEntries}
-${regionEntries}
-${countryEntries}
-${articleEntries}
-</urlset>`;
-
-fs.writeFileSync(
-  path.join(dist, 'sitemap.xml'),
-  sitemap
-);
-
-// Also tell search engines where the sitemap is
-const robots = `User-agent: *
-Allow: /
-
-Sitemap: ${baseUrl}/sitemap.xml
-`;
-
-fs.writeFileSync(
-  path.join(dist, 'robots.txt'),
-  robots
-);
-console.log(`Built Deadline Journal with ${articles.length} published articles.`);
+// Country URLs intentionally retain their existing query-based format. Keep
+// this sitemap limited to clean canonical routes; countries remain linked on site.
+const entries=[...['/','/about','/write',...Object.keys(routes.regions).map(routes.regionUrl)].map(url=>({url})),...articles.map(article=>({url:routes.articleUrl(article),date:article.published_at}))];
+fs.writeFileSync(path.join(dist,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+entries.map(({url,date})=>`  <url><loc>${baseUrl}${url}</loc>${date?`<lastmod>${new Date(date).toISOString().slice(0,10)}</lastmod>`:''}</url>`).join('\n')+'\n</urlset>\n');
+fs.writeFileSync(path.join(dist,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`);
+console.log(`Built Deadline Journal with ${articles.length} published articles and ${Object.keys(routes.regions).length} clean region routes.`);

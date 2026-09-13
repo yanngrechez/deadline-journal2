@@ -1,0 +1,89 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const os=require('node:os');
+const {execFileSync}=require('node:child_process');
+const root=path.resolve(__dirname,'..');
+const dist=path.join(root,'dist');
+const routes=require('../routes.js');
+const articles=JSON.parse(fs.readFileSync(path.join(dist,'data.js'),'utf8').replace(/^window.DEADLINE_ARTICLES=/,'').replace(/;\s*$/,''));
+const origin='https://deadlinejournal.org';
+const workerPromise=import('data:text/javascript;base64,'+fs.readFileSync(path.join(dist,'_worker.js')).toString('base64')).then(module=>module.default);
+
+test('all published articles and every region have clean canonical static pages',()=>{
+  const expected=[...articles.map(routes.articleUrl),...Object.keys(routes.regions).map(routes.regionUrl)];
+  for(const route of expected){
+    const html=fs.readFileSync(path.join(dist,route,'index.html'),'utf8');
+    assert(html.includes(`<link rel="canonical" href="${origin}${route}">`));
+    assert(!html.includes('content="noindex"'));
+    assert(html.includes('src="/analytics.js?v=3"'));
+    assert(html.includes('src="/routes.js?v=1"'));
+    assert(!/href="(?:article|region)(?:\.html)?\?/.test(html));
+    assert(!/(?:href|src)="(?:styles|script|data|routes)\./.test(html));
+  }
+  const sitemap=fs.readFileSync(path.join(dist,'sitemap.xml'),'utf8');
+  const urls=[...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match=>match[1]);
+  assert.deepEqual(new Set(urls),new Set(['/', '/about','/write',...expected].map(route=>origin+route)));
+  assert(!urls.some(url=>url.includes('?')||url.includes('.html')));
+  const home=fs.readFileSync(path.join(dist,'index.html'),'utf8');
+  for(const text of ['<title>Deadline Journal</title>','name="google-site-verification"','content="max-image-preview:none"','property="og:site_name"','"@type": "WebSite"','href="https://deadlinejournal.org/"','href="/favicon.svg"','POLITICS FROM THE PEOPLE CLOSEST TO IT'])assert(home.includes(text));
+  assert(fs.readFileSync(path.join(root,'favicon.svg')).equals(fs.readFileSync(path.join(dist,'favicon.svg'))));
+});
+
+test('legacy URLs permanently redirect once; clean paths serve static directory content',async()=>{
+  const worker=await workerPromise;
+  const env={ASSETS:{fetch:async request=>new Response(new URL(request.url).pathname)}};
+  for(const article of articles){
+    const target=routes.articleUrl(article);
+    for(const source of [`/article?slug=${article.slug}`,`/article.html?slug=${article.slug}`,target+'/',target+'/index.html',target+'.html']){
+      const response=await worker.fetch(new Request(origin+source),env);
+      assert.equal(response.status,301,source);
+      assert.equal(response.headers.get('location'),origin+target);
+      const next=await worker.fetch(new Request(response.headers.get('location')),env);
+      assert.equal(next.status,200);
+      assert.equal(await next.text(),target+'/');
+    }
+  }
+  for(const [name,slug] of Object.entries(routes.regions)){
+    for(const base of ['/region','/region.html']){
+      const response=await worker.fetch(new Request(origin+base+'?region='+encodeURIComponent(name)+'&utm_source=instagram'),env);
+      assert.equal(response.status,301);
+      assert.equal(response.headers.get('location'),origin+'/'+slug+'?utm_source=instagram');
+    }
+    assert.deepEqual(routes.resolve(new URL(origin+'/'+slug)),{kind:'region',name});
+  }
+  for(const source of ['/article?slug=missing','/article.html?slug=../../about','/region?region=unknown']){
+    assert.equal((await worker.fetch(new Request(origin+source),env)).status,404);
+  }
+  assert.equal(await (await worker.fetch(new Request(origin+'/country?country=ES'),env)).text(),'/country');
+  assert.equal(routes.resolve(new URL(origin+'/spain-populism'),articles).slug,'spain-populism');
+});
+
+test('new CMS articles generate automatically; draft, reserved, invalid and duplicate slugs stay safe',()=>{
+  const fixture=fs.mkdtempSync(path.join(os.tmpdir(),'deadline-routing-'));
+  try{
+    for(const name of ['build.js','routes.js','pages-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
+    for(const name of ['assets','media','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
+    fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
+    const file=path.join(fixture,'content/articles/new.json');
+    const write=article=>fs.writeFileSync(file,JSON.stringify(article));
+    const article={...articles[0],slug:'future-cms-story',status:'published'};
+    const build=()=>execFileSync(process.execPath,[path.join(fixture,'build.js')],{stdio:'pipe'});
+    write(article);build();
+    assert(fs.existsSync(path.join(fixture,'dist/future-cms-story/index.html')));
+    assert(fs.readFileSync(path.join(fixture,'dist/_worker.js'),'utf8').includes('future-cms-story'));
+    assert(fs.readFileSync(path.join(fixture,'dist/sitemap.xml'),'utf8').includes('/future-cms-story</loc>'));
+    for(const slug of [...routes.reserved,'../escape','bad/slug','Bad-Slug','two--hyphens']){
+      write({...article,slug});
+      assert.throws(build,undefined,slug);
+      assert(fs.existsSync(path.join(fixture,'dist/future-cms-story/index.html')),'failed build must not replace previous output');
+    }
+    write(article);
+    fs.writeFileSync(path.join(fixture,'content/articles/duplicate.json'),JSON.stringify(article));
+    assert.throws(build,/Duplicate published article slug/);
+    fs.unlinkSync(path.join(fixture,'content/articles/duplicate.json'));
+    write({...article,status:'draft'});build();
+    assert(!fs.existsSync(path.join(fixture,'dist/future-cms-story')));
+  }finally{fs.rmSync(fixture,{recursive:true,force:true})}
+});
