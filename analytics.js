@@ -198,7 +198,7 @@
     banner=document.createElement('section');
     banner.id='analyticsConsent';banner.className='analytics-consent';
     banner.setAttribute('aria-label','Analytics preferences');
-    banner.innerHTML='<div><strong>Help us understand our readers</strong><p>Allow analytics cookies to measure visits, traffic sources and article reading on Deadline Journal? We use PostHog in the EU. We do not record your screen or collect proposal-form contents. You can change your choice in the footer.</p></div><div class="analytics-consent-actions"><button type="button" data-choice="declined">Decline</button><button type="button" data-choice="accepted">Allow analytics</button></div>';
+    banner.innerHTML='<svg class="analytics-consent-icon" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M2 14h3v4H2zm5-5h3v9H7zm5-6h3v15h-3z"/></svg><p class="analytics-consent-copy"><span>We use analytics to better understand audience preferences and improve the Deadline Journal.</span><span class="analytics-consent-note">You can change this choice at any time in our footer.</span></p><div class="analytics-consent-actions"><button type="button" data-choice="declined">Decline</button><button type="button" data-choice="accepted">Allow analytics</button></div>';
     document.body.appendChild(banner);
     banner.querySelectorAll('[data-choice]').forEach(button=>button.addEventListener('click',()=>choose(button.dataset.choice)));
     if(doNotTrack){
