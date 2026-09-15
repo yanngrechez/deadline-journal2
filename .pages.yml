@@ -128,6 +128,44 @@ content:
           format: html
           media: false
           switcher: true
+      - name: sections
+        label: Additional article sections
+        type: block
+        list: true
+        blockKey: type
+        description: "Continue the article with text and images in reading order. To place a photo midway through a story, keep the opening in Article body, add an Image section, then put the following paragraphs in a Text section. Reorder sections to move them."
+        blocks:
+          - name: text
+            label: Text
+            fields:
+              - name: body
+                label: Paragraphs
+                type: rich-text
+                required: true
+                options:
+                  format: html
+                  media: false
+                  switcher: true
+          - name: image
+            label: Image
+            fields:
+              - name: image
+                label: Image
+                type: image
+                required: true
+              - name: alt
+                label: Image description for screen readers
+                type: string
+                required: true
+                description: "Briefly describe the image for readers who cannot see it."
+              - name: caption
+                label: Caption
+                type: text
+                description: "Explain what the image shows. Displayed in small grey text below the image."
+              - name: credit
+                label: Photo credit / source
+                type: string
+                description: "Photographer, agency, archive, or other source."
 
 settings:
   commit:

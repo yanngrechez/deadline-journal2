@@ -75,10 +75,20 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
     const file=path.join(fixture,'content/articles/new.json');
     const write=article=>fs.writeFileSync(file,JSON.stringify(article));
-    const article={...articles[0],slug:'future-cms-story',status:'published'};
+    const article={...articles[0],slug:'future-cms-story',status:'published',sections:[
+      {type:'image',image:'/media/sample.jpg',alt:'Sample photo',caption:'A caption',credit:'Photo source'},
+      {type:'text',body:'<p>Continued reporting. <a href="/region.html?region=Europe">Europe</a></p>'},
+      {type:'image',image:'/media/second.jpg',alt:'Second photo'}
+    ]};
     const build=()=>execFileSync(process.execPath,[path.join(fixture,'build.js')],{stdio:'pipe'});
     write(article);build();
     assert(fs.existsSync(path.join(fixture,'dist/future-cms-story/index.html')));
+    const generated=JSON.parse(fs.readFileSync(path.join(fixture,'dist/data.js'),'utf8').replace(/^window.DEADLINE_ARTICLES=/,'').replace(/;\s*$/,''))[0];
+    assert.deepEqual(generated.sections.map(section=>section.type),['image','text','image']);
+    assert.deepEqual(generated.sections[0],article.sections[0]);
+    assert(generated.sections[1].body.includes('href="/europe"'));
+    assert.equal(generated.body,article.body);
+
     assert(fs.readFileSync(path.join(fixture,'.cloudflare/worker.mjs'),'utf8').includes('future-cms-story'));
     assert(fs.readFileSync(path.join(fixture,'dist/sitemap.xml'),'utf8').includes('/future-cms-story</loc>'));
     for(const slug of [...routes.reserved,'../escape','bad/slug','Bad-Slug','two--hyphens']){

@@ -224,3 +224,44 @@ document.addEventListener('click',event=>{
 });
 window.addEventListener('pageshow',event=>{if(event.persisted)clearPageTransition()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch()});
+
+// Append ordered CMS sections inside the same reading/progress container.
+// Older articles continue to use their existing body without migration.
+function appendArticleSections(body, sections) {
+  if (!body || !Array.isArray(sections)) return;
+  const content = document.createDocumentFragment();
+  for (const section of sections) {
+    if (!section || typeof section !== 'object') continue;
+    if (section.type === 'text' && typeof section.body === 'string') {
+      const template = document.createElement('template');
+      template.innerHTML = section.body;
+      content.append(template.content);
+    } else if (section.type === 'image' && typeof section.image === 'string' && section.image.trim()) {
+      // Support the CMS media folder and HTTPS sources, never executable URLs.
+      let source;
+      try { source = new URL(section.image, location.origin); } catch { continue; }
+      if (source.origin !== location.origin && source.protocol !== 'https:') continue;
+      if (!['http:', 'https:'].includes(source.protocol)) continue;
+      const figure = document.createElement('figure');
+      figure.className = 'article-inline-image';
+      const img = document.createElement('img');
+      img.src = source.href;
+      img.alt = typeof section.alt === 'string' ? section.alt : '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      figure.append(img);
+      if (section.caption || section.credit) {
+        const caption = document.createElement('figcaption');
+        for (const [key, tag] of [['caption', 'span'], ['credit', 'cite']]) {
+          if (!section[key]) continue;
+          const text = document.createElement(tag);
+          text.textContent = section[key];
+          caption.append(text);
+        }
+        figure.append(caption);
+      }
+      content.append(figure);
+    }
+  }
+  body.append(content);
+}

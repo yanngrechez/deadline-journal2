@@ -61,3 +61,17 @@ Homepage Rank:
 999 = normal/default
 
 Latest and regional sections are determined automatically from publication date and region.
+
+## Images throughout an article
+
+Existing articles keep their Article body unchanged. For an illustrated story,
+keep the opening paragraphs in Article body, then use **Additional article
+sections** in Pages CMS. Add an **Image** section, followed by a **Text** section
+for the next paragraphs. Repeat as needed and reorder sections to choose where
+the images appear. When adapting an existing story, move (rather than copy)
+the subsequent paragraphs into Text sections to avoid duplicate text.
+
+Each Image section has an upload/picker, a screen-reader description, a caption,
+and a photo credit/source. Captions and credits appear in small grey type.
+Photographs retain their natural proportions. All sections belong to the same
+article body, so reading progress and analytics include the complete story.
