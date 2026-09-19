@@ -26,6 +26,7 @@
       url.pathname=DeadlineRoutes.pathKey(url.pathname)||'/';
       if(route.kind==='article'&&route.slug)url.pathname=DeadlineRoutes.articleUrl(route.slug);
       if(route.kind==='region'&&route.name)url.pathname=DeadlineRoutes.regionUrl(route.name);
+      if(route.kind==='country'&&route.code)url.pathname=DeadlineRoutes.countryUrl(route.code);
       if(url.pathname==='/index')url.pathname='/';
       const kept=new URLSearchParams();
       const routeParam=url.pathname==='/country'?'country':null;
@@ -43,7 +44,7 @@
     const article=type==='article'?(window.DEADLINE_ARTICLES||[]).find(item=>item.slug===route.slug):null;
     const properties={page_type:type,page_path:url.pathname,$pathname:url.pathname,$current_url:url.href,$title:document.title};
     if(type==='region')properties.region=route.name;
-    if(type==='country')properties.country_code=params.get('country');
+    if(type==='country')properties.country_code=route.code;
     if(type==='article')properties.article_found=Boolean(article);
     if(article)Object.assign(properties,{
       article_slug:article.slug,article_title:article.title,article_author:article.author,

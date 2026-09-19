@@ -4,15 +4,17 @@ export default {
     const url=new URL(request.url);
     const routes=globalThis.DeadlineRoutes;
     const route=routes.resolve(url,publishedRoutes);
-    const legacy=/^\/(article|region)(?:\.html)?\/?$/.test(url.pathname);
+    const legacy=/^\/(article|region|country)(?:\.html)?\/?$/.test(url.pathname);
     let destination=null;
     if(route.kind==='article'&&publishedRoutes.some(article=>article.slug===route.slug))destination=routes.articleUrl(route.slug);
     if(route.kind==='region'&&route.name)destination=routes.regionUrl(route.name);
+    if(route.kind==='country'&&route.code)destination=routes.countryUrl(route.code);
     if(destination){
       if(url.pathname!==destination||legacy){
         url.pathname=destination;
         url.searchParams.delete('slug');
         url.searchParams.delete('region');
+        url.searchParams.delete('country');
         return Response.redirect(url.href,301);
       }
       // Workers static assets use drop-trailing-slash HTML handling.

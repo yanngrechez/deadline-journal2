@@ -19,7 +19,7 @@ function countryForName(name){
 }
 function countryForArticle(article){return countryByCode(article.country_code)||countryForName(article.country)}
 function isRealArticle(article){return !article.is_placeholder}
-function countryUrl(country){return `/country.html?country=${encodeURIComponent(country.code)}`}
+function countryUrl(country){return DeadlineRoutes.countryUrl(country)}
 function articleUrl(article){return DeadlineRoutes.articleUrl(article)}
 function regionUrl(name){return DeadlineRoutes.regionUrl(name)}
 function realArticlesForCountry(country){return articles.filter(article=>isRealArticle(article)&&countryForArticle(article)?.code===country.code)}
@@ -72,8 +72,8 @@ function transitionDestination(link){
     const flags=countries.filter(country=>country.region===name).map(country=>country.flag);
     return name?{kind:'region',name,url,flags}:null;
   }
-  if(/\/country(?:\.html)?$/.test(url.pathname)){
-    const country=countryByCode(url.searchParams.get('country'))||countryForName(url.searchParams.get('country'));
+  if(route.kind==='country'){
+    const country=countryByCode(route.code);
     return country?{kind:'country',name:country.name,url}:null;
   }
   return null;
@@ -125,7 +125,7 @@ function showArrivalTransition(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){clearPageTransition();return}
   const params=new URLSearchParams(location.search);
   const route=DeadlineRoutes.resolve(new URL(location.href),articles);
-  const destinationName=saved?.kind==='region'?route.name:(countryByCode(params.get('country'))||countryForName(params.get('country')))?.name;
+  const destinationName=saved?.kind==='region'?route.name:countryByCode(route.code)?.name;
   if(!saved||Date.now()-saved.time>30000||route.kind!==saved.kind||destinationName!==saved.name){clearPageTransition();return}
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
   if(!target){clearPageTransition();return}

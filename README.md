@@ -39,10 +39,7 @@ pages are served at slashless canonical paths. The Worker runs before assets
 only for legacy URLs and non-canonical path variants; clean pages use the
 static asset service. No framework or external redirect service is needed.
 
-Country links retain `/country.html?country=ES` (Cloudflare's existing `.html`
-normalization still applies). The sitemap lists only clean canonical home,
-About, Write for Us, article, and region URLs; country desks remain reachable
-through navigation, the map, and region directories.
+Country desks use stable name-based URLs such as `/spain` and `/united-states`, generated as static directories from `countries-data.js`. Country slugs are reserved against article collisions. Old `/country[.html]?country=ES` links redirect permanently, retaining campaign parameters. All country desks have canonical URLs and sitemap entries.
 
 Run `npm run build` then `npm run preview` for local routing on port 4173.
 `npm test` verifies generated pages, redirects, future CMS articles, and

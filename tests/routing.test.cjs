@@ -19,13 +19,13 @@ test('all published articles and every region have clean canonical static pages'
   assert.equal(config.assets.html_handling,'drop-trailing-slash');
   for(const route of ['/article','/article.html','/region','/region.html'])assert(config.assets.run_worker_first.includes(route));
   assert(!fs.existsSync(path.join(dist,'_worker.js')),'server code must not be uploaded as a public asset');
-  const expected=[...articles.map(routes.articleUrl),...Object.keys(routes.regions).map(routes.regionUrl)];
+  const expected=[...articles.map(routes.articleUrl),...Object.keys(routes.regions).map(routes.regionUrl),...require('../countries-data.js').map(routes.countryUrl)];
   for(const route of expected){
     const html=fs.readFileSync(path.join(dist,route,'index.html'),'utf8');
     assert(html.includes(`<link rel="canonical" href="${origin}${route}">`));
     assert(!html.includes('content="noindex"'));
-    assert(html.includes('src="/analytics.js?v=3"'));
-    assert(html.includes('src="/routes.js?v=1"'));
+    assert(html.includes('src="/analytics.js?v=4"'));
+    assert(html.includes('src="/routes.js?v=2"'));
     assert(!/href="(?:article|region)(?:\.html)?\?/.test(html));
     assert(!/(?:href|src)="(?:styles|script|data|routes)\./.test(html));
   }
@@ -63,7 +63,7 @@ test('legacy URLs permanently redirect once; clean paths serve static directory 
   for(const source of ['/article?slug=missing','/article.html?slug=../../about','/region?region=unknown']){
     assert.equal((await worker.fetch(new Request(origin+source),env)).status,404);
   }
-  assert.equal(await (await worker.fetch(new Request(origin+'/country?country=ES'),env)).text(),'/country');
+  assert.equal((await worker.fetch(new Request(origin+'/country?country=ES'),env)).headers.get('location'),origin+'/spain');
   assert.equal(routes.resolve(new URL(origin+'/spain-populism'),articles).slug,'spain-populism');
 });
 
@@ -103,4 +103,23 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     write({...article,status:'draft'});build();
     assert(!fs.existsSync(path.join(fixture,'dist/future-cms-story')));
   }finally{fs.rmSync(fixture,{recursive:true,force:true})}
+});
+
+test('all country routes redirect legacy links, preserve campaigns and reject unknown countries',async()=>{
+  const countries=require('../countries-data.js');
+  const worker=await workerPromise;
+  const env={ASSETS:{fetch:async request=>new Response(new URL(request.url).pathname)}};
+  assert.equal(new Set(countries.map(c=>c.slug)).size,countries.length);
+  for(const c of countries){
+    const target=routes.countryUrl(c);
+    assert.deepEqual(routes.resolve(new URL(origin+target)),{kind:'country',code:c.code});
+    assert(routes.reserved.includes(c.slug));
+    for(const old of ['/country','/country.html','/country/','/country.html/']){
+      const response=await worker.fetch(new Request(origin+old+'?country='+c.code.toLowerCase()+'&utm_source=test'),env);
+      assert.equal(response.status,301);
+      assert.equal(response.headers.get('location'),origin+target+'?utm_source=test');
+    }
+    assert.equal((await worker.fetch(new Request(origin+target),env)).status,200);
+  }
+  assert.equal((await worker.fetch(new Request(origin+'/country?country=INVALID'),env)).status,404);
 });

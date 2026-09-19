@@ -9,6 +9,7 @@
     "not_found_handling": "404-page",
     "run_worker_first": [
       "/article", "/article.html", "/article/", "/article.html/",
+      "/country", "/country.html", "/country/", "/country.html/",
       "/region", "/region.html", "/region/", "/region.html/",
       "/*/", "/*/index.html", "/*.html"
     ]
