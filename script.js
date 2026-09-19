@@ -265,3 +265,21 @@ function appendArticleSections(body, sections) {
   }
   body.append(content);
 }
+
+// Native disclosure keeps references accessible with pointer, Enter, and Space.
+function appendArticleSources(article, sources) {
+  if (!article || typeof sources !== 'string') return;
+  const template = document.createElement('template');
+  template.innerHTML = sources;
+  // Rich-text editors can save an empty paragraph when the field is cleared.
+  if (!template.content.textContent.replace(/[\s\u200b]/g, '')) return;
+  const details = document.createElement('details');
+  details.className = 'article-sources';
+  const summary = document.createElement('summary');
+  summary.innerHTML = 'SOURCES <span class="sources-symbol" aria-hidden="true"></span>';
+  const references = document.createElement('div');
+  references.className = 'article-sources-content';
+  references.append(template.content);
+  details.append(summary, references);
+  article.append(details);
+}

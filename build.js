@@ -43,6 +43,7 @@ function cleanContentLinks(html){
 }
 articles.forEach(article=>{
   if(article.body)article.body=cleanContentLinks(article.body);
+  if(article.sources)article.sources=cleanContentLinks(article.sources);
   if(Array.isArray(article.sections))article.sections.forEach(section=>{
     if(section?.type==='text'&&section.body)section.body=cleanContentLinks(section.body);
   });
@@ -62,8 +63,8 @@ function canonical(html,route){
 const templates={};
 for(const name of htmlFiles){
   let html=fs.readFileSync(path.join(root,name),'utf8')
-    .replaceAll('href="/styles.css"','href="/styles.css?v=11"')
-    .replaceAll('src="/script.js"','src="/script.js?v=10"')
+    .replaceAll('href="/styles.css"','href="/styles.css?v=12"')
+    .replaceAll('src="/script.js"','src="/script.js?v=11"')
     .replaceAll('src="/countries-data.js"','src="/countries-data.js?v=3"')
     .replaceAll('src="/transition-boot.js?v=2"','src="/transition-boot.js?v=7"')
     .replace('</head>','<script defer src="/analytics.js?v=4"></script></head>');
@@ -84,7 +85,7 @@ for(const country of countries)writeRoute(routes.countryUrl(country),templates['
 for(const article of articles)writeRoute(routes.articleUrl(article),templates['article.html'],article.title+' | Deadline Journal',article.dek);
 for(const name of Object.keys(routes.regions))writeRoute(routes.regionUrl(name),templates['region.html'],name+' | Deadline Journal');
 fs.writeFileSync(path.join(dist,'data.js'),'window.DEADLINE_ARTICLES='+JSON.stringify(articles)+';\n');
-fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | Deadline Journal</title><link rel="stylesheet" href="/styles.css?v=11"><link rel="icon" href="/favicon.svg"><meta name="robots" content="noindex"></head><body><main class="container section"><h1 class="headline">Page not found</h1><p>This page may have moved or is not published.</p><a class="cta" href="/">Return to Deadline Journal</a></main></body></html>');
+fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | Deadline Journal</title><link rel="stylesheet" href="/styles.css?v=12"><link rel="icon" href="/favicon.svg"><meta name="robots" content="noindex"></head><body><main class="container section"><h1 class="headline">Page not found</h1><p>This page may have moved or is not published.</p><a class="cta" href="/">Return to Deadline Journal</a></main></body></html>');
 
 // Keep the Worker entry outside public assets. The existing Workers Builds
 // deploy command reads wrangler.jsonc and uploads dist as static assets.

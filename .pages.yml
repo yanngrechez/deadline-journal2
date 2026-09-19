@@ -167,6 +167,15 @@ content:
                 type: string
                 description: "Photographer, agency, archive, or other source."
 
+      - name: sources
+        label: Sources
+        type: rich-text
+        description: "Paste your already-formatted references here (for example, APSA citations). Italics, links, paragraphs, and lists are preserved. Shown under an expandable SOURCES button after the article. Leave empty to hide the button."
+        options:
+          format: html
+          media: false
+          switcher: true
+
 settings:
   commit:
     identity: user

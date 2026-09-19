@@ -72,3 +72,11 @@ Each Image section has an upload/picker, a screen-reader description, a caption,
 and a photo credit/source. Captions and credits appear in small grey type.
 Photographs retain their natural proportions. All sections belong to the same
 article body, so reading progress and analytics include the complete story.
+
+## Article sources
+
+Paste formatted citations into the optional **Sources** rich-text field in Pages
+CMS. Formatting and links are preserved; no citation reformatting is performed.
+A purple **SOURCES +** disclosure appears after the article and opens the references
+beneath it. Empty Sources fields do not render a control. Existing references
+written into Article body remain untouched; move them into Sources when desired.

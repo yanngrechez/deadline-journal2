@@ -18,5 +18,6 @@ else{
  <div class="article-dek">${a.dek||''}</div><div class="article-meta">BY ${a.author} &nbsp; · &nbsp; ${date} &nbsp; · &nbsp; DEADLINE JOURNAL</div>
  <figure class="article-hero"><img src="${a.hero_image}" alt="">${a.hero_caption||a.hero_credit?`<figcaption>${a.hero_caption?`<span>${a.hero_caption}</span>`:''}${a.hero_credit?`<cite>${a.hero_credit}</cite>`:''}</figcaption>`:''}</figure><div class="body">${a.body||''}</div>`;
  appendArticleSections(page.querySelector('.body'), a.sections);
+ appendArticleSources(page, a.sources);
 }
 </script></body></html>
