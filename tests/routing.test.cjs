@@ -18,6 +18,7 @@ test('all published articles and every region have clean canonical static pages'
   assert.equal(config.assets.binding,'ASSETS');
   assert.equal(config.assets.html_handling,'drop-trailing-slash');
   for(const route of ['/article','/article.html','/region','/region.html'])assert(config.assets.run_worker_first.includes(route));
+  assert(!fs.readFileSync(path.join(root,'.cloudflare/worker.mjs'),'utf8').includes("require('./countries-data.js')"));
   assert(!fs.existsSync(path.join(dist,'_worker.js')),'server code must not be uploaded as a public asset');
   const expected=[...articles.map(routes.articleUrl),...Object.keys(routes.regions).map(routes.regionUrl),...require('../countries-data.js').map(routes.countryUrl)];
   for(const route of expected){

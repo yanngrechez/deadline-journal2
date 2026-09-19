@@ -90,7 +90,7 @@ fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html><head><meta ch
 // deploy command reads wrangler.jsonc and uploads dist as static assets.
 const manifest=articles.map(({slug})=>({slug}));
 fs.mkdirSync(path.join(root,'.cloudflare'),{recursive:true});
-const workerRoutes=fs.readFileSync(path.join(root,'routes.js'),'utf8').replace("  if(typeof module==='object'&&module.exports)module.exports=routes;\n",'');
+const workerRoutes=fs.readFileSync(path.join(root,'routes.js'),'utf8').replace("typeof module==='object'&&module.exports?require('./countries-data.js'):root.DEADLINE_COUNTRIES",'root.DEADLINE_COUNTRIES').replace("  if(typeof module==='object'&&module.exports)module.exports=routes;\n",'');
 fs.writeFileSync(path.join(root,'.cloudflare/worker.mjs'),'globalThis.DEADLINE_COUNTRIES='+JSON.stringify(countries)+';\n'+workerRoutes+'\nconst publishedRoutes='+JSON.stringify(manifest)+';\n'+fs.readFileSync(path.join(root,'cloudflare-worker.js'),'utf8'));
 
 // Include every generated country desk alongside article and region routes.
