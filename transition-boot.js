@@ -7,7 +7,8 @@
     layer.innerHTML='<span class="page-transition-backdrop"></span>';
     const word=document.createElement('span');
     word.className='page-transition-word is-centered';
-    const display=name==='Middle East & North Africa'?'Middle East &\nNorth Africa':name==='Sub-Saharan Africa'?'Sub-Saharan\nAfrica':name;
+    const localizedBreaks={'Oriente Medio y Norte de África':'Oriente Medio y\nNorte de África','Moyen-Orient et Afrique du Nord':'Moyen-Orient et\nAfrique du Nord','África subsahariana':'África\nsubsahariana','Afrique subsaharienne':'Afrique\nsubsaharienne'};
+    const display=localizedBreaks[name]|| (name==='Middle East & North Africa'?'Middle East &\nNorth Africa':name==='Sub-Saharan Africa'?'Sub-Saharan\nAfrica':name);
     display.split('\n').forEach((line,index)=>{
       if(index)word.appendChild(document.createElement('br'));
       const row=document.createElement('span');

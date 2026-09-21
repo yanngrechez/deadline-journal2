@@ -70,11 +70,11 @@ function transitionDestination(link){
   if(route.kind==='region'){
     const name=route.name;
     const flags=countries.filter(country=>country.region===name).map(country=>country.flag);
-    return name?{kind:'region',name,url,flags}:null;
+    return name?{kind:'region',name:window.journalTranslate?.(name)||name,url,flags}:null;
   }
   if(route.kind==='country'){
     const country=countryByCode(route.code);
-    return country?{kind:'country',name:country.name,url}:null;
+    return country?{kind:'country',name:window.journalTranslate?.(country.name)||country.name,url}:null;
   }
   return null;
 }
@@ -126,7 +126,7 @@ function showArrivalTransition(){
   const params=new URLSearchParams(location.search);
   const route=DeadlineRoutes.resolve(new URL(location.href),articles);
   const destinationName=saved?.kind==='region'?route.name:countryByCode(route.code)?.name;
-  if(!saved||Date.now()-saved.time>30000||route.kind!==saved.kind||destinationName!==saved.name){clearPageTransition();return}
+  if(!saved||Date.now()-saved.time>30000||route.kind!==saved.kind||(window.journalTranslate?.(destinationName)||destinationName)!==saved.name){clearPageTransition();return}
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
   if(!target){clearPageTransition();return}
   const layer=document.querySelector('[data-transition-boot]')||window.createDeadlineTitle(saved.name,saved.kind==='region'?saved.flags:[]).layer;

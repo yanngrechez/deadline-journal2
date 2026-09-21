@@ -51,7 +51,7 @@ articles.forEach(article=>{
 
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
-for(const name of ['styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+for(const name of ['journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
@@ -64,10 +64,10 @@ const templates={};
 for(const name of htmlFiles){
   let html=fs.readFileSync(path.join(root,name),'utf8')
     .replaceAll('href="/styles.css"','href="/styles.css?v=12"')
-    .replaceAll('src="/script.js"','src="/script.js?v=11"')
+    .replaceAll('src="/script.js"','src="/script.js?v=12"')
     .replaceAll('src="/countries-data.js"','src="/countries-data.js?v=3"')
-    .replaceAll('src="/transition-boot.js?v=2"','src="/transition-boot.js?v=7"')
-    .replace('</head>','<script defer src="/analytics.js?v=4"></script></head>');
+    .replaceAll('src="/transition-boot.js?v=2"','src="/transition-boot.js?v=8"')
+    .replace('</head>','<script defer src="/analytics.js?v=4"></script><link rel="stylesheet" href="/journal-language.css?v=1"><script src="/journal-language-data.js?v=1"></script><script defer src="/journal-language.js?v=1"></script></head>');
   if(name==='about.html'||name==='write.html')html=canonical(html,'/'+name.replace('.html',''));
   templates[name]=html;
   // Legacy entry points are redirect-only on Cloudflare; don't index their shells.
