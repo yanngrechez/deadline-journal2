@@ -18,7 +18,7 @@ const labels={
  hu:{Languages:'Nyelvek',About:'Rólunk',Write:'Írj nekünk',Search:'Keresés',By:'Szerző:',Desk:'ORSZÁGROVAT',article:'cikk',articles:'cikk',from:'',flag:'Zászló',view:'Cikkek megtekintése',country:'országból',countries:'országból'}
 };
 const notices={
- en:'translation are generated automatically and may contain errors or inaccuracies',
+ en:'Translations are generated automatically and may contain errors or inaccuracies.',
  es:'Las traducciones se generan automáticamente y pueden contener errores o imprecisiones.',
  fr:'Les traductions sont générées automatiquement et peuvent contenir des erreurs ou des inexactitudes.',
  de:'Die Übersetzungen werden automatisch erstellt und können Fehler oder Ungenauigkeiten enthalten.',
