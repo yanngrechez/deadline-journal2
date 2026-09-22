@@ -216,3 +216,12 @@ body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.
 .article-sources-content a:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
 .article-sources-content>:last-child{margin-bottom:0}
 @media(prefers-reduced-motion:reduce){.article-sources summary{transition:none}.article-sources summary:active{transform:none}}
+
+/* Intrinsic image dimensions reserve space without overriding editorial crops. */
+img{height:auto}
+.skip-link{position:fixed;left:12px;top:-80px;z-index:1000;background:var(--purple);color:white;padding:12px 16px}
+.skip-link:focus{top:12px}
+
+.search-box :focus-visible{outline:2px solid var(--purple);outline-offset:4px}
+
+.article-page .body .article-inline-image img{aspect-ratio:var(--image-ratio,auto)}

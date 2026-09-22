@@ -6,6 +6,7 @@
 <footer class="footer container"><div class="footer-top"><div class="footer-brand">Deadline Journal</div><div class="footer-note">A student-led international journal told by people with a direct connection to the topics they cover.</div></div></footer><div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-top"><input id="searchInput" placeholder="Search Deadline Journal"><button class="close-search" onclick="closeSearch()">×</button></div><div id="searchResults"></div></div></div>
 <script src="/data.js"></script><script src="/script.js"></script>
 <script>
+if(!document.documentElement.hasAttribute('data-prerendered')){
 const region=DeadlineRoutes.resolve(new URL(location.href),window.DEADLINE_ARTICLES||[]).name;
 document.getElementById('regionName').textContent=region; document.title=region+' | Deadline Journal';
 if(region==='Actors'){
@@ -19,4 +20,5 @@ document.getElementById('countryDirectory').innerHTML=regionCountries.map(countr
  const count=realArticlesForCountry(country).length;
  return `<a class="country-directory-link ${count?'has-stories':''}" href="${countryUrl(country)}"><span><strong>${country.name}</strong><small>${count?`${count} ${count===1?'story':'stories'}`:'No stories yet'}</small></span><img class="country-flag" src="${country.flag}" alt="${country.name} flag"></a>`;
 }).join('');
+}
 </script></body></html>

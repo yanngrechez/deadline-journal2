@@ -2,6 +2,10 @@ const fs=require('fs');
 const path=require('path');
 const routes=require('./routes.js');
 const countries=require('./countries-data.js');
+const seo=require('./seo.cjs');
+const {createRenderer}=require('./static-render.cjs');
+const {prepareImages}=require('./build-images.cjs');
+const crypto=require('node:crypto');
 const root=__dirname;
 const dist=path.join(root,'dist');
 const baseUrl='https://deadlinejournal.org';
@@ -15,7 +19,7 @@ const articles=fs.readdirSync(path.join(root,'content/articles'))
     const source=Array.isArray(article.topics)?article.topics:(article.type?['politics']:[]);
     const topics=[...new Set(source.map(topic=>String(topic).toLowerCase()).filter(topic=>allowed.includes(topic)))];
     const {type,...rest}=article;
-    return {...rest,country:String(article.country||'').toUpperCase(),topics:topics.length?topics:['politics'],homepage_rank:Number(article.homepage_rank||999)};
+    return {...rest,country:String(article.country||'').toUpperCase(),topics:topics.length?topics:['politics'],homepage_position:require('./cover.js').positions.includes(article.homepage_position)?article.homepage_position:'column-stories'};
   }).sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
 
 // Validate before replacing output: a bad CMS slug must fail the build, not
@@ -49,43 +53,87 @@ articles.forEach(article=>{
   });
 });
 
+async function build(){
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
-for(const name of ['journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+for(const name of ['cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
 
-const escapeHtml=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-function canonical(html,route){
-  return html.replace(/<link\s+rel="canonical"[^>]*>/g,'').replace('</head>',`<link rel="canonical" href="${baseUrl}${route}"></head>`);
-}
+const escapeHtml=seo.escape;
+// Resolve country membership once, for browsing, metadata and analytics alike.
+const norm=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/gi,'').toLowerCase();
+const aliases={usa:'US',unitedstatesofamerica:'US',uk:'GB',greatbritain:'GB',russia:'RU',southkorea:'KR',northkorea:'KP',ivorycoast:'CI',czechia:'CZ',drc:'CD',drcongo:'CD',turkiye:'TR',turkey:'TR',easttimor:'TL',capeverde:'CV',vatican:'VA',macedonia:'MK',burma:'MM'};
+function countryOf(a){return countries.find(c=>c.code===a.country_code||c.code===aliases[norm(a.country)]||norm(c.name)===norm(a.country)||c.code===a.country)}
+articles.forEach(a=>{const country=countryOf(a);if(country&&a.region!=='Actors'){a.region=country.region;a.country_code=country.code}});
+const real=articles.filter(a=>!a.is_placeholder);
+const coveredCountries=countries.filter(c=>real.some(a=>a.region!=='Actors'&&countryOf(a)?.code===c.code));
+const coveredRegions=Object.keys(routes.regions).filter(name=>real.some(a=>a.region===name));
+const image=await prepareImages({root,dist,articles});
+const render=createRenderer({articles,countries,routes,image});
 const templates={};
 for(const name of htmlFiles){
-  let html=fs.readFileSync(path.join(root,name),'utf8')
-    .replaceAll('href="/styles.css"','href="/styles.css?v=12"')
-    .replaceAll('src="/script.js"','src="/script.js?v=12"')
-    .replaceAll('src="/countries-data.js"','src="/countries-data.js?v=3"')
-    .replaceAll('src="/transition-boot.js?v=2"','src="/transition-boot.js?v=8"')
-    .replace('</head>','<script defer src="/analytics.js?v=4"></script><link rel="stylesheet" href="/journal-language.css?v=1"><script src="/journal-language-data.js?v=1"></script><script defer src="/journal-language.js?v=1"></script></head>');
-  if(name==='about.html'||name==='write.html')html=canonical(html,'/'+name.replace('.html',''));
-  templates[name]=html;
-  // Legacy entry points are redirect-only on Cloudflare; don't index their shells.
-  const output=/^(article|region|country)\.html$/.test(name)?html.replace('</head>','<meta name="robots" content="noindex"></head>'):html;
-  fs.writeFileSync(path.join(dist,name),output);
+ let html=fs.readFileSync(path.join(root,name),'utf8')
+  .replace('<html>','<html lang="en" data-prerendered>')
+  .replace('</head>','<script defer src="/analytics.js"></script><link rel="stylesheet" href="/journal-language.css"><script defer src="/journal-language-data.js"></script><script defer src="/journal-language.js"></script></head>');
+ if(name!=='index.html')html=html.replace('<h1 class="masthead">Deadline Journal</h1>','<div class="masthead">Deadline Journal</div>');
+ html=html.replace('<body>','<body><a class="skip-link" href="#main-content">Skip to content</a>');
+ if(!html.includes('<main id='))html=html.replace('<main','<main id="main-content" tabindex="-1"');
+ else html=html.replace('href="#main-content"','href="#countryPage"').replace('<main id="countryPage"','<main tabindex="-1" id="countryPage"');
+ html=html.replace('id="searchOverlay"','id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search Deadline Journal"')
+  .replace('id="searchInput"','id="searchInput" type="search" aria-label="Search articles"')
+  .replace('class="close-search"','class="close-search" aria-label="Close search"');
+ templates[name]=html;
 }
-function writeRoute(route,template,title,description){
-  let html=canonical(template,route).replace(/<title>[^<]*<\/title>/,`<title>${escapeHtml(title)}</title>`);
-  if(description)html=html.replace('</head>',`<meta name="description" content="${escapeHtml(description.replace(/<[^>]*>/g,''))}"></head>`);
-  const directory=path.join(dist,route.slice(1));
-  fs.mkdirSync(directory,{recursive:true});
-  fs.writeFileSync(path.join(directory,'index.html'),html);
+function fill(html,id,content){
+ const pattern=new RegExp('(<[a-z0-9]+[^>]*\\bid="'+id+'"[^>]*>)([\\s\\S]*?)(</[a-z0-9]+>)');
+ if(!pattern.test(html))throw new Error('Missing template container '+id);
+ return html.replace(pattern,(_,open,old,close)=>open+content+close);
 }
-for(const country of countries)writeRoute(routes.countryUrl(country),templates['country.html'],country.name+' | Deadline Journal');
-for(const article of articles)writeRoute(routes.articleUrl(article),templates['article.html'],article.title+' | Deadline Journal',article.dek);
-for(const name of Object.keys(routes.regions))writeRoute(routes.regionUrl(name),templates['region.html'],name+' | Deadline Journal');
-fs.writeFileSync(path.join(dist,'data.js'),'window.DEADLINE_ARTICLES='+JSON.stringify(articles)+';\n');
-fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | Deadline Journal</title><link rel="stylesheet" href="/styles.css?v=12"><link rel="icon" href="/favicon.svg"><meta name="robots" content="noindex"></head><body><main class="container section"><h1 class="headline">Page not found</h1><p>This page may have moved or is not published.</p><a class="cta" href="/">Return to Deadline Journal</a></main></body></html>');
+function writeRoute(route,template,options){
+ const html=seo.decorate(template,{route,...options});
+ const file=route==='/'?path.join(dist,'index.html'):path.join(dist,route.slice(1),'index.html');
+ fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,html);
+}
+let home=templates['index.html'];
+for(const [id,markup] of Object.entries(render.home()))home=fill(home,id,markup);
+home=fill(home,'mapTitle',`Voices from ${coveredCountries.length} ${coveredCountries.length===1?'country':'countries'}, and counting.`);
+writeRoute('/',home,{title:'Deadline Journal',description:'Deadline Journal is a student-led international publication featuring political perspectives from young writers closest to the places they cover.'});
+writeRoute('/about',templates['about.html'],{title:'About | Deadline Journal',type:'AboutPage',description:'Learn about Deadline Journal, a student-led publication sharing political perspectives from young writers with direct knowledge of their communities.'});
+writeRoute('/write',templates['write.html'],{title:'Write for Us | Deadline Journal',description:'Tell us what the headlines are missing. Submit your article proposal to Deadline Journal and hear back within 48 hours.'});
+for(const country of countries){
+ const covered=coveredCountries.includes(country);
+ writeRoute(routes.countryUrl(country),fill(templates['country.html'],'countryPage',render.country(country)),{title:country.name+' | Deadline Journal',description:covered?`Read reporting and political perspectives from ${country.name}, written by contributors with a direct connection to the country.`:`Deadline Journal's ${country.name} desk. No stories yet. Know this place? Submit your article proposal.`,index:covered,type:'CollectionPage'});
+}
+for(const article of articles)writeRoute(routes.articleUrl(article),fill(templates['article.html'],'articlePage',render.article(article)),{title:article.title+' | Deadline Journal',description:article.dek||seo.plain(article.body).slice(0,180),article,index:!article.is_placeholder});
+for(const name of Object.keys(routes.regions)){
+ const content=render.region(name);let html=templates['region.html'];
+ for(const id of ['regionName','deskLabel','regionList','countryDirectory'])html=fill(html,id,content[id]);
+ if(content.hideCountryDirectory)html=html.replace('id="countryDirectorySection"','id="countryDirectorySection" hidden');
+ writeRoute(routes.regionUrl(name),html,{title:name+' | Deadline Journal',description:name==='Actors'?'Explore Deadline Journal articles on international institutions, organizations and other actors shaping global politics.':`Explore Deadline Journal reporting on ${name}: local political perspectives, history and economics from young contributors connected to the region.`,index:coveredRegions.includes(name),type:'CollectionPage'});
+}
+// Old URLs are handled by the Worker, never indexed as duplicate entry points.
+for(const name of ['article.html','region.html','country.html'])fs.writeFileSync(path.join(dist,name),templates[name].replace(' data-prerendered','').replace('</head>','<meta name="robots" content="noindex,follow,max-image-preview:none"></head>'));
+// Interactions/search/analytics need article metadata, not every story's full text.
+const summaries=articles.map(({body,sections,sources,...metadata})=>metadata);
+fs.writeFileSync(path.join(dist,'data.js'),'window.DEADLINE_ARTICLES='+JSON.stringify(summaries)+';\n');
+fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | Deadline Journal</title><link rel="stylesheet" href="/styles.css"><link rel="icon" href="/favicon.svg"><meta name="robots" content="noindex,max-image-preview:none"></head><body><main class="container section"><h1 class="headline">Page not found</h1><p>This page may have moved or is not published.</p><a class="cta" href="/">Return to Deadline Journal</a></main></body></html>');
+
+// Content hashes avoid stale JS/CSS after CMS publishing and support long-lived caches.
+const assets=new Map();
+for(const name of fs.readdirSync(dist).filter(name=>/\.(?:js|css)$/.test(name))){
+ const content=fs.readFileSync(path.join(dist,name));
+ const hashed=name.replace(/(\.[^.]+)$/,'.'+crypto.createHash('sha256').update(content).digest('hex').slice(0,12)+'$1');
+ fs.mkdirSync(path.join(dist,'static'),{recursive:true});fs.writeFileSync(path.join(dist,'static',hashed),content);assets.set(name,'/static/'+hashed);
+}
+function fingerprint(directory){for(const item of fs.readdirSync(directory,{withFileTypes:true})){
+ const file=path.join(directory,item.name);
+ if(item.isDirectory())fingerprint(file);
+ else if(item.name.endsWith('.html')){let html=fs.readFileSync(file,'utf8');html=html.replace(/((?:src|href)=")\/([^"?]+\.(?:js|css))(?:\?[^" ]*)?"/g,(match,start,name)=>assets.has(name)?start+assets.get(name)+'"':match);fs.writeFileSync(file,html)}
+}}
+fingerprint(dist);
+fs.writeFileSync(path.join(dist,'_headers'),'/static/*\n  Cache-Control: public, max-age=31536000, immutable\n/responsive/*\n  Cache-Control: public, max-age=31536000, immutable\n');
 
 // Keep the Worker entry outside public assets. The existing Workers Builds
 // deploy command reads wrangler.jsonc and uploads dist as static assets.
@@ -94,8 +142,11 @@ fs.mkdirSync(path.join(root,'.cloudflare'),{recursive:true});
 const workerRoutes=fs.readFileSync(path.join(root,'routes.js'),'utf8').replace("typeof module==='object'&&module.exports?require('./countries-data.js'):root.DEADLINE_COUNTRIES",'root.DEADLINE_COUNTRIES').replace("  if(typeof module==='object'&&module.exports)module.exports=routes;\n",'');
 fs.writeFileSync(path.join(root,'.cloudflare/worker.mjs'),'globalThis.DEADLINE_COUNTRIES='+JSON.stringify(countries)+';\n'+workerRoutes+'\nconst publishedRoutes='+JSON.stringify(manifest)+';\n'+fs.readFileSync(path.join(root,'cloudflare-worker.js'),'utf8'));
 
-// Include every generated country desk alongside article and region routes.
-const entries=[...['/','/about','/write',...Object.keys(routes.regions).map(routes.regionUrl),...countries.map(routes.countryUrl)].map(url=>({url})),...articles.map(article=>({url:routes.articleUrl(article),date:article.published_at}))];
-fs.writeFileSync(path.join(dist,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+entries.map(({url,date})=>`  <url><loc>${baseUrl}${url}</loc>${date?`<lastmod>${new Date(date).toISOString().slice(0,10)}</lastmod>`:''}</url>`).join('\n')+'\n</urlset>\n');
+// Only useful, indexable canonical pages belong in the sitemap. Coverage
+// automatically makes a country/region eligible on the next CMS publish.
+const entries=[...['/','/about','/write',...coveredRegions.map(routes.regionUrl),...coveredCountries.map(routes.countryUrl)].map(url=>({url})),...real.map(article=>({url:routes.articleUrl(article),date:seo.date(article.published_at)}))];
+fs.writeFileSync(path.join(dist,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+entries.map(({url,date})=>`  <url><loc>${baseUrl}${url}</loc>${date?`<lastmod>${date.slice(0,10)}</lastmod>`:''}</url>`).join('\n')+'\n</urlset>\n');
 fs.writeFileSync(path.join(dist,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`);
-console.log(`Built Deadline Journal with ${articles.length} published articles and ${Object.keys(routes.regions).length} clean region routes.`);
+console.log(`Built ${articles.length} published articles; ${real.length} real stories, ${coveredCountries.length} covered countries and ${coveredRegions.length} covered regions eligible for indexing.`);
+}
+build().catch(error=>{console.error(error);process.exitCode=1});

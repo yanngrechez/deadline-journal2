@@ -80,6 +80,10 @@ content:
         label: Hero image
         type: image
         required: true
+      - name: hero_alt
+        label: Hero image description for screen readers
+        type: string
+        description: "Describe what the photo shows. Captions are used as a fallback when this is blank."
       - name: hero_caption
         label: Hero image caption
         type: text
@@ -106,20 +110,28 @@ content:
               label: Draft
             - name: published
               label: Published
-      - name: featured
-        label: Featured on homepage
-        type: boolean
-        default: false
       - name: is_placeholder
         label: Template placeholder
         type: boolean
         default: false
         description: "Turn this on for demonstration articles. Placeholder stories stay visible but do not count toward country coverage."
-      - name: homepage_rank
-        label: Homepage rank
-        type: number
-        default: 999
-        description: "Lower numbers get more prominent positions. Use 1 for the lead story, 2 for the story beneath it, 3-4 for the middle column, 5-8 for the right rail."
+      - name: homepage_position
+        label: Front cover position
+        type: select
+        default: column-stories
+        options:
+          values:
+            - name: main-story
+              label: Main story
+            - name: bottom-story
+              label: Bottom story
+            - name: side-story-up
+              label: Side story up
+            - name: side-story-down
+              label: Side story down
+            - name: column-stories
+              label: Column stories
+        description: "Choose the story's position on the front cover. Column stories appear newest first (four at a time). If more than one article has the same named slot, the newest takes that slot and the others join the column. Empty slots use the newest remaining stories."
       - name: body
         label: Article body
         type: rich-text

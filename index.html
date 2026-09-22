@@ -26,17 +26,18 @@
 </main>
 <footer class="footer container"><div class="footer-top"><div class="footer-brand">Deadline Journal</div><div class="footer-note">A student-led international journal told by people with a direct connection to the topics they cover.</div></div></footer>
 <div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-top"><input id="searchInput" placeholder="Search Deadline Journal"><button class="close-search" onclick="closeSearch()">×</button></div><div id="searchResults"></div></div></div>
-<script src="/data.js"></script><script src="/world-map-data.js"></script><script src="/script.js"></script>
+<script src="/cover.js"></script><script src="/data.js"></script><script src="/world-map-data.js"></script><script src="/script.js"></script>
 <script>
 const all = window.DEADLINE_ARTICLES || [];
 const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
-const ranked = [...all].sort((a,b)=>(Number(a.homepage_rank)||999)-(Number(b.homepage_rank)||999) || new Date(b.published_at||0)-new Date(a.published_at||0));
+
 
 function aurl(a){return articleUrl(a)}
 function meta(a){return articleMeta(a)}
 
-const hero=ranked[0], secondary=ranked[1], mids=ranked.slice(2,4), rails=ranked.slice(4,8);
+const {hero,secondary,mids,rails}=DeadlineCover.select(all);
 
+if(!document.documentElement.hasAttribute('data-prerendered')){
 if(hero){
  document.getElementById('heroColumn').innerHTML = `
  <article class="hero"><a href="${aurl(hero)}"><img src="${hero.hero_image}" alt=""></a>
@@ -48,6 +49,7 @@ if(hero){
 document.getElementById('middleColumn').innerHTML = mids.map(a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">BY ${a.author}</div></article>`).join('');
 document.getElementById('railColumn').innerHTML = rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('');
 
+}
 const realArticles=all.filter(isRealArticle);
 const countsByCountry=new Map();
 realArticles.forEach(article=>{
@@ -100,7 +102,7 @@ const regions=[
  ['Europe','EUROPE'],['Americas','AMERICAS'],['Middle East & North Africa','MENA'],
  ['Sub-Saharan Africa','SUB-SAHARAN AFRICA'],['Asia-Pacific','ASIA-PACIFIC'],['Actors','ACTORS']
 ];
-document.getElementById('regionGrid').innerHTML = regions.map(([region,label])=>{
+if(!document.documentElement.hasAttribute('data-prerendered'))document.getElementById('regionGrid').innerHTML = regions.map(([region,label])=>{
  const items=byDate.filter(a=>a.region===region);
  const regionUrl=DeadlineRoutes.regionUrl(region);
  if(!items.length)return `<div class="region-col"><a class="region-label" href="${regionUrl}">${label}</a><div class="mini">No published stories yet.</div></div>`;

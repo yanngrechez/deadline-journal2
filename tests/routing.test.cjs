@@ -17,7 +17,7 @@ test('all published articles and every region have clean canonical static pages'
   assert.equal(config.main,'.cloudflare/worker.mjs');
   assert.equal(config.assets.binding,'ASSETS');
   assert.equal(config.assets.html_handling,'drop-trailing-slash');
-  for(const route of ['/article','/article.html','/region','/region.html'])assert(config.assets.run_worker_first.includes(route));
+  assert(config.assets.run_worker_first.includes('/*'));
   assert(!fs.readFileSync(path.join(root,'.cloudflare/worker.mjs'),'utf8').includes("require('./countries-data.js')"));
   assert(!fs.existsSync(path.join(dist,'_worker.js')),'server code must not be uploaded as a public asset');
   const expected=[...articles.map(routes.articleUrl),...Object.keys(routes.regions).map(routes.regionUrl),...require('../countries-data.js').map(routes.countryUrl)];
@@ -25,14 +25,15 @@ test('all published articles and every region have clean canonical static pages'
     const html=fs.readFileSync(path.join(dist,route,'index.html'),'utf8');
     assert(html.includes(`<link rel="canonical" href="${origin}${route}">`));
     assert(!html.includes('content="noindex"'));
-    assert(html.includes('src="/analytics.js?v=4"'));
-    assert(html.includes('src="/routes.js?v=2"'));
+    assert(/src="\/static\/analytics\.[a-f0-9]+\.js"/.test(html));
+    assert(/src="\/static\/routes\.[a-f0-9]+\.js"/.test(html));
     assert(!/href="(?:article|region)(?:\.html)?\?/.test(html));
     assert(!/(?:href|src)="(?:styles|script|data|routes)\./.test(html));
   }
   const sitemap=fs.readFileSync(path.join(dist,'sitemap.xml'),'utf8');
   const urls=[...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match=>match[1]);
-  assert.deepEqual(new Set(urls),new Set(['/', '/about','/write',...expected].map(route=>origin+route)));
+  for(const url of urls){const pathname=new URL(url).pathname;const html=fs.readFileSync(pathname==='/'?path.join(dist,'index.html'):path.join(dist,pathname,'index.html'),'utf8');assert(!/content="noindex/.test(html),url)}
+  for(const a of articles)assert.equal(urls.includes(origin+routes.articleUrl(a)),!a.is_placeholder);
   assert(!urls.some(url=>url.includes('?')||url.includes('.html')));
   const home=fs.readFileSync(path.join(dist,'index.html'),'utf8');
   for(const text of ['<title>Deadline Journal</title>','name="google-site-verification"','content="max-image-preview:none"','property="og:site_name"','"@type": "WebSite"','href="https://deadlinejournal.org/"','href="/favicon.svg"','POLITICS FROM THE PEOPLE CLOSEST TO IT'])assert(home.includes(text));
@@ -71,12 +72,12 @@ test('legacy URLs permanently redirect once; clean paths serve static directory 
 test('new CMS articles generate automatically; draft, reserved, invalid and duplicate slugs stay safe',()=>{
   const fixture=fs.mkdtempSync(path.join(os.tmpdir(),'deadline-routing-'));
   try{
-    for(const name of ['journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
+    for(const name of ['seo.cjs','static-render.cjs','build-images.cjs','cover.js','journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
     for(const name of ['assets','media','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
     fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
     const file=path.join(fixture,'content/articles/new.json');
     const write=article=>fs.writeFileSync(file,JSON.stringify(article));
-    const article={...articles[0],slug:'future-cms-story',status:'published',sections:[
+    const article={...articles[0],is_placeholder:false,body:'<p>Original article content.</p>',slug:'future-cms-story',status:'published',sections:[
       {type:'image',image:'/media/sample.jpg',alt:'Sample photo',caption:'A caption',credit:'Photo source'},
       {type:'text',body:'<p>Continued reporting. <a href="/region.html?region=Europe">Europe</a></p>'},
       {type:'image',image:'/media/second.jpg',alt:'Second photo'}
@@ -85,10 +86,13 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     write(article);build();
     assert(fs.existsSync(path.join(fixture,'dist/future-cms-story/index.html')));
     const generated=JSON.parse(fs.readFileSync(path.join(fixture,'dist/data.js'),'utf8').replace(/^window.DEADLINE_ARTICLES=/,'').replace(/;\s*$/,''))[0];
-    assert.deepEqual(generated.sections.map(section=>section.type),['image','text','image']);
-    assert.deepEqual(generated.sections[0],article.sections[0]);
-    assert(generated.sections[1].body.includes('href="/europe"'));
-    assert.equal(generated.body,article.body);
+    assert(!Object.hasOwn(generated,'body'),'full text is rendered in HTML instead of downloaded for every search');
+    const rendered=fs.readFileSync(path.join(fixture,'dist/future-cms-story/index.html'),'utf8');
+    assert(rendered.includes(article.body));
+    assert(rendered.includes('href="/europe"'));
+    assert(rendered.includes('alt="Sample photo"'));
+    assert(rendered.indexOf('A caption')<rendered.indexOf('Continued reporting.'));
+    assert(rendered.indexOf('Continued reporting.')<rendered.indexOf('alt="Second photo"'));
 
     assert(fs.readFileSync(path.join(fixture,'.cloudflare/worker.mjs'),'utf8').includes('future-cms-story'));
     assert(fs.readFileSync(path.join(fixture,'dist/sitemap.xml'),'utf8').includes('/future-cms-story</loc>'));

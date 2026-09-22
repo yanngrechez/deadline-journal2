@@ -7,6 +7,7 @@
 <div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-top"><input id="searchInput" placeholder="Search Deadline Journal"><button class="close-search" onclick="closeSearch()">×</button></div><div id="searchResults"></div></div></div>
 <script src="/data.js"></script><script src="/script.js"></script>
 <script>
+if(!document.documentElement.hasAttribute('data-prerendered')){
 const code=DeadlineRoutes.resolve(new URL(location.href)).code;
 const country=countryByCode(code)||countryForName(code);
 const page=document.getElementById('countryPage');
@@ -23,5 +24,6 @@ if(!country){
  }else{
    page.innerHTML=heading+`<section class="container country-empty"><p>No stories yet.</p><a class="cta" href="/write">Know this place? Write for Deadline</a></section>`;
  }
+}
 }
 </script></body></html>

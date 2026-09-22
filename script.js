@@ -198,12 +198,27 @@ function initializeReadingProgress(){
   if('ResizeObserver' in window)new ResizeObserver(requestUpdate).observe(article);
 }
 
+let searchReturnFocus=null;
 function openSearch(){
+  searchReturnFocus=document.activeElement;
   document.getElementById('searchOverlay')?.classList.add('open');
   const i=document.getElementById('searchInput');
   if(i){setTimeout(()=>i.focus(),30);renderSearch('');}
 }
-function closeSearch(){document.getElementById('searchOverlay')?.classList.remove('open')}
+function closeSearch(){
+  const overlay=document.getElementById('searchOverlay');
+  if(!overlay?.classList.contains('open'))return;
+  overlay.classList.remove('open');
+  if(searchReturnFocus?.isConnected)searchReturnFocus.focus();
+}
+document.addEventListener('keydown',event=>{
+  const overlay=document.getElementById('searchOverlay');
+  if(event.key!=='Tab'||!overlay?.classList.contains('open'))return;
+  const controls=[...overlay.querySelectorAll('a[href],button,input')].filter(el=>!el.disabled&&el.getClientRects().length);
+  const first=controls[0],last=controls[controls.length-1];
+  if(event.shiftKey&&(document.activeElement===first||!overlay.contains(document.activeElement))){event.preventDefault();last?.focus()}
+  else if(!event.shiftKey&&(document.activeElement===last||!overlay.contains(document.activeElement))){event.preventDefault();first?.focus()}
+});
 function renderSearch(q){
   const t=(q||'').toLowerCase(),o=document.getElementById('searchResults');
   if(!o)return;
