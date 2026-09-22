@@ -35,11 +35,10 @@ existing `wrangler deploy --assets ./dist` command. `wrangler.jsonc` points to
 Worker redirects `/article[.html]?slug=...` and `/region[.html]?region=...` URLs
 with HTTP 301, retaining campaign parameters. Unknown/unpublished legacy
 articles return 404. Assets use `drop-trailing-slash` HTML handling so directory
-pages are served at slashless canonical paths. The Worker runs before assets
-only for legacy URLs and non-canonical path variants; clean pages use the
-static asset service. No framework or external redirect service is needed.
+pages are served at slashless canonical paths. The Worker normalizes page URLs and HTTPS before serving generated HTML through
+the static asset binding. Fingerprinted scripts, styles and images bypass the Worker. No framework or external redirect service is needed.
 
-Country desks use stable name-based URLs such as `/spain` and `/united-states`, generated as static directories from `countries-data.js`. Country slugs are reserved against article collisions. Old `/country[.html]?country=ES` links redirect permanently, retaining campaign parameters. All country desks have canonical URLs and sitemap entries.
+Country desks use stable name-based URLs such as `/spain` and `/united-states`, generated as static directories from `countries-data.js`. Country slugs are reserved against article collisions. Old `/country[.html]?country=ES` links redirect permanently, retaining campaign parameters. All country desks have canonical URLs. Only desks with real published coverage are indexable and included in the sitemap.
 
 Run `npm run build` then `npm run preview` for local routing on port 4173.
 `npm test` verifies generated pages, redirects, future CMS articles, and
@@ -50,12 +49,17 @@ static-asset adapter; production verification must also check Cloudflare.
 Articles with Status = Draft are omitted from the public `data.js` by `build.js`, so they do not appear on the public site.
 
 ## Homepage positioning
-Homepage Rank:
-1 = lead story
-2 = lower-left supporting story
-3–4 = middle column
-5–8 = right headline rail
-999 = normal/default
+Use **Front cover position** in Pages CMS:
+
+- **Main story** — the largest story.
+- **Bottom story** — directly beneath the main story.
+- **Side story up** — upper story in the middle column.
+- **Side story down** — lower story in the middle column.
+- **Column stories** — four headline stories on the right, newest first.
+
+Existing articles have been migrated from numeric ranks. If several articles
+share a named slot, the newest takes it; older assignments join the column pool.
+Empty slots use the newest remaining published stories. Drafts never appear.
 
 Latest and regional sections are determined automatically from publication date and region.
 
@@ -80,3 +84,9 @@ CMS. Formatting and links are preserved; no citation reformatting is performed.
 A purple **SOURCES +** disclosure appears after the article and opens the references
 beneath it. Empty Sources fields do not render a control. Existing references
 written into Article body remain untouched; move them into Sources when desired.
+
+## Search visibility and performance
+
+See [SEO-AUDIT.md](SEO-AUDIT.md) for the indexing policy, generated metadata,
+responsive image pipeline, validation and remaining editorial/account tasks.
+Run `pnpm install --frozen-lockfile` before building to install the image tooling.
