@@ -1,16 +1,63 @@
 {
-  "title": "China’s AI Push Is About More Than Catching the United States",
-  "slug": "china-ai",
-  "dek": "Beijing’s technology strategy is inseparable from a wider debate over economic security and national power.",
-  "author": "LIN WEI",
-  "country": "CHINA",
-  "region": "Asia-Pacific",
-  "topics": ["economics", "politics"],
-  "hero_image": "/assets/china.svg",
-  "published_at": "2026-08-30T12:00",
+  "title": "Javier Milei, a Madman or a Hero? ",
+  "slug": "argentina-milei",
+  "dek": "Understanding the Change that Argentina Voted for",
+  "author": "Fran Galvez",
+  "country": "Argentina",
+  "region": "Americas",
+  "topics": [
+    "economics",
+    "politics"
+  ],
+  "hero_image": "/media/2000x1334.webp",
+  "hero_caption": "Argentine President Javier Milei speaks at the Council of the Americas conference in Buenos Aires (Juan Mabromata/AFP)\n",
+  "published_at": "2026-09-28T12:00",
   "status": "published",
-  "is_placeholder": true,
   "featured": true,
-  "homepage_rank": 3,
-  "body": "<p>International affairs are often described from far away. Deadline Journal begins from the opposite premise: political stories become clearer when we start with the people, institutions and historical memories closest to them.</p><p>This is demonstration copy. Open this article in Pages CMS, replace this text with your real article, change the author and image, set the status to <strong>Published</strong>, and save.</p><p>Cloudflare will rebuild the site automatically after the change reaches GitHub.</p>"
+  "is_placeholder": true,
+  "homepage_rank": 4,
+  "body": "<p>In 2017, my parents came across a familiar face sitting alone in the departure lounge of a modest airport in Salta, a province in northern Argentina. Unkempt hair, mutton-chop sideburns, black leather jacket, a stack of folders under his arm. His name: Javier Milei.</p><p>Back then, Milei was a television personality; fluent in economics, but mostly famous for the tirades he unleashed on Argentine celebrities across a string of talk shows. By late 2023, that almost comic figure had become the president of Argentina, elected on the most radical platform the country has ever seen.</p><p>If you follow Argentina from Western Europe, chances are you know Milei as nothing but an eccentric, ridiculous man with a chainsaw and an allegiance to Trump and Elon Musk. That image is accurate enough.</p><p>This raises the question: how could almost 15 million Argentines, 56% of those who voted, elect a madman? It is a fair question, but it leads to a more interesting one. Did Milei win because of these traits, or despite them?</p><p>Answering it means looking at the social, political and economic conditions in Argentina before Milei. Moreover, with the 2027 elections approaching, it is worth asking what he has done with the country, what it has cost, and what he has achieved.</p>",
+  "sections": [
+    {
+      "type": "image",
+      "image": "/media/1401ae8f-8ed4-49e7-b642-5288ee1f9635.png",
+      "alt": "Demonstrators in Argentina march beneath a banner reading “Basta de hambre” (“Enough hunger”) in 2019 (Getty Images).",
+      "caption": "Demonstrators in Argentina march beneath a banner reading “Basta de hambre” (“Enough hunger”) in 2019 (Getty Images)."
+    },
+    {
+      "type": "text",
+      "body": "<p>Let’s consider the pre-2023 economy first. The state had run a deficit for decades, financed through a mix of borrowing and printing money. The centre-right government of Mauricio Macri (2015-2019) ended in a currency crisis and the largest loan in the IMF’s history.</p><p>His successor, Alberto Fernández, who led a centre-left Peronist coalition, declared a “war on inflation” in 2022 and, while still printing money, blamed the inflation increase on “devils who raised prices” and who had to be “brought to their senses”.</p><p>By November 2023, the month Milei was elected, annual inflation had reached 160%. Four in ten Argentines, and more than half of all children, lived below the poverty line.</p><p>Now consider the political class. During the COVID pandemic in 2020, while Argentina lived under one of the longest lockdowns in the world and people could not say goodbye to relatives dying in hospital, Fernández’s partner celebrated her birthday with friends at the presidential residence in Olivos. The photos surfaced a year later.</p><p>In 2022, his vice-president, Cristina Fernández de Kirchner, herself a former president, was sentenced to six years in prison for fraud in the awarding of public works contracts.</p><p>And weeks before the 2023 election, Martín Insaurralde, a Peronist official serving as chief of staff of the Buenos Aires provincial government, was photographed wearing a Rolex on a luxury yacht in Marbella with a model.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/1536x864cmsv2ace6a526-f5bd-5c55-960e-2eb57767d7b5-9455243.webp",
+      "alt": "Javier Milei addresses supporters at a La Libertad Avanza rally (Gustavo Garello/AP)",
+      "caption": "Javier Milei addresses supporters at a La Libertad Avanza rally (Gustavo Garello/AP)"
+    },
+    {
+      "type": "text",
+      "body": "<p>For years, Argentina had been governed by politicians in suits and ties who spoke of the good of the people: of workers, of children, of those left behind. But what good was all that elegance and all those empty promises if the country was clearly sinking?</p><p>For more than half of Argentines, talk of the common good and social justice had come to sound like a cover for corruption, and for a quiet political cruelty woven into the fabric of a country that, at the start of the twentieth century, was among the richest in the world.</p><p>Milei emerged as the voice that channelled that frustration. In 2018, when he was still a figure of fun on television panels, Daniel Lipovetzky, a congressman from Macri’s party, told him during a debate over a rental law: “Form a party and win the elections.”</p><p>In response, Milei formed a party and won the elections. He founded La Libertad Avanza in 2021, entered Congress that same year, and two years later he was president.</p><p>Why? Milei offered a simple diagnosis: the problem was the state, and the political class that lived off it. His proposals followed. He promised to take a chainsaw to public spending, cut the number of ministries by more than half, and privatise state companies, with the aim of eliminating the deficit and, with it, inflation.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/130794363gettyimages-1597590935.jpg",
+      "alt": "Javier Milei addresses supporters after polls closed in the Buenos Aires provincial legislative elections in La Plata (Gustavo Garello/AP Photos)",
+      "caption": "Javier Milei addresses supporters after polls closed in the Buenos Aires provincial legislative elections in La Plata (Gustavo Garello/AP Photos)"
+    },
+    {
+      "type": "text",
+      "body": "<p>On several fronts, the numbers appear to be on his side. Annual inflation fell from 211% in 2023 to 118% in 2024 and 31.5% in 2025. The state closed both 2024 and 2025 with a surplus, the first two consecutive years in the black since 2008. Poverty fell to 28.2% by the end of 2025, well below the level he inherited.</p><p>In 2024, Congress passed a sweeping reform package that included tax and currency incentives for large investments, aimed largely at foreign capital. At the polls, too, he has held up: in the October 2025 midterms, his party came first nationally with 40.7% of the vote and won 15 of the 24 provinces.</p><p>Does this mean his government is beyond criticism? Not at all.</p><p>For a president who campaigned against “the same old politicians”, his government has faced a series of corruption allegations. In February 2025, Milei publicised a cryptocurrency called $LIBRA on social media, presenting it as a way to finance small Argentine businesses. Its value collapsed shortly afterwards, and a federal prosecutor opened an investigation naming the president.&nbsp;</p><p>Milei denies promoting the token and says he merely shared the project. Investors who lost money have also taken the case to court in New York.</p><p>Months later, leaked recordings of the former head of the National Disability Agency pointed to a kickback scheme in the purchase of medicines, allegedly involving Karina Milei, the president’s sister and secretary-general of the presidency. The investigation has confirmed bribes inside the agency, although the authenticity of the recordings is still being examined.</p><p>In June 2026, the president’s cabinet chief, Manuel Adorni, resigned after months of scrutiny over the growth of his personal wealth. He is under investigation for illicit enrichment.</p><p>Behind the headline figures, the recovery has also been uneven. The economy grew 2.3% in the first quarter of 2026, driven largely by mining and the oil and gas of Vaca Muerta, while industry as a whole remains around 10% below its 2022 level.</p><p>Between November 2023 and April 2026, Argentina lost more than 28,000 employers and 341,000 registered jobs, and almost all the firms that closed were small and medium-sized. Many could not compete with cheaper imports once the economy was opened, while still facing high taxes, logistics and financing costs at home.</p><p>Universities have also seen deep cuts: in the first months of 2026, federal transfers were around 30% lower in real terms than in 2023, and the government has not applied a funding law that Congress passed and then upheld over Milei’s veto.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/c3e45943-6a43-42b7-8cf6-fa034e703c15.png",
+      "alt": "Congress’ lower house is debating a bill promoted by Javier Milei (AP Photo/Natacha Pisarenko)",
+      "caption": "Congress’ lower house is debating a bill promoted by Javier Milei (AP Photo/Natacha Pisarenko)"
+    },
+    {
+      "type": "text",
+      "body": "<p>So which of these versions should we believe? Ask ten Argentines, and you will get diametrically opposed answers.</p><p>What seems clear is that Milei’s radicalism was a response to a country whose conditions had become radical themselves. When a country is in crisis, the eccentricities of a man who lacks the usual social graces become secondary. Before criticising, it is worth trying to understand.</p><p>That is where the real problem lies. Depending on whom you ask, Milei is either a hero or a disgrace, yet there is hardly any space left where that disagreement does not turn into contempt for the other side.</p><p>We seem to be drifting further from political dialogue and growing angrier, and in some ways that anger and resentment are precisely what feed politics today, in Argentina and beyond.</p><p>I am not free of these prejudices either. If we want to resume conversations about the common good, we should at least try to understand what “good” means to those who see it differently.</p>"
+    }
+  ],
+  "sources": "<p></p>"
 }
