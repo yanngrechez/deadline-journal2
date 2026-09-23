@@ -1,15 +1,71 @@
 {
-  "title": "Argentina’s Dollar Obsession Has a Political History",
-  "slug": "argentina-dollar",
-  "dek": "To understand the country’s relationship with the dollar, you have to look beyond inflation.",
-  "author": "SOFÍA ÁLVAREZ",
-  "country": "ARGENTINA",
-  "region": "Americas",
-  "topics": ["economics", "history", "politics"],
-  "hero_image": "/assets/latam.svg",
-  "published_at": "2026-08-27T12:00",
+  "title": "How the Far Right Is Winning Over a Country That Once Swore “Never Again”",
+  "slug": "germany-afd",
+  "dek": "The empirics behind AfD’s unprecedented electoral success.\n",
+  "author": "Natalie Clarke",
+  "country": "GERMANY",
+  "region": "Europe",
+  "topics": [
+    "politics"
+  ],
+  "hero_image": "/media/4ae72273-2312-4541-8341-4315eef0c188-1.png",
+  "hero_caption": "AfD leaders Alice Weidel and Tino Chrupalla (Getty Images)",
+  "published_at": "2026-09-28T12:00",
   "status": "published",
   "is_placeholder": true,
-  "body": "<p>International affairs are often described from far away. Deadline Journal begins from the opposite premise: political stories become clearer when we start with the people, institutions and historical memories closest to them.</p><p>This is demonstration copy. Open this article in Pages CMS, replace this text with your real article, change the author and image, set the status to <strong>Published</strong>, and save.</p><p>Cloudflare will rebuild the site automatically after the change reaches GitHub.</p>",
-  "homepage_position": "column-stories"
+  "homepage_position": "side-story-right",
+  "body": "<p>The German right-wing populist party ‘Alternative für Deutschland’ (“<em>Alternative for Germany”</em>) has scored record-setting levels of popularity in Germany’s recent regional elections*. On 6 September 2026, the regional election results of Saxony-Anhalt, a landlocked federal state in East Germany, sent shockwaves across the country.</p><p>By more than doubling its share of the vote, the AFD won with a 43.8% share of the electorate, besting the mainstream CDU party, which saw a loss of 20% in votes. While not an uncommon occurrence nowadays in East Germany, it is about time to confront the fact that the AfD’s growth is not a uniquely East-German problem. In fact, polling data shows that the AFD is on an upward growth trajectory across the <em>entire </em>country.&nbsp;</p><p>As affective polarisation grows in Germany, and voters become increasingly intolerant of each other’s views, cross-voter-base deliberation and interaction seem to decline as well. Many centrist and left voters criticise the AFD without truly knowing <em>who</em> their criticisms are directed at, or even having ever spoken to an AfD-affiliate themselves.&nbsp;</p><p>As such, ‘the AfD voter’ often remains an ambiguous phenomenon among the rest of the general public, and discussions surrounding the party’s success are reduced to the usual grumblings about the ‘middle-aged white man’ and his posse of racist friends. In reality, the AfD’s focus has shifted over the last 10 years to encompass more than just xenophobic sentiment, and has grown into a multidimensional political narrative.&nbsp;</p><p>To those who are appalled, and perhaps also confused, by the AfD’s surging popularity in Germany, I say: keep your friends close, but your enemies closer. To criticise is to know, and so this short article contends with the questions of <em>what </em>AfD voters are voting for, <em>where</em> these voters live, <em>who</em> they are, and <em>why</em> they vote for the right-wing extremists of Germany.&nbsp;</p>",
+  "sections": [
+    {
+      "type": "image",
+      "image": "/media/e8d5a71e-5c6d-422f-a508-f9cb1746fd1b.png",
+      "alt": "AfD co-leader Alice Weidel with the party’s “Zeit für Deutschland” (“Time for Germany”) slogan behind her (BBC)",
+      "caption": "AfD co-leader Alice Weidel with the party’s “Zeit für Deutschland” (“Time for Germany”) slogan behind her (BBC)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Most obviously, the migration narrative speaks to many AFD voters, opposing open immigration regulations and subscribing to the ideal of a more ‘purist’ German population-scape. Paradoxically, and yet perhaps unsurprisingly, AFD support is highest among those regional states where immigrants are actually fewest in number.&nbsp;</p><p>Inextricably tied to this anti-immigrant sentiment are deeply held beliefs about the social ‘order’, wherein general societal upheaval is quickly attributed to foreigners and migrants.&nbsp;</p><p>However, historically we know that social upheaval rarely occurs without economic antecedents and indeed Germany’s economy has struggled to grow in the wake of COVID, Sino-US related tariffs, decreasing labour forces, an ageing public, and the rising energy prices following Russia’s invasion of the Ukraine.&nbsp;</p><p>Many in Germany, and particularly AFD voters, seek scapegoats to carry the blame for this broad economic upset. Studies show that often it is the <em>perception</em> of economic decline that matters more than actual de-growth. And so, like a destructive cycle, the AFD capitalises off pre-existing anxiety surrounding job insecurity and income instability, while simultaneously feeding into further anxieties.</p><p>International affairs have also come to shape the AFD’s program in recent years. With their staunch pro-Russia stance, they entice voters that support the cease of weapons delivery to Ukraine. In Eastern Germany, for example, the AFD has managed to mobilise many in the region in terms of Russia v Ukraine.&nbsp;</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/1536x864cmsv2f55d76ad-5a0b-52dc-8d9b-a34cf99ebc2d-5025670.webp",
+      "alt": "Germans celebrate reunification at Berlin’s Brandenburg Gate, October 3, 1990 (Gilles Leimdorger/AFP)",
+      "caption": "Germans celebrate reunification at Berlin’s Brandenburg Gate, October 3, 1990 (Gilles Leimdorger/AFP)"
+    },
+    {
+      "type": "text",
+      "body": "<p>East and West Germany were officially ‘reunited’ 36 years ago, however discrepancies between the two regions and consequent tensions have persisted until the present day. Many Eastern Germans still feel that reunification was a mere political and economic assimilation that left the East with deep structural disparities and disadvantages.&nbsp;</p><p>These disadvantages manifest in lower income, weaker economic output and demographic decline. The AFD has made use of disgruntled Eastern Germans that feel disconnected from politics in Berlin and their counterparts in the West. As such, the AFD has always had its strongest foothold in Eastern German states, however recent regional election polls suggest that the foothold has now grown into an increasingly unstoppable movement. More than ever before, the possibility of a breakthrough in the West endangers the national hold that mainstream parties have enjoyed in Germany.&nbsp;</p><p>The AFD’s success can also partially be explained by the urban vs rural divide we so often witness during right-wing populist parties’ rise to power. Interestingly, however, the AFD’s mobilisation of rural voters is closely tied to their mobilisation of non-voters as well. From an objective standpoint, the AFD’s net gain solely from former non-voters (170,000) is impressive to say the least. Most of these non-voters live in rural areas, and their support has hugely driven the AFD’s rapid growth.&nbsp;</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/8309dcf7-c28f-4015-9e9b-6167bc4d3393.png",
+      "alt": "AfD supporters (REUTERS)",
+      "caption": "AfD supporters (REUTERS)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Note the middle-aged white man I mentioned earlier? Turns out as far as that stereotype goes, it has proven to be true for the most part. The AFD’s largest voter base has been, and remains, middle-aged men and working-age voters between 35 and 59. However, with the significant growth AFD has shown over the last few years, it is safe to say their fan-base has extended and expanded.&nbsp;</p><p>As far as gender goes, men still show a higher propensity to vote for the AFD than women on average, although that gap is slowly but steadily growing smaller. More striking, however, is the 21% (and respectively largest share) of 18-24 year olds that voted for the AFD in Saxony-Anhalt’s recent regional elections. This is not an isolated event, and Klaus Hurrelmann, renowned educational researcher in Germany, explains that this is related to AFD’s successful issue ownership.&nbsp;</p><p>Mainstream parties remain unpopular among the youth due to a lack of a clear program, as studies have shown that younger voters are less driven by abstract party loyalties but rather by identity-driven or issue-specific opinions.</p><p>As described by Hurrelmann, the AFD has capitalised on the youth’s anxieties about the future and thereby garnered much support. This paints a dire picture wherein a significant share of Germany’s youth is seemingly undeterred by, if not outright supportive of, the party’s nationalist-authoritarian character.&nbsp;</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/20250301eup003.jpg",
+      "alt": "German Chancellor Frederich Merz, leader of the CDU (REUTERS)",
+      "caption": "German Chancellor Frederich Merz, leader of the CDU (REUTERS)"
+    },
+    {
+      "type": "text",
+      "body": "<p>As has already been touched upon, at least some of the AFD’s success can be attributed to the governing parties’ shortcomings. Huge shares of AFD voters show a real dissatisfaction with the federal government, led by the CDU, and especially the chancellor Friedrich Merz’s performance in Berlin.&nbsp;</p><p><br></p><p>Unhappiness with the ways in which the CDU and SPD have approached economic, domestic, and diplomatic questions in the past, has pushed people toward other ‘alternatives’ (no pun intended). The mechanism of sanctioning mainstream parties by voting for challenger parties is anything but new, and has been previously researched by Hobolt and Tilley (2016) in terms of the Euro-crisis. Termed by them as ‘<em>retrospective sanctioning</em>’, it is fair to assume that many AFD votes originated in disillusionment with the centrist/right-leaning CDU.&nbsp;</p><p>But why the AFD? What Hobolt and Tilley refer to as <em>‘prospective selection</em>’ describes how voters, once having decided to sanction the mainstream party, choose their challenger party based on certain issue preferences. This explains why some people decide to vote for the AFD rather than the Greens or ‘Die Linke’ (‘The Left’).&nbsp;</p><p>Beyond certain issue preferences, however, there is also the context of the ‘Brandmauer’ to consider. The ‘Brandmauer’ is effectively a cordon sanitaire against the AFD, wherein all major parties but the independentist BSW (Sarah-Wagenknecht-Alliance) have rejected cooperative partnership with the AFD. While seemingly a positive development, the Brandmauer is causing friction of its own.&nbsp;</p><p>As the mainstream parties lose more and more votes to the AFD, they are pushed to work with other parties like the far-left Linke, with whom they fundamentally disagree, just to keep the AFD at bay. The internal struggle among centrist and leftist parties in parliament leaves just enough cracks for the AFD to fill. </p><p>The ‘left-wing fragmentation leads to right-wing rise’ story is old as time, however Germany seems to be facing a future wherein the right is not only rising but increasingly setting the agenda, both during campaign periods and in office.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/ef7811cd-eaca-4f36-a1d9-5f77581dab9e.png",
+      "alt": "Ulrich Siegmund, elected candidate of the far-right Alternative for Germany (AfD) party in Germany's Saxony-Anhalt state election. (REUTERS/Christian Mang)",
+      "caption": "Ulrich Siegmund, elected candidate of the far-right Alternative for Germany (AfD) party in Germany's Saxony-Anhalt state election. (REUTERS/Christian Mang)\n"
+    },
+    {
+      "type": "text",
+      "body": "<p>All in all, it may not be so easy to summarise ‘the AFD voter’ after all. The ‘whats, wheres, whos, and whys’ presented here should be taken with a grain of salt, as they threaten to oversimplify reality based on empirics alone.&nbsp;</p><p>Perhaps the far more realistic, and admittedly scary, truth is that all these categories no longer predict to whom voters will turn. For now, there are trends to be observed but election outcomes are increasingly volatile and ‘unexpected’. More than anything, Germany’s regional elections reflect a period of transition that inspires fear in many, and hope in others.&nbsp;</p><p>For the Germans of you who are afraid of these developments, I recommend bracing for change and gearing up those political weapons. There has never been a more important time in the last 10 years to vote, engage, and educate (primarily oneself). And despite what the right-wing fear-mongers would have you think, exclusion does not lead to more unity.&nbsp;</p><p>Be open to all, but be critical as well. The threat posed by right-wing voters will not diminish if we simply ignore it; we must keep our eyes wide open and stay alert, because change is coming.</p>"
+    }
+  ],
+  "sources": "<p>B&amp;K Agency. 2026. “The Many Drivers Behind the AfD Vote.” <em>B&amp;K Agency</em>, September 8.<a href=\"https://bkagency.co/blog/the-many-drivers-behind-the-afd-vote/\"> <u>https://bkagency.co/blog/the-many-drivers-behind-the-afd-vote/</u></a></p><p>DAWUM. n.d. “AfD.” <em>DAWUM</em>. Accessed September 22, 2026.<a href=\"https://dawum.de/AfD/\"> <u>https://dawum.de/AfD/</u></a></p><p>Deutsche Welle. n.d. “Was ist die politische Brandmauer?” <em>Deutsche Welle</em>.<a href=\"https://www.dw.com/de/was-ist-die-politische-brandmauer/a-78365733\"> <u>https://www.dw.com/de/was-ist-die-politische-brandmauer/a-78365733</u></a></p><p>European Commission. 2026. “Economic Forecast for Germany.” <em>European Commission</em>, May 21.<a href=\"https://economy-finance.ec.europa.eu/economic-surveillance-eu-member-states/country-pages-including-country-reports/germany/economic-forecast-germany_en\"> <u>https://economy-finance.ec.europa.eu/economic-surveillance-eu-member-states/country-pages-including-country-reports/germany/economic-forecast-germany_en</u></a></p><p>Financial Times. n.d. “[Article Title Unavailable from the Supplied URL].” <em>Financial Times</em>.<a href=\"https://www.ft.com/content/ef6d5693-a5b0-445a-8f30-d514d50651e1\"> <u>https://www.ft.com/content/ef6d5693-a5b0-445a-8f30-d514d50651e1</u></a></p><p>Friedrich Naumann Foundation for Freedom. 2019. “Interview: Warum wählen junge Leute die AfD?” <em>Friedrich Naumann Foundation for Freedom</em>, October 15.<a href=\"https://www.freiheit.org/de/interview-warum-waehlen-junge-leute-die-afd\"> <u>https://www.freiheit.org/de/interview-warum-waehlen-junge-leute-die-afd</u></a></p><p>Harteveld, E. 2021. “Fragmented Foes: Affective Polarization in the Multiparty Context of the Netherlands.” <em>Electoral Studies</em> 71: 102332.<a href=\"https://doi.org/10.1016/j.electstud.2021.102332\"> <u>https://doi.org/10.1016/j.electstud.2021.102332</u></a></p><p>Hobolt, S. B., and J. Tilley. 2016. “Fleeing the Centre: The Rise of Challenger Parties in the Aftermath of the Euro Crisis.” <em>West European Politics</em> 39 (5): 971–991.<a href=\"https://doi.org/10.1080/01402382.2016.1181871\"> <u>https://doi.org/10.1080/01402382.2016.1181871</u></a></p><p>Konrad-Adenauer-Stiftung. 2025. “AfD Mobilises Non-Voters: Where Did the New AfD Voters in the 2025 Federal Election Come From?” <em>Konrad-Adenauer-Stiftung</em>, June.<a href=\"https://www.kas.de/documents/291186/32772674/en-grafik-des-monats-2025-06.pdf/e9364a2a-6af9-37c5-bbe9-da51334c467c\"> <u>https://www.kas.de/documents/291186/32772674/en-grafik-des-monats-2025-06.pdf/e9364a2a-6af9-37c5-bbe9-da51334c467c</u></a></p>"
 }
