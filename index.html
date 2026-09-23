@@ -43,10 +43,10 @@ if(hero){
  <article class="hero"><a href="${aurl(hero)}"><img src="${hero.hero_image}" alt=""></a>
  <div class="kicker" style="text-align:center">${meta(hero)}</div>
  <a href="${aurl(hero)}"><h2 class="headline">${hero.title}</h2></a>
- <p class="dek">${hero.dek||''}</p><div class="byline">BY ${hero.author}</div></article>` +
- (secondary ? `<a class="small-horizontal" href="${aurl(secondary)}"><img src="${secondary.hero_image}" alt=""><div><div class="kicker">${meta(secondary)}</div><h3 class="headline">${secondary.title}</h3><p>${secondary.dek||''}</p><div class="byline">BY ${secondary.author}</div></div></a>` : '');
+ <p class="dek">${hero.dek||''}</p><div class="byline">${hero.author}</div></article>` +
+ (secondary ? `<a class="small-horizontal" href="${aurl(secondary)}"><img src="${secondary.hero_image}" alt=""><div><div class="kicker">${meta(secondary)}</div><h3 class="headline">${secondary.title}</h3><p>${secondary.dek||''}</p><div class="byline">${secondary.author}</div></div></a>` : '');
 }
-document.getElementById('middleColumn').innerHTML = mids.map(a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">BY ${a.author}</div></article>`).join('');
+document.getElementById('middleColumn').innerHTML = mids.map(a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">${a.author}</div></article>`).join('');
 document.getElementById('railColumn').innerHTML = rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('');
 
 }

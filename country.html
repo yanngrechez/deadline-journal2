@@ -19,7 +19,7 @@ if(!country){
  const stories=realArticlesForCountry(country).sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
  const heading=`<section class="country-page-head container"><div><div class="kicker">COUNTRY DESK · <a href="${regionUrl(country.region)}">${country.region}</a></div><h1>${country.name}</h1></div><img class="country-page-flag" src="${country.flag}" alt="${country.name} flag"></section>`;
  if(stories.length){
-   const cards=stories.map(article=>`<a class="country-story-card" href="${articleUrl(article)}"><img src="${article.hero_image}" alt=""><div><div class="kicker">${topicMeta(article)}</div><h2>${article.title}</h2><p>${article.dek||''}</p><div class="byline">BY ${article.author}</div></div></a>`).join('');
+   const cards=stories.map(article=>`<a class="country-story-card" href="${articleUrl(article)}"><img src="${article.hero_image}" alt=""><div><div class="kicker">${topicMeta(article)}</div><h2>${article.title}</h2><p>${article.dek||''}</p><div class="byline">${article.author}</div></div></a>`).join('');
    page.innerHTML=heading+`<section class="container country-stories"><div class="country-stories-head">${stories.length} ${stories.length===1?'story':'stories'} from ${country.name}</div>${cards}</section>`;
  }else{
    page.innerHTML=heading+`<section class="container country-empty"><p>No stories yet.</p><a class="cta" href="/write">Know this place? Write for Deadline</a></section>`;

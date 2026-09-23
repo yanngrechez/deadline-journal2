@@ -16,7 +16,7 @@ else{
  document.title=a.title+' | Deadline Journal';
  const date=a.published_at ? new Date(a.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) : '';
  page.innerHTML=`<div class="article-kicker">${articleMeta(a,true)}</div><h1>${a.title}</h1>
- <div class="article-dek">${a.dek||''}</div><div class="article-meta">BY ${a.author} &nbsp; · &nbsp; ${date} &nbsp; · &nbsp; DEADLINE JOURNAL</div>
+ <div class="article-dek">${a.dek||''}</div><div class="article-meta">${a.author} &nbsp; · &nbsp; ${date} &nbsp; · &nbsp; DEADLINE JOURNAL</div>
  <figure class="article-hero"><img src="${a.hero_image}" alt="">${a.hero_caption||a.hero_credit?`<figcaption>${a.hero_caption?`<span>${a.hero_caption}</span>`:''}${a.hero_credit?`<cite>${a.hero_credit}</cite>`:''}</figcaption>`:''}</figure><div class="body">${a.body||''}</div>`;
  appendArticleSections(page.querySelector('.body'), a.sections);
  appendArticleSources(page, a.sources);
