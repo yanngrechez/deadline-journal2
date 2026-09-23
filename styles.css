@@ -225,3 +225,13 @@ img{height:auto}
 .search-box :focus-visible{outline:2px solid var(--purple);outline-offset:4px}
 
 .article-page .body .article-inline-image img{aspect-ratio:var(--image-ratio,auto)}
+
+/* The right cover column pairs a full side story with the latest headlines. */
+.cover-expanded .headlines-under .rail-story{padding:12px 0;border-left:0}
+.cover-expanded .medium-story + .headlines-under{border-top:1px solid var(--rule)}
+@media(min-width:701px){
+  .cover-expanded{grid-template-columns:minmax(0,2.05fr) repeat(2,minmax(0,1fr));column-gap:36px}
+  .cover-expanded>.top-col{padding:0;border-left:0;position:relative;min-width:0}
+  .cover-expanded>.top-col:last-child{grid-column:auto;display:block;border-top:0;margin-top:0}
+  .cover-expanded>.top-col+.top-col::before{content:'';position:absolute;left:-18px;top:0;bottom:0;border-left:1px solid var(--rule)}
+}

@@ -55,7 +55,10 @@ Use **Front cover position** in Pages CMS:
 - **Bottom story** — directly beneath the main story.
 - **Side story up** — upper story in the middle column.
 - **Side story down** — lower story in the middle column.
-- **Column stories** — four headline stories on the right, newest first.
+- **Side story right** — image story beside Side story up, above the column stories.
+- **Column stories** — four headline stories beneath Side story right, newest first.
+
+The cover shows up to nine articles: five with images and four headline stories.
 
 Existing articles have been migrated from numeric ranks. If several articles
 share a named slot, the newest takes it; older assignments join the column pool.

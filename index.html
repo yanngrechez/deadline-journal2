@@ -15,7 +15,7 @@
 <header class="brand container"><div class="slogan">POLITICS FROM THE PEOPLE CLOSEST TO IT</div><a href="/"><h1 class="masthead">Deadline Journal</h1></a></header>
 <div class="nav-wrap"><nav class="nav container"><a href="/">Latest</a><a href="/europe">Europe</a><a href="/americas">Americas</a><a href="/middle-east-north-africa">Middle East &amp; North Africa</a><a href="/sub-saharan-africa">Sub-Saharan Africa</a><a href="/asia-pacific">Asia-Pacific</a><a href="/actors">Actors</a></nav></div>
 <main>
-<section class="section container"><div class="top-grid">
+<section class="section container"><div class="top-grid cover-expanded">
   <div class="top-col" id="heroColumn"></div>
   <div class="top-col" id="middleColumn"></div>
   <div class="top-col" id="railColumn"></div>
@@ -35,7 +35,7 @@ const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.publi
 function aurl(a){return articleUrl(a)}
 function meta(a){return articleMeta(a)}
 
-const {hero,secondary,mids,rails}=DeadlineCover.select(all);
+const {hero,secondary,mids,extra,rails}=DeadlineCover.select(all);
 
 if(!document.documentElement.hasAttribute('data-prerendered')){
 if(hero){
@@ -46,8 +46,9 @@ if(hero){
  <p class="dek">${hero.dek||''}</p><div class="byline">${hero.author}</div></article>` +
  (secondary ? `<a class="small-horizontal" href="${aurl(secondary)}"><img src="${secondary.hero_image}" alt=""><div><div class="kicker">${meta(secondary)}</div><h3 class="headline">${secondary.title}</h3><p>${secondary.dek||''}</p><div class="byline">${secondary.author}</div></div></a>` : '');
 }
-document.getElementById('middleColumn').innerHTML = mids.map(a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">${a.author}</div></article>`).join('');
-document.getElementById('railColumn').innerHTML = rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('');
+const mediumStory = a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">${a.author}</div></article>`;
+document.getElementById('middleColumn').innerHTML = mids.map(mediumStory).join('');
+document.getElementById('railColumn').innerHTML = (extra ? mediumStory(extra) : '') + '<div class="headlines-under">' + rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('') + '</div>';
 
 }
 const realArticles=all.filter(isRealArticle);
