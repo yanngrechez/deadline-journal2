@@ -99,6 +99,13 @@ content:
         options:
           time: true
           format: "yyyy-MM-dd'T'HH:mm"
+      - name: updated_at
+        label: Last significant update (optional)
+        type: date
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
+        description: "Set only when you substantially revise the published article. Used for search metadata and the sitemap; leave blank on first publication. Do not use a future date."
       - name: status
         label: Status
         type: select
@@ -115,25 +122,6 @@ content:
         type: boolean
         default: false
         description: "Turn this on for demonstration articles. Placeholder stories stay visible but do not count toward country coverage."
-      - name: homepage_position
-        label: Front cover position
-        type: select
-        default: column-stories
-        options:
-          values:
-            - name: main-story
-              label: Main story
-            - name: bottom-story
-              label: Bottom story
-            - name: side-story-up
-              label: Side story up
-            - name: side-story-down
-              label: Side story down
-            - name: side-story-right
-              label: Side story right
-            - name: column-stories
-              label: Column stories
-        description: "Choose the story's position on the front cover. Side story right is the image story above the column stories. Column stories appear newest first (four at a time). If more than one article has the same named slot, the newest takes that slot and the others join the column. Empty slots use the newest remaining stories."
       - name: body
         label: Article body
         type: rich-text
@@ -197,3 +185,60 @@ settings:
       create: "Publish content: {path}"
       update: "Update content: {path}"
       delete: "Remove content: {path}"
+
+  - name: front-cover
+    label: Front cover
+    type: file
+    path: content/front-cover.json
+    format: json
+    fields:
+      - name: main-story
+        label: Main story
+        type: reference
+        description: "Choose a published article. Leave empty to hide this slot; nothing is promoted automatically. Select each article only once."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: bottom-story
+        label: Bottom story
+        type: reference
+        description: "Choose a published article. Leave empty to hide this slot; nothing is promoted automatically. Select each article only once."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: side-story-up
+        label: Side story up
+        type: reference
+        description: "Choose a published article. Leave empty to hide this slot; nothing is promoted automatically. Select each article only once."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: side-story-down
+        label: Side story down
+        type: reference
+        description: "Choose a published article. Leave empty to hide this slot; nothing is promoted automatically. Select each article only once."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: side-story-right
+        label: Side story right
+        type: reference
+        description: "Choose a published article. Leave empty to hide this slot; nothing is promoted automatically. Select each article only once."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"

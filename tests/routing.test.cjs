@@ -75,6 +75,7 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     for(const name of ['seo.cjs','static-render.cjs','build-images.cjs','cover.js','journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
     for(const name of ['assets','media','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
     fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
+    fs.writeFileSync(path.join(fixture,'content/front-cover.json'),'{}');
     const file=path.join(fixture,'content/articles/new.json');
     const write=article=>fs.writeFileSync(file,JSON.stringify(article));
     const article={...articles[0],is_placeholder:false,body:'<p>Original article content.</p>',slug:'future-cms-story',status:'published',sections:[
@@ -102,6 +103,16 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
       assert(fs.existsSync(path.join(fixture,'dist/future-cms-story/index.html')),'failed build must not replace previous output');
     }
     write(article);
+    const coverFile=path.join(fixture,'content/front-cover.json');
+    fs.writeFileSync(coverFile,JSON.stringify({'main-story':article.slug}));build();
+    const before=fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8');
+    fs.writeFileSync(coverFile,JSON.stringify({'main-story':article.slug,'bottom-story':article.slug}));
+    assert.throws(build,/selected twice/);
+    assert.equal(fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8'),before);
+    fs.writeFileSync(coverFile,JSON.stringify({'main-story':'missing-story'}));
+    assert.throws(build,/missing or unpublished/);
+    assert.equal(fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8'),before);
+    fs.writeFileSync(coverFile,'{}');
     fs.writeFileSync(path.join(fixture,'content/articles/duplicate.json'),JSON.stringify(article));
     assert.throws(build,/Duplicate published article slug/);
     fs.unlinkSync(path.join(fixture,'content/articles/duplicate.json'));

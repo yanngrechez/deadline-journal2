@@ -22,3 +22,33 @@ test('canonical home and static paths permanently redirect with HTTPS',async()=>
  for(const [source,target] of [['http://deadlinejournal.org/','https://deadlinejournal.org/'],['http://deadlinejournal.org/index.html?utm_source=x','https://deadlinejournal.org/?utm_source=x'],['https://deadlinejournal.org/about.html','https://deadlinejournal.org/about'],['https://deadlinejournal.org/write/','https://deadlinejournal.org/write']]){const r=await worker.fetch(new Request(source),env);assert.equal(r.status,301);assert.equal(r.headers.get('location'),target);assert.equal((await worker.fetch(new Request(target),env)).status,200)}
  assert.equal((await worker.fetch(new Request('http://127.0.0.1:4181/'),env)).status,200);
 });
+
+test('modification metadata requires a genuine non-future editorial update',()=>{
+ const seo=require('../seo.cjs');const now=new Date('2026-09-23T12:00:00Z');
+ assert.equal(seo.modified({published_at:'2026-09-01'},now),undefined);
+ assert.equal(seo.modified({published_at:'2026-09-01',updated_at:'2026-09-22T10:00'},now),'2026-09-22');
+ for(const updated_at of ['nonsense','2026-09-28','2026-08-31'])assert.equal(seo.modified({published_at:'2026-09-01',updated_at},now),undefined);
+ const article={title:'Example',author:'Writer',region:'Europe',topics:['politics'],published_at:'2020-01-01',updated_at:'2020-01-02'};
+ const source=seo.decorate('<html><head><title>Old</title></head></html>',{route:'/example',title:'Example',article});
+ assert.equal(graph(source).find(x=>x['@type']==='Article').dateModified,'2020-01-02');
+});
+test('all built pages have unique canonical metadata, crawlable links and valid hierarchy',()=>{
+ const pages=['/', 'about','write',...articles.map(a=>a.slug),...countries.map(c=>c.slug),...Object.values(routes.regions)];
+ const sitemap=fs.readFileSync(path.join(dist,'sitemap.xml'),'utf8');
+ for(const route of pages){
+  const source=html(route);const markup=source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,'');
+  for(const pattern of [/<title>/g,/<link rel="canonical"/g,/<meta name="description"/g,/<meta name="robots"/g,/<h1(?:\s|>)/g])assert.equal((markup.match(pattern)||[]).length,1,route+' '+pattern);
+  for(const match of markup.matchAll(/(?:href|src)="(\/[^"#?]*)(?:[?#][^"]*)?"/g)){
+   const target=decodeURIComponent(match[1]);assert(fs.existsSync(path.join(dist,target==='/'?'index.html':target)),route+' broken local link: '+target);
+  }
+  if(route!=='/'){
+   const breadcrumb=graph(source).find(x=>x['@type']==='BreadcrumbList');assert(breadcrumb,route);
+   breadcrumb.itemListElement.forEach((item,i)=>{assert.equal(item.position,i+1);assert(item.name);assert(fs.existsSync(path.join(dist,new URL(item.item).pathname)))});
+   assert.equal(breadcrumb.itemListElement.at(-1).item,'https://deadlinejournal.org/'+route);
+  }
+ }
+ for(const entry of sitemap.matchAll(/<url>(.*?)<\/url>/g)){
+  const lastmod=entry[1].match(/<lastmod>(.*?)<\/lastmod>/)?.[1];
+  if(lastmod)assert(lastmod<=new Date().toISOString().slice(0,10));
+ }
+});

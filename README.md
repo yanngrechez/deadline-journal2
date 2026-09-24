@@ -49,20 +49,16 @@ static-asset adapter; production verification must also check Cloudflare.
 Articles with Status = Draft are omitted from the public `data.js` by `build.js`, so they do not appear on the public site.
 
 ## Homepage positioning
-Use **Front cover position** in Pages CMS:
+Open **Front cover** in Pages CMS to select one published article for each image slot:
+Main story, Bottom story, Side story up, Side story down, and Side story right.
+Save the entire cover once. These selections remain fixed when new stories are published
+or dates change. The old per-article position field is no longer used.
 
-- **Main story** — the largest story.
-- **Bottom story** — directly beneath the main story.
-- **Side story up** — upper story in the middle column.
-- **Side story down** — lower story in the middle column.
-- **Side story right** — image story beside Side story up, above the column stories.
-- **Column stories** — four headline stories beneath Side story right, newest first.
-
-The cover shows up to nine articles: five with images and four headline stories.
-
-Existing articles have been migrated from numeric ranks. If several articles
-share a named slot, the newest takes it; older assignments join the column pool.
-Empty slots use the newest remaining published stories. Drafts never appear.
+All other published articles form the title-only column, newest first (up to four).
+Blank image slots stay empty. No column story is promoted automatically.
+Choose an article only once. A missing, draft, or duplicate selection stops deployment
+with an actionable error and keeps the existing live site intact. Before deleting,
+unpublishing, or renaming a selected article, clear or replace its cover selection.
 
 Latest and regional sections are determined automatically from publication date and region.
 
@@ -93,3 +89,11 @@ written into Article body remain untouched; move them into Sources when desired.
 See [SEO-AUDIT.md](SEO-AUDIT.md) for the indexing policy, generated metadata,
 responsive image pipeline, validation and remaining editorial/account tasks.
 Run `pnpm install --frozen-lockfile` before building to install the image tooling.
+
+## Search metadata after article updates
+
+For a substantial revision, set **Last significant update (optional)** in Pages CMS.
+This supplies the visible updated date, Article structured data and sitemap freshness.
+Leave it blank on first publication; future or pre-publication update dates are ignored.
+Publication dates remain separate. Run `npm run build` then `npm test` to check
+canonical pages, local links, sitemap eligibility, structured data and redirects.

@@ -29,7 +29,7 @@ function defaultImage(src, options = {}) {
   if (!imageSource(src)) return '';
   return `<img src="${escapeHtml(src)}" alt="${escapeHtml(options.alt || '')}" decoding="async"${options.priority ? ' fetchpriority="high"' : ''}${options.lazy ? ' loading="lazy"' : ''}>`;
 }
-function createRenderer({articles = [], countries = [], routes, image = defaultImage, authorUrl} = {}) {
+function createRenderer({articles = [], countries = [], routes, image = defaultImage, authorUrl, frontCover = {}} = {}) {
   const byCode = new Map(countries.map(country => [String(country.code).toUpperCase(), country]));
   const byName = new Map(countries.map(country => [normalizeCountryName(country.name), country]));
   const countryForArticle = article => byCode.get(String(article.country_code || '').toUpperCase()) ||
@@ -73,8 +73,8 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
 
   function home() {
     const byDate = [...articles].sort(newestFirst);
-    const {hero,secondary,mids,extra,rails}=require('./cover.js').select(articles);
-    const heroColumn = hero ? `<article class="hero"><a href="${escapeHtml(articleUrl(hero))}">${heroImage(hero, {alt:hero.hero_alt || hero.hero_caption || hero.title, priority:true, sizes:'(max-width: 700px) calc(100vw - 36px), 48vw'})}</a><div class="kicker" style="text-align:center">${articleMeta(hero)}</div><a href="${escapeHtml(articleUrl(hero))}"><h2 class="headline">${escapeHtml(hero.title)}</h2></a><p class="dek">${escapeHtml(hero.dek)}</p><div class="byline">${escapeHtml(hero.author)}</div></article>` + (secondary ? `<a class="small-horizontal" href="${escapeHtml(articleUrl(secondary))}">${heroImage(secondary, {lazy:true, sizes:'(max-width: 700px) 35vw, 180px'})}<div><div class="kicker">${articleMeta(secondary)}</div><h3 class="headline">${escapeHtml(secondary.title)}</h3><p>${escapeHtml(secondary.dek)}</p><div class="byline">${escapeHtml(secondary.author)}</div></div></a>` : '') : '';
+    const {hero,secondary,mids,extra,rails}=require('./cover.js').select(articles,frontCover);
+    const heroColumn = (hero ? `<article class="hero"><a href="${escapeHtml(articleUrl(hero))}">${heroImage(hero, {alt:hero.hero_alt || hero.hero_caption || hero.title, priority:true, sizes:'(max-width: 700px) calc(100vw - 36px), 48vw'})}</a><div class="kicker" style="text-align:center">${articleMeta(hero)}</div><a href="${escapeHtml(articleUrl(hero))}"><h2 class="headline">${escapeHtml(hero.title)}</h2></a><p class="dek">${escapeHtml(hero.dek)}</p><div class="byline">${escapeHtml(hero.author)}</div></article>` : '') + (secondary ? `<a class="small-horizontal" href="${escapeHtml(articleUrl(secondary))}">${heroImage(secondary, {lazy:true, sizes:'(max-width: 700px) 35vw, 180px'})}<div><div class="kicker">${articleMeta(secondary)}</div><h3 class="headline">${escapeHtml(secondary.title)}</h3><p>${escapeHtml(secondary.dek)}</p><div class="byline">${escapeHtml(secondary.author)}</div></div></a>` : '');
     const mediumStory = article => `<article class="medium-story"><a href="${escapeHtml(articleUrl(article))}">${heroImage(article, {alt:article.hero_alt || article.hero_caption || article.title, lazy:true, sizes:'(max-width: 700px) calc(100vw - 36px), 24vw'})}</a><div class="kicker">${articleMeta(article)}</div><a href="${escapeHtml(articleUrl(article))}"><h3 class="headline">${escapeHtml(article.title)}</h3></a><p class="dek">${escapeHtml(article.dek)}</p><div class="byline">${escapeHtml(article.author)}</div></article>`;
     const middleColumn = mids.map(mediumStory).join('');
     const railColumn = (extra ? mediumStory(extra) : '') + '<div class="headlines-under">' + rails.map(article => `<a class="rail-story" href="${escapeHtml(articleUrl(article))}"><h3 class="headline">${escapeHtml(article.title)}</h3><div class="meta">${articleMeta(article)} | ${escapeHtml(article.author)}</div></a>`).join('') + '</div>';
@@ -94,7 +94,9 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
     const published = new Date(value.published_at);
     const validDate = value.published_at && Number.isFinite(published.getTime());
     const date = validDate ? `<time datetime="${escapeHtml(String(value.published_at).slice(0,10))}">${escapeHtml(published.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'}))}</time>` : '';
-    return `<div class="article-kicker">${articleMeta(value, true)}</div><h1>${escapeHtml(value.title)}</h1><div class="article-dek">${escapeHtml(value.dek)}</div><div class="article-meta">${byline} &nbsp; · &nbsp; ${date} &nbsp; · &nbsp; DEADLINE JOURNAL</div><figure class="article-hero">${heroImage(value, {priority:true, sizes:'(max-width: 860px) calc(100vw - 36px), 820px'})}${caption(value.hero_caption, value.hero_credit)}</figure><div class="body">${typeof value.body === 'string' ? value.body : ''}${sections(value)}</div>${sources(value)}`;
+    const modified=require('./seo.cjs').modified(value);
+    const updated=modified ? ` &nbsp; · &nbsp; Updated <time datetime="${escapeHtml(modified)}">${escapeHtml(new Date(modified).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}))}</time>` : '';
+    return `<div class="article-kicker">${articleMeta(value, true)}</div><h1>${escapeHtml(value.title)}</h1><div class="article-dek">${escapeHtml(value.dek)}</div><div class="article-meta">${byline} &nbsp; · &nbsp; ${date}${updated} &nbsp; · &nbsp; DEADLINE JOURNAL</div><figure class="article-hero">${heroImage(value, {priority:true, sizes:'(max-width: 860px) calc(100vw - 36px), 820px'})}${caption(value.hero_caption, value.hero_credit)}</figure><div class="body">${typeof value.body === 'string' ? value.body : ''}${sections(value)}</div>${sources(value)}`;
   }
   function region(name) {
     const items = articles.filter(article => articleRegion(article) === name).sort(newestFirst);

@@ -26,7 +26,7 @@
 </main>
 <footer class="footer container"><div class="footer-top"><div class="footer-brand">Deadline Journal</div><div class="footer-note">A student-led international journal told by people with a direct connection to the topics they cover.</div></div></footer>
 <div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-top"><input id="searchInput" placeholder="Search Deadline Journal"><button class="close-search" onclick="closeSearch()">×</button></div><div id="searchResults"></div></div></div>
-<script src="/cover.js"></script><script src="/data.js"></script><script src="/world-map-data.js"></script><script src="/script.js"></script>
+<script src="/cover.js"></script><script src="/front-cover.js"></script><script src="/data.js"></script><script src="/world-map-data.js"></script><script src="/script.js"></script>
 <script>
 const all = window.DEADLINE_ARTICLES || [];
 const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
@@ -35,17 +35,15 @@ const byDate = [...all].sort((a,b)=>new Date(b.published_at||0)-new Date(a.publi
 function aurl(a){return articleUrl(a)}
 function meta(a){return articleMeta(a)}
 
-const {hero,secondary,mids,extra,rails}=DeadlineCover.select(all);
+const {hero,secondary,mids,extra,rails}=DeadlineCover.select(all,window.DEADLINE_FRONT_COVER||{});
 
 if(!document.documentElement.hasAttribute('data-prerendered')){
-if(hero){
- document.getElementById('heroColumn').innerHTML = `
+ document.getElementById('heroColumn').innerHTML = (hero ? `
  <article class="hero"><a href="${aurl(hero)}"><img src="${hero.hero_image}" alt=""></a>
  <div class="kicker" style="text-align:center">${meta(hero)}</div>
  <a href="${aurl(hero)}"><h2 class="headline">${hero.title}</h2></a>
- <p class="dek">${hero.dek||''}</p><div class="byline">${hero.author}</div></article>` +
+ <p class="dek">${hero.dek||''}</p><div class="byline">${hero.author}</div></article>` : '') +
  (secondary ? `<a class="small-horizontal" href="${aurl(secondary)}"><img src="${secondary.hero_image}" alt=""><div><div class="kicker">${meta(secondary)}</div><h3 class="headline">${secondary.title}</h3><p>${secondary.dek||''}</p><div class="byline">${secondary.author}</div></div></a>` : '');
-}
 const mediumStory = a=>`<article class="medium-story"><a href="${aurl(a)}"><img src="${a.hero_image}" alt=""></a><div class="kicker">${meta(a)}</div><a href="${aurl(a)}"><h3 class="headline">${a.title}</h3></a><p class="dek">${a.dek||''}</p><div class="byline">${a.author}</div></article>`;
 document.getElementById('middleColumn').innerHTML = mids.map(mediumStory).join('');
 document.getElementById('railColumn').innerHTML = (extra ? mediumStory(extra) : '') + '<div class="headlines-under">' + rails.map(a=>`<a class="rail-story" href="${aurl(a)}"><h3 class="headline">${a.title}</h3><div class="meta">${meta(a)} | ${a.author}</div></a>`).join('') + '</div>';

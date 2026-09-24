@@ -22,7 +22,7 @@ Local CMS raster images receive responsive WebP derivatives, intrinsic dimension
 
 ## Editorial cover controls
 
-Pages CMS now provides **Front cover position**: Main story, Bottom story, Side story up, Side story down, Column stories. Existing stories were migrated to their current slots. Column stories display newest first, four at a time. When a named slot has multiple assignments, the newest wins and older assignments return to the column pool. Empty slots use the newest remaining published stories; drafts never appear.
+Pages CMS now provides a single **Front cover** screen with five article pickers. Featured selections stay fixed; remaining published stories appear in the title column by recency. Empty slots never autofill. Duplicate, missing and unpublished references fail validation before output is replaced. Old per-article position values are ignored.
 
 ## Remaining editorial and account work
 
@@ -41,3 +41,12 @@ Pages CMS now provides **Front cover position**: Main story, Bottom story, Side 
 - [Sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
 - [Multilingual sites](https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites)
 - [Cloudflare Worker asset routing](https://developers.cloudflare.com/workers/static-assets/routing/worker-script/)
+
+## Completion pass — September 23, 2026
+
+- Corrected sitemap freshness: publication dates no longer masquerade as last-modified dates. The optional **Last significant update** CMS field drives sitemap `lastmod`, Article `dateModified`, and the visible updated date together. Missing, invalid, future, or pre-publication update dates are omitted. Existing publication dates and article copy are untouched.
+- Added BreadcrumbList structured data for clean article, region, country and static pages, reflecting the actual region/country hierarchy. This does not change the visible navigation.
+- Expanded regression coverage across every generated canonical page: exactly one title, description, robots tag, canonical and H1; internal HTML links and assets resolve; breadcrumb destinations exist; sitemap dates cannot be in the future. Existing future-CMS-publication, redirects, coverage, and verification tests continue to run.
+- Synced the latest CMS image/article changes before this pass. The approved Option D cover remains intact.
+
+Search Console account operations, the optional www DNS alias, placeholder eligibility and future editorial publication dates remain distinct from these code changes. No claim is made that Google has recrawled the site or changed its rankings.
