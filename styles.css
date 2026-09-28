@@ -135,8 +135,9 @@ body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.
   .nav a{display:flex;align-items:center;min-height:46px;padding:12px 16px;font-size:11px;flex-shrink:0}
   .hero .headline{font-size:clamp(27px,8vw,36px);line-height:1.07}
   .hero .dek{font-size:16px;line-height:1.45}
-  .small-horizontal{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:14px}
-  .small-horizontal .headline{font-size:21px;line-height:1.1}
+  .top-grid .small-horizontal{grid-template-columns:minmax(0,1fr);gap:0}
+  .top-grid .hero img,.top-grid .small-horizontal img,.top-grid .medium-story img{width:100%;height:auto;aspect-ratio:1.5/1;object-fit:cover}
+  .top-grid .small-horizontal .headline{font-size:22px;line-height:1.02}
   .small-horizontal p,.medium-story .dek{font-size:15px;line-height:1.45}
   .kicker,.byline,.meta{font-size:10px;line-height:1.5}
   .region-card{padding:20px 0}
