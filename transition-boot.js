@@ -8,6 +8,7 @@
     const word=document.createElement('span');
     word.className='page-transition-word is-centered';
     const localizedBreaks={'Oriente Medio y Norte de África':'Oriente Medio y\nNorte de África','Moyen-Orient et Afrique du Nord':'Moyen-Orient et\nAfrique du Nord','África subsahariana':'África\nsubsahariana','Afrique subsaharienne':'Afrique\nsubsaharienne'};
+    Object.assign(localizedBreaks,{"Naher Osten und Nordafrika": "Naher Osten und\nNordafrika", "Midden-Oosten en Noord-Afrika": "Midden-Oosten en\nNoord-Afrika", "Közel-Kelet és Észak-Afrika": "Közel-Kelet és\nÉszak-Afrika", "Noord- en Zuid-Amerika": "Noord- en\nZuid-Amerika", "Ázsia és a csendes-óceáni térség": "Ázsia és a\ncsendes-óceáni térség"});
     const display=localizedBreaks[name]|| (name==='Middle East & North Africa'?'Middle East &\nNorth Africa':name==='Sub-Saharan Africa'?'Sub-Saharan\nAfrica':name);
     display.split('\n').forEach((line,index)=>{
       if(index)word.appendChild(document.createElement('br'));
