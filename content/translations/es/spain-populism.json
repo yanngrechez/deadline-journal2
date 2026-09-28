@@ -1,0 +1,52 @@
+{
+  "slug": "spain-populism",
+  "language": "es",
+  "provider": "assistant",
+  "sourceHash": "c35fb78e5da3423a8810db2621688a5b3ebb1d616c97b5f9c47af423ee20d994",
+  "title": "La juventud española busca desesperadamente representación",
+  "dek": "¿Cómo acabó una generación criada en democracia sintiéndose atraída por los extremos políticos?",
+  "hero_caption": "Simpatizantes de extrema derecha levantan el brazo derecho en Madrid para conmemorar al exdictador español Francisco Franco en el 39.º aniversario de su muerte.",
+  "body": "<p>Casi la mitad de los hombres y una cuarta parte de las mujeres de la generación Z en España afirman que tienen previsto votar a la extrema derecha en las próximas elecciones. La juventud, considerada en su día un motor de la transición española del fascismo a la democracia, se siente hoy cada vez más atraída por una política radical e iliberal. ¿Qué ha ocurrido exactamente?</p><p>La mayor parte de los estudios explica el apoyo al populismo a través de grandes crisis políticas —la crisis de 2008, la inmigración en 2014, el secesionismo en 2017 y la pandemia de 2020— o de factores socioeconómicos tradicionales, como los ingresos, el nivel educativo o el género. Sin embargo, estos enfoques no logran explicar por qué jóvenes españoles de todos los niveles de renta, regiones, géneros y trayectorias educativas apoyan cada vez más a partidos populistas.</p><p>Debemos observar, en cambio, las grandes transformaciones políticas, culturales, sociales y económicas que han marcado específicamente la vida de la generación Z y que impulsan este apoyo excepcional al populismo.</p><p>Un estudio de referencia en ciencia política es <em>The Populist Zeitgeist</em>, de Cas Mudde, uno de los principales especialistas en populismo. En él, Mudde plantea varios cambios generacionales que, a su juicio, explican mejor por qué la juventud recurre al populismo a niveles sin precedentes. Propone un marco de cinco razones fundamentales para explicar su auge en Occidente. En el caso de España, tres destacan por su relevancia.</p>",
+  "sections": [
+    {
+      "type": "image",
+      "image": "/media/spanish-transition-democracy-1.webp",
+      "alt": "Un niño levanta el puño durante una manifestación en la calle Preciados de Madrid, el 22 de junio de 1976. (César Lucas/El País)",
+      "caption": "Un niño levanta el puño durante una manifestación en la calle Preciados de Madrid, el 22 de junio de 1976. (César Lucas/El País)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Una tendencia que está marcando a la generación Z española es su creciente insatisfacción con la democracia y con las instituciones destinadas a sostenerla. La ciencia política suele distinguir entre apoyo específico, es decir, la satisfacción con el funcionamiento actual de las instituciones democráticas, y apoyo difuso, una convicción más profunda de que la democracia es el mejor sistema político en términos generales.</p><p>Por lo general, los estudios concluyen que el apoyo difuso a la democracia —la creencia de que es el mejor modelo político— no se ve afectado por un descenso del apoyo específico, es decir, por el descontento con la actuación del Gobierno. Sin embargo, los jóvenes españoles parecen romper esa pauta: la generación Z muestra un apoyo difuso a la democracia menor que el de las generaciones anteriores.</p><p>En otras palabras, los jóvenes españoles no solo están frustrados con sus políticos o partidos; cada vez están menos convencidos de que la democracia sea el mejor sistema político. La pérdida de compromiso con los valores democráticos crea un terreno fértil para partidos populistas con liderazgos centralizados y carismáticos que prometen devolver el poder de las élites a «la gente».</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/download.webp",
+      "alt": "La presidenta de la Comisión Europea, Ursula von der Leyen, y el presidente del Gobierno español, Pedro Sánchez, durante una cumbre de la UE en Madrid. (AP Photo/Bernat Armangue)",
+      "caption": "La presidenta de la Comisión Europea, Ursula von der Leyen, y el presidente del Gobierno español, Pedro Sánchez, durante una cumbre de la UE en Madrid. (AP Photo/Bernat Armangue)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Otro factor importante para la generación Z española es la creciente influencia de la Unión Europea y el giro más amplio hacia una política tecnocrática. En términos sencillos, cada vez más decisiones políticas se toman fuera del ámbito nacional, a menudo en instituciones que parecen lejanas, técnicas y difíciles de influir para la ciudadanía, que tampoco se siente partícipe de ellas.</p><p>Entre la generación Z crece la sensación de que la política ya no se decide plenamente mediante elecciones nacionales o debates públicos, sino a través de instituciones complejas en las que no se sienten representados ni creen poder influir.</p><p>A medida que más competencias pasan a organismos como la Comisión Europea o el Banco Central Europeo, las decisiones políticas fundamentales pueden parecer ajenas al debate democrático cotidiano. Para los jóvenes votantes, esto refuerza la impresión de que la política liberal es insensible, inaccesible e incapaz de representar sus preocupaciones.</p><p>En España, esta distancia percibida respecto a la UE parece especialmente relevante entre las generaciones más jóvenes: los datos del Eurobarómetro muestran que solo alrededor de un tercio de los españoles de entre 15 y 24 años cree que su voz cuenta en la UE. Esta sensación de pérdida de capacidad de acción política abre espacio a los partidos populistas, que prometen devolver las decisiones, una vez más, a «la gente de verdad».</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/03int-spain-social-media-facebookjumbo.jpg",
+      "alt": "Un niño juega con un teléfono en Barcelona en 2024. (Emilio Morenatti/Associated Press)",
+      "caption": "Un niño juega con un teléfono en Barcelona en 2024. (Emilio Morenatti/Associated Press)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Por último, los medios informativos se han democratizado. Hoy cualquiera puede producir, consumir y compartir la información política que desee. Aunque esto ha facilitado el acceso a la información, también ha creado un entorno sensacionalista y sin filtros que favorece de forma natural el auge de discursos escandalosos y divisivos.</p><p>Los algoritmos que priorizan la interacción frente a la exactitud suelen premiar los contenidos emocionales y extremos, aquellos que reciben más me gusta, comentarios y veces compartidos, dando mayor visibilidad a los relatos populistas de «nosotros contra ellos».</p><p>Los jóvenes españoles encuentran la política en publicaciones personalizadas, vídeos virales y contenidos de fuerte carga emocional que a menudo se consumen deprisa y sin apenas debate. Esto da a los partidos que dominan los espacios digitales una gran ventaja para captar a los jóvenes votantes.</p><p>Los estudios sugieren que Vox y Podemos figuran entre los partidos con mayor visibilidad e interacción en el entorno político digital al que están expuestos los jóvenes españoles. Si la mayoría de la generación Z utiliza las redes sociales como principal fuente de noticias políticas y los partidos populistas parecen ser los que más se hacen oír en ellas, resulta más fácil entender su éxito entre los jóvenes votantes.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/20250419eup002-1.jpg",
+      "alt": "Simpatizantes del partido de extrema derecha Vox asisten a un mitin electoral en Madrid. (Bernat Armangue/AP)",
+      "caption": "Simpatizantes del partido de extrema derecha Vox asisten a un mitin electoral en Madrid. (Bernat Armangue/AP)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Al identificar las transformaciones estructurales del contexto formativo de la generación Z que están estrechamente vinculadas al apoyo al populismo, podemos proponer políticas que combatan de forma más eficaz el aumento de la radicalización y de la polarización afectiva.</p><p>La transformación del panorama mediático, el desencanto democrático y la pérdida percibida de capacidad de acción política son tres ámbitos que están movilizando rápidamente el apoyo al populismo radical y que merecen la atención de quienes diseñan las políticas públicas.</p><p>Estas preocupaciones requieren medidas de protección en internet y programas educativos para reforzar la alfabetización digital de las generaciones jóvenes, enseñándoles a orientarse en un entorno informativo tan polarizado y sin filtros. También exigen cambios en la representación democrática que abran la puerta a formas más directas y participativas de democracia, o planes de estudio que destaquen su importancia y lo que ocurre cuando desaparece, algo que la juventud española parece estar olvidando.</p>"
+    }
+  ]
+}

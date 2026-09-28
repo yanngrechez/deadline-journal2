@@ -28,6 +28,8 @@ require('./cover.js').validate(articles,frontCover);
 // Validate before replacing output: a bad CMS slug must fail the build, not
 // overwrite a region, public asset, or another article's directory.
 const reserved=new Set([...routes.reserved,...fs.readdirSync(root).map(name=>name.split('.')[0])]);
+const translationSource=fs.readdirSync(path.join(root,'content/articles')).filter(f=>f.endsWith('.json')).map(f=>JSON.parse(fs.readFileSync(path.join(root,'content/articles',f),'utf8'))).filter(a=>a.status==='published');
+const translations=require('./build-translations.cjs').compile({root,articles:translationSource});
 const seen=new Set();
 for(const article of articles){
   if(typeof article.slug!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug)||article.slug.length>120)
@@ -75,6 +77,9 @@ const coveredCountries=countries.filter(c=>real.some(a=>a.region!=='Actors'&&cou
 const coveredRegions=Object.keys(routes.regions).filter(name=>real.some(a=>a.region===name));
 const image=await prepareImages({root,dist,articles});
 const render=createRenderer({articles,countries,routes,image,frontCover});
+fs.appendFileSync(path.join(dist,'journal-language-data.js'),'\nwindow.JOURNAL_LANGUAGE_CATALOG.push(...'+JSON.stringify(translations.globalRows)+');\nwindow.JOURNAL_ARTICLE_LANGUAGES='+JSON.stringify(translations.coverage)+';\n');
+for(const [slug,rows] of Object.entries(translations.articleRows))fs.writeFileSync(path.join(dist,'article-translations-'+slug+'.js'),'window.JOURNAL_LANGUAGE_CATALOG.push(...'+JSON.stringify(rows)+');\n');
+fs.writeFileSync(path.join(dist,'translation-coverage.json'),JSON.stringify({languages:require('./build-translations.cjs').locales,articles:translations.coverage},null,2));
 const templates={};
 for(const name of htmlFiles){
  let html=fs.readFileSync(path.join(root,name),'utf8')
@@ -95,6 +100,7 @@ function fill(html,id,content){
  return html.replace(pattern,(_,open,old,close)=>open+content+close);
 }
 function writeRoute(route,template,options){
+ if(options.article)template=template.replace('<script defer src="/journal-language.js">','<script defer src="/article-translations-'+options.article.slug+'.js"></script><script defer src="/journal-language.js">');
  const html=seo.decorate(template,{route,...options});
  const file=route==='/'?path.join(dist,'index.html'):path.join(dist,route.slice(1),'index.html');
  fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,html);

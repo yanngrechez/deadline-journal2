@@ -1,0 +1,52 @@
+{
+  "slug": "spain-populism",
+  "language": "fr",
+  "sourceHash": "c35fb78e5da3423a8810db2621688a5b3ebb1d616c97b5f9c47af423ee20d994",
+  "provider": "assistant",
+  "title": "La jeunesse espagnole cherche désespérément à être représentée",
+  "dek": "Comment une génération ayant grandi en démocratie en est-elle venue à se tourner vers les extrêmes politiques ?",
+  "body": "<p>Près de la moitié des hommes et un quart des femmes de la génération Z en Espagne déclarent vouloir voter pour l’extrême droite aux prochaines élections. Autrefois considérée comme un moteur de la transition espagnole du fascisme vers la démocratie, la jeunesse espagnole se tourne désormais de plus en plus vers une politique radicale et illibérale. Que s’est-il passé exactement ?</p><p>La plupart des recherches expliquent le soutien au populisme par de grands chocs politiques —la crise de 2008, l’immigration en 2014, le sécessionnisme en 2017, la pandémie de 2020— ou par des facteurs socioéconomiques classiques tels que le revenu, le niveau d’études et le genre. Ces approches peinent pourtant à expliquer pourquoi les jeunes Espagnols de tous niveaux de revenus, de toutes régions, de tous genres et de tous parcours scolaires soutiennent de plus en plus les partis populistes.</p><p>Il faut plutôt examiner les grandes évolutions politiques, culturelles, sociales et économiques qui ont marqué spécifiquement la période de formation de la génération Z et qui alimentent ce soutien exceptionnel au populisme.</p><p>Une étude de référence en science politique est <em>The Populist Zeitgeist</em>, de<em> </em>Cas Mudde, l’un des principaux spécialistes du populisme. Mudde y avance plusieurs transformations générationnelles qui expliqueraient, selon lui, pourquoi les jeunes se tournent vers le populisme à des niveaux inédits. Il propose un cadre de cinq grandes raisons expliquant l’essor du populisme en Occident. Dans le cas espagnol, trois points se distinguent particulièrement.</p>",
+  "sections": [
+    {
+      "type": "image",
+      "image": "/media/spanish-transition-democracy-1.webp",
+      "alt": "Un enfant lève le poing lors d’une manifestation dans la rue Preciados à Madrid, le 22 juin 1976. Photo : César Lucas/El País.",
+      "caption": "Un enfant lève le poing lors d’une manifestation dans la rue Preciados à Madrid, le 22 juin 1976. (César Lucas/El País)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Une tendance majeure façonne la génération Z espagnole : son insatisfaction croissante à l’égard de la démocratie et des institutions chargées de la faire vivre. Les politistes distinguent souvent le soutien spécifique, c’est-à-dire la satisfaction à l’égard du fonctionnement actuel des institutions démocratiques, du soutien diffus, une conviction plus profonde selon laquelle la démocratie reste globalement le meilleur système politique.</p><p>En général, les recherches montrent que le soutien diffus à la démocratie —la conviction qu’elle est le meilleur modèle politique— ne pâtit pas d’une baisse du soutien spécifique, autrement dit du mécontentement face à l’action du gouvernement. Les jeunes Espagnols semblent toutefois déroger à cette tendance : la génération Z manifeste un soutien diffus à la démocratie plus faible que les générations précédentes.</p><p>Autrement dit, les jeunes Espagnols ne sont pas seulement frustrés par leurs responsables politiques ou leurs partis ; ils sont de moins en moins convaincus que la démocratie est le meilleur système politique. Le recul de l’attachement aux valeurs démocratiques crée un terrain favorable aux partis populistes dotés de dirigeants charismatiques et d’un pouvoir centralisé, qui promettent de rendre le pouvoir des élites « au peuple ».</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/download.webp",
+      "alt": "La présidente de la Commission européenne, Ursula von der Leyen, et le président du gouvernement espagnol, Pedro Sánchez, lors d’un sommet de l’UE à Madrid. (AP Photo/Bernat Armangue)",
+      "caption": "La présidente de la Commission européenne, Ursula von der Leyen, et le président du gouvernement espagnol, Pedro Sánchez, lors d’un sommet de l’UE à Madrid. (AP Photo/Bernat Armangue)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Une autre force importante pour la génération Z espagnole est l’influence croissante de l’Union européenne et l’évolution plus générale vers une politique technocratique. En termes simples, davantage de décisions politiques sont désormais prises au-delà de l’échelon national, souvent par des institutions perçues comme lointaines, techniques et difficiles à influencer pour les citoyens, qui peinent également à s’y reconnaître.</p><p>La génération Z a de plus en plus le sentiment que la politique ne se décide plus entièrement par les élections nationales ou le débat public, mais au sein d’institutions complexes dans lesquelles elle ne se sent ni représentée ni capable d’exercer une influence.</p><p>À mesure que les compétences se déplacent vers des organismes comme la Commission européenne ou la Banque centrale européenne, les choix politiques essentiels peuvent paraître soustraits à la confrontation démocratique quotidienne. Pour les jeunes électeurs, cela renforce l’impression que la politique libérale est sourde à leurs préoccupations, inaccessible et incapable de les représenter.</p><p>En Espagne, cette distance ressentie vis-à-vis de l’UE semble particulièrement marquée chez les jeunes : les données de l’Eurobaromètre indiquent qu’environ un tiers seulement des Espagnols de 15 à 24 ans estiment que leur voix compte dans l’UE. Ce sentiment de perte de capacité d’action politique ouvre un espace aux partis populistes, qui promettent de rendre les décisions, une fois encore, « au vrai peuple ».</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/03int-spain-social-media-facebookjumbo.jpg",
+      "alt": "Un enfant joue sur un téléphone à Barcelone en 2024. (Emilio Morenatti/Associated Press)",
+      "caption": "Un enfant joue sur un téléphone à Barcelone en 2024. (Emilio Morenatti/Associated Press)"
+    },
+    {
+      "type": "text",
+      "body": "<p>Enfin, les médias d’information se sont démocratisés. Aujourd’hui, chacun peut produire, consulter et partager les informations politiques de son choix. Si cela a facilité l’accès à l’information, cela a aussi créé un climat sensationnaliste et sans filtre qui favorise naturellement les discours scandaleux et clivants.</p><p>Les algorithmes qui privilégient l’engagement plutôt que l’exactitude récompensent souvent les contenus émotionnels et extrêmes, ceux qui suscitent davantage de mentions J’aime, de commentaires et de partages, donnant ainsi plus de visibilité aux récits populistes opposant « nous » à « eux ».</p><p>Les jeunes Espagnols rencontrent la politique à travers des fils personnalisés, des vidéos virales et des contenus chargés d’émotion, souvent absorbés rapidement et sans véritable discussion. Les partis qui savent dominer les espaces numériques disposent ainsi d’un avantage considérable pour capter les jeunes électeurs.</p><p>Les recherches suggèrent que Vox et Podemos comptent parmi les partis les plus visibles et les plus mobilisateurs dans l’environnement politique numérique auquel les jeunes Espagnols sont exposés. Lorsque la majorité de la génération Z s’informe principalement sur les réseaux sociaux et que les partis populistes semblent y faire le plus de bruit, leur succès auprès des jeunes électeurs devient plus compréhensible.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/20250419eup002-1.jpg",
+      "alt": "Des sympathisants du parti espagnol d’extrême droite Vox assistent à un meeting électoral à Madrid. (Bernat Armangue/AP)",
+      "caption": "Des sympathisants du parti espagnol d’extrême droite Vox assistent à un meeting électoral à Madrid. (Bernat Armangue/AP)"
+    },
+    {
+      "type": "text",
+      "body": "<p>En isolant les évolutions structurelles du contexte de formation de la génération Z étroitement liées au soutien au populisme, nous pouvons proposer des politiques qui combattent plus efficacement la montée de la radicalisation et de la polarisation affective.</p><p>La transformation du paysage médiatique, la désillusion démocratique et le sentiment de perte de capacité d’action politique sont trois phénomènes qui mobilisent rapidement le soutien au populisme radical et méritent l’attention des responsables publics.</p><p>Ces préoccupations appellent des protections en ligne et des programmes éducatifs renforçant la culture numérique des jeunes générations, afin de leur apprendre à s’orienter dans un environnement informationnel aussi polarisé et sans filtre. Elles exigent aussi de faire évoluer la représentation démocratique vers des formes plus directes et participatives de démocratie, ou de concevoir des programmes scolaires soulignant son importance et ce qui arrive lorsqu’elle disparaît, une réalité que la jeunesse espagnole semble oublier.</p>"
+    }
+  ],
+  "hero_caption": "Des sympathisants d’extrême droite lèvent le bras droit à Madrid pour commémorer l’ancien dictateur espagnol Francisco Franco, à l’occasion du 39e anniversaire de sa mort."
+}

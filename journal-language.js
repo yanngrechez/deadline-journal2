@@ -2,7 +2,7 @@
 'use strict';
 // Cached translations approved in the local preview. No API requests or credentials in the browser.
 const languages=['en','es','fr','de','nl','hu'];
-const availableLanguages=['en','es','fr'];
+const availableLanguages=languages;
 const key='deadline-language';let language='en';try{const saved=localStorage.getItem(key);if(availableLanguages.includes(saved))language=saved}catch{}
 const decode=document.createElement('textarea');const plain=html=>{decode.innerHTML=String(html).replace(/<[^>]*>/g,'');return decode.value};
 const norm=s=>plain(s).replace(/\s+/g,' ').trim();
@@ -70,14 +70,14 @@ function visit(el){
    return;
  }
  if(el.nodeType!==Node.ELEMENT_NODE||el.matches(excluded))return;
- if(el===article&&!articleTranslationAvailable&&language!=='en'){const selected=language;language='en';visit(el);language=selected;return;}
+ if(el===article&&!articleTranslationAvailable(language)&&language!=='en'){const selected=language;language='en';visit(el);language=selected;return;}
  for(const name of ['placeholder','aria-label','title','alt','data-tooltip'])if(el.hasAttribute(name)){
    let saved=attributes.get(el);if(!saved){saved={};attributes.set(el,saved)}
    if(!(name in saved))saved[name]=el.getAttribute(name);
    const next=translate(saved[name]);if(el.getAttribute(name)!==next)el.setAttribute(name,next);
  }
  // Whole paragraphs can contain emphasis; use a curated HTML translation, preserving citations separately.
- if(el.tagName==='P'){
+ if(['P','H1','H2','H3','H4','H5','H6','LI'].includes(el.tagName)){
    if(!blocks.has(el))blocks.set(el,el.innerHTML);
    const source=blocks.get(el),entry=catalog.get(norm(source).toLowerCase());
    if(entry){const next=language==='en'?source:(entry[languages.indexOf(language)]||source);if(el.innerHTML!==next)el.innerHTML=next;return;}
@@ -86,15 +86,16 @@ function visit(el){
 }
 const sourceDocumentTitle=document.title;
 const article=document.getElementById('articlePage');
-const articleSegments=article?[...article.querySelectorAll('h1,.article-dek,.body p,figcaption span')].map(el=>el.innerHTML):[];
-const articleTranslationAvailable=articleSegments.every(html=>!norm(html)||catalog.has(norm(html).toLowerCase()));
+const articleSlug=typeof DeadlineRoutes!=='undefined'?DeadlineRoutes.resolve(new URL(location.href),window.DEADLINE_ARTICLES||[]).slug:null;
+const articleTranslationAvailable=locale=>locale==='en'||(window.JOURNAL_ARTICLE_LANGUAGES?.[articleSlug]||[]).includes(locale);
+const missingTranslation={es:'La traducción de esta versión aún no está disponible. Se muestra el artículo original en inglés.',fr:'La traduction de cette version n’est pas encore disponible. L’article original en anglais est affiché.',de:'Die Übersetzung dieser Fassung ist noch nicht verfügbar. Der englische Originaltext wird angezeigt.',nl:'De vertaling van deze versie is nog niet beschikbaar. Het oorspronkelijke Engelse artikel wordt weergegeven.',hu:'Ennek a változatnak a fordítása még nem érhető el. Az eredeti angol cikk jelenik meg.'};
 let articleNotice;
-if(article&&!articleTranslationAvailable){articleNotice=document.createElement('p');articleNotice.className='translation-availability';articleNotice.dataset.noTranslate='true';article.before(articleNotice);}
+if(article){articleNotice=document.createElement('p');articleNotice.className='translation-availability';articleNotice.dataset.noTranslate='true';article.before(articleNotice);}
 let observer;let scheduled=false;
 function apply(announce=false){
  observer?.disconnect();document.documentElement.lang=language==='nl'?'nl-NL':language;
- if(article){article.lang=articleTranslationAvailable?language:'en';}
- if(articleNotice){articleNotice.hidden=language==='en';articleNotice.textContent=language==='es'?'La traducción de esta versión aún no está disponible. Se muestra el artículo original en inglés.':'La traduction de cette version n’est pas encore disponible. L’article original en anglais est affiché.';}
+ if(article){article.lang=articleTranslationAvailable(language)?(language==='nl'?'nl-NL':language):'en';}
+ if(articleNotice){articleNotice.hidden=articleTranslationAvailable(language);articleNotice.textContent=missingTranslation[language]||'';}
  visit(document.body);
  document.querySelectorAll('.article-sources-content').forEach(el=>{el.setAttribute('translate','no')});
  chooser.querySelector('.language-toggle-label').textContent=translate('Languages');
