@@ -2,6 +2,18 @@
 export default {
   async fetch(request,env){
     const url=new URL(request.url);
+    // The public production Workers alias is a duplicate of the custom domain.
+    // Other workers.dev hosts are preview builds: keep them usable but unindexed.
+    if(url.hostname==='deadline-journal2.yanngrechez.workers.dev'){
+      url.protocol='https:';url.hostname='deadlinejournal.org';
+      return Response.redirect(url.href,301);
+    }
+    if(url.hostname.endsWith('.workers.dev')){
+      const response=await env.ASSETS.fetch(request);
+      const headers=new Headers(response.headers);
+      headers.set('X-Robots-Tag','noindex, nofollow');
+      return new Response(response.body,{status:response.status,headers});
+    }
     const routes=globalThis.DeadlineRoutes;
     const route=routes.resolve(url,publishedRoutes);
     const legacy=/^\/(article|region|country)(?:\.html)?\/?$/.test(url.pathname);

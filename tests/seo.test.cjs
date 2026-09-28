@@ -52,3 +52,42 @@ test('all built pages have unique canonical metadata, crawlable links and valid 
   if(lastmod)assert(lastmod<=new Date().toISOString().slice(0,10));
  }
 });
+
+test('archive structured data describes real visible articles at canonical URLs',()=>{
+ for(const route of [...Object.values(routes.regions),...countries.map(c=>c.slug)]){
+  const source=html(route);const list=graph(source).find(x=>x['@type']==='ItemList');
+  if(!list)continue;
+  assert.equal(list.numberOfItems,list.itemListElement.length);
+  for(const [i,item] of list.itemListElement.entries()){
+   assert.equal(item.position,i+1);
+   const slug=new URL(item.url).pathname.slice(1);const a=articles.find(a=>a.slug===slug);
+   assert(a&&!a.is_placeholder);assert.equal(item.name,a.title);assert(source.includes('href="/'+slug+'"'));
+  }
+ }
+});
+test('lead image preload matches responsive markup and enhancements do not block parsing',()=>{
+ for(const route of ['/',...articles.map(a=>a.slug)]){
+  const source=html(route);const preload=source.match(/<link rel="preload" as="image"[^>]+>/)?.[0];
+  const lead=source.match(/<img\b[^>]*fetchpriority="high"[^>]*>/)?.[0];
+  assert(preload&&lead,route);
+  const attr=(tag,name)=>tag.match(new RegExp('\\b'+name+'="([^"]*)"'))?.[1];
+  assert.equal(attr(preload,'href'),attr(lead,'src'));
+  assert.equal(attr(preload,'imagesrcset'),attr(lead,'srcset'));
+  assert.equal(attr(preload,'imagesizes'),attr(lead,'sizes'));
+  const scripts=[...source.matchAll(/<script\b([^>]*)>/g)].map(m=>m[1]).filter(a=>a.includes('src='));
+  assert.equal(scripts.filter(s=>!s.includes('defer')).length,1);
+  assert(scripts.find(s=>!s.includes('defer')).includes('transition-boot.'));
+  assert(scripts.findIndex(s=>s.includes('/data.'))<scripts.findIndex(s=>s.includes('/script.')));
+  assert(scripts.findIndex(s=>s.includes('/script.'))<scripts.findIndex(s=>s.includes('/journal-language.')));
+ }
+});
+test('production Workers alias redirects; preview deployments remain accessible but unindexed',async()=>{
+ const worker=(await import('data:text/javascript;base64,'+fs.readFileSync(path.join(root,'.cloudflare/worker.mjs')).toString('base64'))).default;
+ const env={ASSETS:{fetch:async()=>new Response('Preview HTML')}};
+ const alias=await worker.fetch(new Request('https://deadline-journal2.yanngrechez.workers.dev/spain-immigration?utm_source=test'),env);
+ assert.equal(alias.status,301);assert.equal(alias.headers.get('location'),'https://deadlinejournal.org/spain-immigration?utm_source=test');
+ const preview=await worker.fetch(new Request('https://abc-deadline-journal2.yanngrechez.workers.dev/spain-immigration'),env);
+ assert.equal(preview.status,200);assert.equal(preview.headers.get('x-robots-tag'),'noindex, nofollow');
+ const live=await worker.fetch(new Request('https://deadlinejournal.org/spain-immigration'),env);
+ assert.equal(live.headers.get('x-robots-tag'),null);
+});

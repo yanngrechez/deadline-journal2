@@ -17,11 +17,15 @@ function modified(article,now=new Date()){
 }
 const organization={'@type':'Organization','@id':origin+'/#organization',name:'Deadline Journal',url:origin+'/',logo:origin+'/favicon.svg',sameAs:['https://www.instagram.com/deadlinejournal/','https://www.tiktok.com/@deadlinejournal']};
 const website={'@type':'WebSite','@id':origin+'/#website',name:'Deadline Journal',url:origin+'/',inLanguage:'en',publisher:{'@id':organization['@id']}};
-function decorate(html,{route,title,description,index=true,article,type='WebPage',breadcrumbs=[]}){
+function decorate(html,{route,title,description,index=true,article,type='WebPage',breadcrumbs=[],items=[]}){
  const url=origin+route;
  const desc=plain(description);
  const page={'@type':type,'@id':url+'#webpage',url,name:title,description:desc,inLanguage:'en',isPartOf:{'@id':website['@id']}};
  const graph=[organization,website,page];
+ if(type==='CollectionPage'&&items.length){
+  const list={'@type':'ItemList','@id':url+'#articles',numberOfItems:items.length,itemListElement:items.map((item,i)=>({'@type':'ListItem',position:i+1,name:item.name,url:origin+item.route}))};
+  page.mainEntity={'@id':list['@id']};graph.push(list);
+ }
  if(route!=='/'){
   const trail=[{name:'Deadline Journal',route:'/'},...breadcrumbs,{name:article?article.title:title.replace(/ \| Deadline Journal$/,''),route}];
   const breadcrumb={'@type':'BreadcrumbList','@id':url+'#breadcrumb',itemListElement:trail.map((item,i)=>({'@type':'ListItem',position:i+1,name:item.name,item:origin+item.route}))};

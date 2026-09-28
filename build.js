@@ -84,7 +84,7 @@ const templates={};
 for(const name of htmlFiles){
  let html=fs.readFileSync(path.join(root,name),'utf8')
   .replace('<html>','<html lang="en" data-prerendered>')
-  .replace('</head>','<script defer src="/analytics.js"></script><link rel="stylesheet" href="/journal-language.css"><script defer src="/journal-language-data.js"></script><script defer src="/journal-language.js"></script></head>');
+  .replace('</head>','<link rel="stylesheet" href="/journal-language.css"></head>');
  if(name!=='index.html')html=html.replace('<h1 class="masthead">Deadline Journal</h1>','<div class="masthead">Deadline Journal</div>');
  html=html.replace('<body>','<body><a class="skip-link" href="#main-content">Skip to content</a>');
  if(!html.includes('<main id='))html=html.replace('<main','<main id="main-content" tabindex="-1"');
@@ -92,6 +92,22 @@ for(const name of htmlFiles){
  html=html.replace('id="searchOverlay"','id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search Deadline Journal"')
   .replace('id="searchInput"','id="searchInput" type="search" aria-label="Search articles"')
   .replace('class="close-search"','class="close-search" aria-label="Close search"');
+ // Defer enhancements in dependency order. Keep the tiny transition bootstrap
+ // synchronous so an incoming transition cannot flash the underlying page.
+ let init=0;const deferred=[];
+ html=html.replace(/<script(\s[^>]*)?>([\s\S]*?)<\/script>/gi,(tag,attrs='',code)=>{
+  if(/type=["']application\/ld\+json/.test(attrs)||/transition-boot/.test(attrs))return tag;
+  const src=attrs.match(/src="([^"]+)"/);
+  if(src)deferred.push(`<script defer src="${src[1]}"></script>`);
+  else if(code.trim()){
+   const filename=name.replace('.html','')+'-init-'+(++init)+'.js';
+   fs.writeFileSync(path.join(dist,filename),code);
+   deferred.push(`<script defer src="/${filename}"></script>`);
+  }
+  return '';
+ });
+ deferred.push('<script defer src="/analytics.js"></script><script defer src="/journal-language-data.js"></script><script defer src="/journal-language.js"></script>');
+ html=html.replace('</body>',deferred.join('')+'</body>');
  templates[name]=html;
 }
 function fill(html,id,content){
@@ -101,6 +117,13 @@ function fill(html,id,content){
 }
 function writeRoute(route,template,options){
  if(options.article)template=template.replace('<script defer src="/journal-language.js">','<script defer src="/article-translations-'+options.article.slug+'.js"></script><script defer src="/journal-language.js">');
+ // Discover the same responsive lead image before parsing the article body.
+ const lead=template.match(/<img\b[^>]*fetchpriority="high"[^>]*>/);
+ if(lead){
+  const attr=name=>lead[0].match(new RegExp('\\b'+name+'="([^\"]*)"'))?.[1];
+  const preload=`<link rel="preload" as="image" href="${attr('src')}"${attr('srcset')?` imagesrcset="${attr('srcset')}" imagesizes="${attr('sizes')}"`:''} fetchpriority="high">`;
+  template=template.replace('</head>',preload+'</head>');
+ }
  const html=seo.decorate(template,{route,...options});
  const file=route==='/'?path.join(dist,'index.html'):path.join(dist,route.slice(1),'index.html');
  fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,html);
@@ -113,7 +136,7 @@ writeRoute('/about',templates['about.html'],{title:'About | Deadline Journal',ty
 writeRoute('/write',templates['write.html'],{title:'Write for Us | Deadline Journal',description:'Tell us what the headlines are missing. Submit your article proposal to Deadline Journal and hear back within 48 hours.'});
 for(const country of countries){
  const covered=coveredCountries.includes(country);
- writeRoute(routes.countryUrl(country),fill(templates['country.html'],'countryPage',render.country(country)),{title:country.name+' | Deadline Journal',description:covered?`Read reporting and political perspectives from ${country.name}, written by contributors with a direct connection to the country.`:`Deadline Journal's ${country.name} desk. No stories yet. Know this place? Submit your article proposal.`,index:covered,type:'CollectionPage',breadcrumbs:[{name:country.region,route:routes.regionUrl(country.region)}]});
+ writeRoute(routes.countryUrl(country),fill(templates['country.html'],'countryPage',render.country(country)),{title:country.name+' | Deadline Journal',description:covered?`Read reporting and political perspectives from ${country.name}, written by contributors with a direct connection to the country.`:`Deadline Journal's ${country.name} desk. No stories yet. Know this place? Submit your article proposal.`,index:covered,type:'CollectionPage',items:real.filter(a=>a.region!=='Actors'&&countryOf(a)?.code===country.code).map(a=>({name:a.title,route:routes.articleUrl(a)})),breadcrumbs:[{name:country.region,route:routes.regionUrl(country.region)}]});
 }
 for(const article of articles){
  const country=article.region==='Actors'?null:countryOf(article);
@@ -126,7 +149,7 @@ for(const name of Object.keys(routes.regions)){
  const content=render.region(name);let html=templates['region.html'];
  for(const id of ['regionName','deskLabel','regionList','countryDirectory'])html=fill(html,id,content[id]);
  if(content.hideCountryDirectory)html=html.replace('id="countryDirectorySection"','id="countryDirectorySection" hidden');
- writeRoute(routes.regionUrl(name),html,{title:name+' | Deadline Journal',description:name==='Actors'?'Explore Deadline Journal articles on international institutions, organizations and other actors shaping global politics.':`Explore Deadline Journal reporting on ${name}: local political perspectives, history and economics from young contributors connected to the region.`,index:coveredRegions.includes(name),type:'CollectionPage'});
+ writeRoute(routes.regionUrl(name),html,{title:name+' | Deadline Journal',description:name==='Actors'?'Explore Deadline Journal articles on international institutions, organizations and other actors shaping global politics.':`Explore Deadline Journal reporting on ${name}: local political perspectives, history and economics from young contributors connected to the region.`,index:coveredRegions.includes(name),type:'CollectionPage',items:real.filter(a=>a.region===name).map(a=>({name:a.title,route:routes.articleUrl(a)}))});
 }
 // Old URLs are handled by the Worker, never indexed as duplicate entry points.
 for(const name of ['article.html','region.html','country.html'])fs.writeFileSync(path.join(dist,name),templates[name].replace(' data-prerendered','').replace('</head>','<meta name="robots" content="noindex,follow,max-image-preview:none"></head>'));

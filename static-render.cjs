@@ -56,7 +56,7 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
       : `<span class="country-label">${label}</span>`;
     return markup + topicMeta(article, true);
   };
-  const heroImage = (article, options = {}) => renderImage(article.hero_image, {alt:article.hero_alt || article.hero_caption || '', ...options});
+  const heroImage = (article, options = {}) => renderImage(article.hero_image, {alt:article.hero_alt || article.hero_caption || article.title || '', ...options});
   const caption = (explanation, credit) => explanation || credit
     ? `<figcaption>${explanation ? `<span>${escapeHtml(explanation)}</span>` : ''}${credit ? `<cite>${escapeHtml(credit)}</cite>` : ''}</figcaption>` : '';
   const sections = article => (Array.isArray(article.sections) ? article.sections : []).map(section => {
