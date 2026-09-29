@@ -98,7 +98,9 @@ function apply(announce=false){
  if(articleNotice){articleNotice.hidden=articleTranslationAvailable(language);articleNotice.textContent=missingTranslation[language]||'';}
  visit(document.body);
  document.querySelectorAll('.article-sources-content').forEach(el=>{el.setAttribute('translate','no')});
- chooser.querySelector('.language-toggle-label').textContent=translate('Languages');
+ const selectedName={en:'English',es:'Español',fr:'Français',de:'Deutsch',nl:'Nederlands',hu:'Magyar'}[language];
+ chooser.querySelector('.language-toggle-label').textContent=selectedName;
+ trigger.setAttribute('aria-label',labels[language].Languages+': '+selectedName);
  chooser.querySelector('.language-panel-title').textContent=translate('Languages');
  chooser.querySelector('.language-panel-note').textContent=notices[language];
  chooser.querySelector('.english-origin').textContent=language==='fr'?'Original':'Original';

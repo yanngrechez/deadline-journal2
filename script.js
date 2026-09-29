@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const i=document.getElementById('searchInput');
   if(i)i.addEventListener('input',e=>renderSearch(e.target.value));
   initializeReadingProgress();
+  initializeMobileNavigation();
   requestAnimationFrame(showArrivalTransition);
 });
 document.addEventListener('click',event=>{
@@ -297,4 +298,51 @@ function appendArticleSources(article, sources) {
   references.append(template.content);
   details.append(summary, references);
   article.append(details);
+}
+
+
+// Retain the same crawlable region links in a compact disclosure on phones.
+function initializeMobileNavigation(){
+  const wrap=document.querySelector('.nav-wrap'),nav=wrap?.querySelector('.nav');
+  if(!nav||wrap.classList.contains('mobile-nav-enhanced'))return;
+  nav.id='journalRegions';
+  const bar=document.createElement('div');bar.className='mobile-nav-bar';
+  bar.innerHTML='<a href="/">Latest</a><button type="button" aria-expanded="false" aria-controls="journalRegions"><span>Regions</span><span class="disclosure-triangle" aria-hidden="true"></span></button>';
+  wrap.prepend(bar);wrap.classList.add('mobile-nav-enhanced');
+  const button=bar.querySelector('button');
+  const close=()=>{wrap.classList.remove('is-open');button.setAttribute('aria-expanded','false')};
+  button.addEventListener('click',()=>{const open=wrap.classList.toggle('is-open');button.setAttribute('aria-expanded',String(open))});
+  wrap.addEventListener('keydown',event=>{if(event.key==='Escape'){close();button.focus()}});
+  nav.addEventListener('click',event=>{if(event.target.closest('a'))requestAnimationFrame(close)});
+  document.addEventListener('click',event=>{if(!wrap.contains(event.target))close()});
+  wrap.addEventListener('focusout',event=>{if(event.relatedTarget&&!wrap.contains(event.relatedTarget))close()});
+  matchMedia('(max-width:700px)').addEventListener('change',close);
+}
+
+// Native two-axis scrolling supports touch panning without intercepting page gestures.
+function initializeMapZoom(){
+  const shell=document.getElementById('worldMapShell'),svg=document.getElementById('worldMap');
+  const controls=document.querySelector('.map-controls');
+  if(!shell||!svg||!controls)return;
+  controls.hidden=false;
+  const mobile=matchMedia('(max-width:700px)');
+  let zoom=1;
+  const setZoom=next=>{
+    const x=(shell.scrollLeft+shell.clientWidth/2)/(shell.clientWidth*zoom);
+    const y=(shell.scrollTop+shell.clientHeight/2)/(shell.clientHeight*zoom);
+    zoom=Math.max(1,Math.min(4,next));
+    svg.style.width=zoom===1?'':`${zoom*100}%`;
+    shell.classList.toggle('is-zoomed',zoom>1);
+    shell.scrollLeft=x*shell.clientWidth*zoom-shell.clientWidth/2;
+    shell.scrollTop=y*shell.clientHeight*zoom-shell.clientHeight/2;
+    controls.querySelector('[data-map-zoom="out"]').disabled=zoom===1;
+    controls.querySelector('[data-map-zoom="in"]').disabled=zoom===4;
+    const note=document.querySelector('.map-key-note');
+    if(note)note.textContent=!mobile.matches?'Select any country to visit its page.':zoom>1?'Swipe to explore. Select a country to read its stories.':'Zoom in to explore, or select a country.';
+    document.getElementById('mapTooltip')?.setAttribute('aria-hidden','true');
+  };
+  controls.addEventListener('click',event=>{const button=event.target.closest('[data-map-zoom]');if(!button)return;setZoom(button.dataset.mapZoom==='reset'?1:zoom+(button.dataset.mapZoom==='in'?1:-1))});
+  shell.addEventListener('scroll',()=>document.getElementById('mapTooltip')?.setAttribute('aria-hidden','true'),{passive:true});
+  mobile.addEventListener('change',()=>setZoom(1));
+  setZoom(1);
 }

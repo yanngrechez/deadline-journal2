@@ -20,7 +20,7 @@
   <div class="top-col" id="middleColumn"></div>
   <div class="top-col" id="railColumn"></div>
 </div></section>
-<section class="coverage-map-section" id="latest"><div class="container section"><div class="map-heading"><div class="kicker">DEADLINE JOURNAL AROUND THE WORLD</div><h2 id="mapTitle">Voices from 0 countries, and counting.</h2></div><div class="world-map-shell" id="worldMapShell"><svg class="world-map" id="worldMap" role="img" aria-labelledby="mapTitle mapDescription"></svg><p class="visually-hidden" id="mapDescription">An interactive world map. Select a country to see its Deadline Journal stories.</p><div class="map-tooltip" id="mapTooltip" role="status" aria-hidden="true"></div></div><div class="map-key"><span><i class="map-key-covered"></i>Published coverage</span><span><i class="map-key-open"></i>No stories yet</span><span class="map-key-note">Select any country to visit its page.</span></div></div></section>
+<section class="coverage-map-section" id="latest"><div class="container section"><div class="map-heading"><div class="kicker">DEADLINE JOURNAL AROUND THE WORLD</div><h2 id="mapTitle">Voices from 0 countries, and counting.</h2></div><div class="map-controls" hidden><button type="button" data-map-zoom="out" aria-label="Zoom out">−</button><button type="button" data-map-zoom="reset">Full world</button><button type="button" data-map-zoom="in" aria-label="Zoom in">+</button></div><div class="world-map-shell" id="worldMapShell"><svg class="world-map" id="worldMap" role="img" aria-labelledby="mapTitle mapDescription"></svg><p class="visually-hidden" id="mapDescription">An interactive world map. Select a country to see its Deadline Journal stories.</p><div class="map-tooltip" id="mapTooltip" role="status" aria-hidden="true"></div></div><div class="map-key"><span><i class="map-key-covered"></i>Published coverage</span><span><i class="map-key-open"></i>No stories yet</span><span class="map-key-note">Select any country to visit its page.</span></div></div></section>
 <section class="regions-wrap"><div class="container section"><h2 class="section-title"><span>Around the World</span><small>Browse by region</small></h2><div class="region-grid" id="regionGrid"></div></div></section>
 <section class="container mission"><h2>Politics from the people closest to it.</h2><div><p>Deadline Journal is a student-led publication that gives young writers a platform to highlight political developments in their own communities that they believe deserve greater, or different, attention.</p><p>We prioritize proximity. Political issues are best understood through local context, lived knowledge, and personal stories.</p><a class="cta" href="/write">Write for Deadline Journal</a></div></section>
 </main>
@@ -82,8 +82,8 @@ if(map&&mapSvg){
    const show=(clientX,clientY)=>{
      const bounds=document.getElementById('worldMapShell').getBoundingClientRect();
      mapTooltip.textContent=link.dataset.tooltip;
-     mapTooltip.style.left=`${Math.max(8,Math.min(bounds.width-170,clientX-bounds.left+12))}px`;
-     mapTooltip.style.top=`${Math.max(8,clientY-bounds.top-38)}px`;
+     mapTooltip.style.left=`${document.getElementById('worldMapShell').scrollLeft+Math.max(8,Math.min(bounds.width-170,clientX-bounds.left+12))}px`;
+     mapTooltip.style.top=`${document.getElementById('worldMapShell').scrollTop+Math.max(8,clientY-bounds.top-38)}px`;
      mapTooltip.setAttribute('aria-hidden','false');
    };
    link.addEventListener('pointerenter',event=>show(event.clientX,event.clientY));
@@ -96,6 +96,8 @@ if(map&&mapSvg){
    link.addEventListener('blur',()=>mapTooltip.setAttribute('aria-hidden','true'));
  });
 }
+
+initializeMapZoom();
 
 const regions=[
  ['Europe','EUROPE'],['Americas','AMERICAS'],['Middle East & North Africa','MENA'],
