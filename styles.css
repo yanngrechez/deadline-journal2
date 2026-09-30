@@ -66,8 +66,8 @@ body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.
 .map-country.is-covered{fill:var(--purple);stroke:var(--purple-dark)}
 .map-country-link:hover .map-country.is-covered,.map-country-link:focus .map-country.is-covered{fill:var(--purple-dark)}
 .map-country-static{fill:#eee9ef;pointer-events:none}
-.map-marker{fill:transparent;stroke:transparent;stroke-width:8;opacity:0;pointer-events:all;vector-effect:non-scaling-stroke;transition:fill .14s ease,stroke .14s ease,opacity .14s ease,r .14s ease}
-.map-country-link:hover .map-marker,.map-country-link:focus .map-marker{fill:var(--paper);stroke:var(--purple);stroke-width:2;opacity:1;r:6px}
+.map-marker{fill:transparent;stroke:transparent;stroke-width:1;opacity:0;pointer-events:fill;vector-effect:non-scaling-stroke;transition:fill .14s ease,stroke .14s ease,opacity .14s ease}
+.map-country-link:hover .map-marker,.map-country-link:focus .map-marker{fill:var(--paper);stroke:var(--purple);stroke-width:1;opacity:1}
 .map-country-link:hover .map-marker.is-covered,.map-country-link:focus .map-marker.is-covered{fill:var(--purple-dark)}
 .map-country-link:focus{outline:none}
 .map-country-link:focus .map-country,.map-country-link:focus .map-marker{filter:drop-shadow(0 0 3px rgba(91,42,134,.7))}
@@ -334,3 +334,15 @@ img{height:auto}
 }
 
 @media(max-width:700px){.map-heading h2{font-size:clamp(26px,7vw,34px);line-height:1.1;text-wrap:balance}.map-heading .kicker{font-size:9px}}
+
+/* Desktop zoom makes precise country boundaries selectable without inflated hit areas. */
+@media(min-width:701px){
+  .map-controls:not([hidden]){display:flex;justify-content:center;gap:8px;margin-top:14px}
+  .map-controls button{min-width:36px;min-height:36px;padding:7px 12px;border:1px solid var(--rule);border-radius:0;background:var(--paper);color:var(--purple);font:700 11px/1.2 Arial,sans-serif;cursor:pointer}
+  .map-controls button[data-map-zoom=in],.map-controls button[data-map-zoom=out]{font-size:20px}
+  .map-controls button:disabled{opacity:.35;cursor:default}
+  .map-controls button:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+  .world-map-shell{aspect-ratio:2/1;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--purple) var(--rule)}
+  .world-map{max-width:none;overflow:hidden}
+}
+@media(prefers-reduced-motion:reduce){.map-marker{transition:none}}

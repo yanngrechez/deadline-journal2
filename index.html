@@ -71,11 +71,16 @@ if(map&&mapSvg){
    const count=countsByCountry.get(country.code)||0;
    return mapLink(country,count,`<path class="map-country ${count?'is-covered':''}" d="${item.d}"></path>`);
  }).join('');
- const markerMarkup=map.markers.map(item=>{
+ // Countries with a polygon use that boundary; only missing microstates need a marker.
+ const polygonCodes=new Set(map.paths.map(item=>item.code));
+ const markers=map.markers.filter(item=>!polygonCodes.has(item.code));
+ const markerMarkup=markers.map(item=>{
    const country=countryByCode(item.code);
    if(!country)return '';
    const count=countsByCountry.get(country.code)||0;
-   return mapLink(country,count,`<circle class="map-marker ${count?'is-covered':''}" cx="${item.x}" cy="${item.y}" r="5"></circle>`);
+   const nearest=markers.reduce((distance,other)=>other===item?distance:Math.min(distance,Math.hypot(item.x-other.x,item.y-other.y)),Infinity);
+   const radius=Math.min(3,nearest*.42);
+   return mapLink(country,count,`<circle class="map-marker ${count?'is-covered':''}" cx="${item.x}" cy="${item.y}" r="${radius}"></circle>`);
  }).join('');
  mapSvg.innerHTML=`<path class="map-sphere" d="${map.sphere}"></path><g>${pathMarkup}</g><g class="map-markers">${markerMarkup}</g>`;
  mapSvg.querySelectorAll('.map-country-link').forEach(link=>{

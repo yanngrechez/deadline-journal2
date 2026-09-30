@@ -338,7 +338,7 @@ function initializeMapZoom(){
     controls.querySelector('[data-map-zoom="out"]').disabled=zoom===1;
     controls.querySelector('[data-map-zoom="in"]').disabled=zoom===4;
     const note=document.querySelector('.map-key-note');
-    if(note)note.textContent=!mobile.matches?'Select any country to visit its page.':zoom>1?'Swipe to explore. Select a country to read its stories.':'Zoom in to explore, or select a country.';
+    if(note)note.textContent=zoom>1?'Swipe to explore. Select a country to read its stories.':'Zoom in to explore, or select a country.';
     document.getElementById('mapTooltip')?.setAttribute('aria-hidden','true');
   };
   controls.addEventListener('click',event=>{const button=event.target.closest('[data-map-zoom]');if(!button)return;setZoom(button.dataset.mapZoom==='reset'?1:zoom+(button.dataset.mapZoom==='in'?1:-1))});
