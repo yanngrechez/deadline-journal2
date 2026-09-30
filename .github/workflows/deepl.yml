@@ -1,0 +1,75 @@
+name: Translate articles with DeepL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/articles/**'
+      - 'scripts/translate-deepl.cjs'
+      - 'build-translations.cjs'
+      - '.github/workflows/deepl.yml'
+  workflow_dispatch:
+    inputs:
+      verify:
+        description: 'Verify the API connection with one short sample in each language'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deepl-articles-main
+  cancel-in-progress: false
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test translation integration
+        run: node --test tests/deepl.test.cjs
+      - name: Translate new and updated published articles
+        id: translate
+        env:
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
+          VERIFY_CONNECTION: ${{ inputs.verify }}
+        run: |
+          if [ -z "$DEEPL_API_KEY" ]; then
+            echo '::error::Add DEEPL_API_KEY in Settings → Secrets and variables → Actions, then rerun this workflow.'
+            exit 1
+          fi
+          if [ "$VERIFY_CONNECTION" = 'true' ]; then
+            node scripts/translate-deepl.cjs --verify
+          else
+            node scripts/translate-deepl.cjs
+          fi
+      - name: Validate complete translation coverage
+        run: node --test tests/translations.test.cjs
+      - name: Save translations and trigger Cloudflare publishing
+        run: |
+          git add content/translations
+          if git diff --cached --quiet; then
+            echo 'All translations are current; nothing to publish.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Translate updated articles with DeepL'
+          # Never force-push over a newer CMS save. Its queued run checks out the
+          # latest main and regenerates against the current English source.
+          git push origin HEAD:main
+      - name: Keep completed translations if a run fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepl-translations-${{ github.run_id }}
+          path: content/translations
+          retention-days: 7

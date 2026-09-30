@@ -2,3 +2,9 @@ node_modules/
 .pnpm-store/
 .cloudflare/
 .wrangler/
+
+# Local API credentials must never be committed.
+.env
+.env.*
+!.env.example
+content/translations/**/*.tmp

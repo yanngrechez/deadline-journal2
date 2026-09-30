@@ -97,3 +97,77 @@ This supplies the visible updated date, Article structured data and sitemap fres
 Leave it blank on first publication; future or pre-publication update dates are ignored.
 Publication dates remain separate. Run `npm run build` then `npm test` to check
 canonical pages, local links, sitemap eligibility, structured data and redirects.
+
+## Automatic article translation with DeepL
+
+The **Translate articles with DeepL** GitHub Actions workflow runs after Pages CMS
+saves published article content to `main`. It generates missing or outdated
+Spanish, French, German, Dutch and Hungarian translations, validates their HTML,
+and commits the translation JSON files. Cloudflare's existing GitHub integration
+then builds and publishes that commit. No DeepL key or request is sent to readers.
+
+### One-time activation
+
+1. Create a **DeepL API** account/key (API Free or API Pro; a normal Translator
+   subscription alone does not provide this integration):
+   https://www.deepl.com/en/your-account/keys
+2. In https://github.com/yanngrechez/deadline-journal2/settings/secrets/actions,
+   add a repository secret named **DEEPL_API_KEY** with the complete key.
+3. Open **Actions → Translate articles with DeepL → Run workflow**, leave the
+   connection check enabled, and run it on `main`. This translates one short test
+   sentence into each language, checks the returned HTML, and updates any missing
+   translations. The check uses a small amount of the API character allowance.
+4. Confirm the workflow succeeds. If it saves article translations, also confirm
+   the Cloudflare Workers Builds check on its generated commit succeeds.
+
+The key suffix chooses DeepL's Free (`api-free.deepl.com`) or Pro
+(`api.deepl.com`) endpoint automatically. Do not put the key in article fields,
+browser JavaScript, Cloudflare public variables, or repository files.
+
+### What is translated and preserved
+
+- Headlines, subtitles, article body, text sections, section headings, image alt
+  descriptions and captions are translated using DeepL's HTML handling and
+  preferred quality model. Article context accompanies the requests.
+- Sources are never sent to DeepL. Author names, URLs, image paths and separate
+  photo-credit fields stay unchanged. Existing translated interface text remains
+  in the shared language catalog.
+- Current saved translations, including earlier editorial/AI translations, are
+  retained. DeepL replaces them when their English article content changes; it
+  does not automatically retranslate the existing archive just to change provider.
+- Whitespace-only edits, new citations, publication dates, cover placement and
+  author metadata do not cause new requests. An article-text revision refreshes
+  that article in each affected language. Drafts are not sent to DeepL.
+- Validated translations are cached in Git, so ordinary builds and reader visits
+  consume no translation quota. `provider: "deepl"` identifies new API output.
+
+### Publishing and failures
+
+The English CMS save and translated commit are separate deployments. English may
+publish first; the updated translations follow when the workflow and Cloudflare
+finish. During that interval the existing availability notice identifies any
+translation that is not yet current. No stale article is presented as up to date.
+
+Missing credentials, quota exhaustion, invalid responses or broken formatting
+fail the workflow visibly. They do not deploy unvalidated translations or prevent
+English publishing. Check the failed **Actions** run, resolve its reported issue,
+then use **Re-run jobs**. Failed runs retain completed translation files as a
+seven-day artifact for recovery; these files are not automatically published.
+Rate-limit/server errors receive bounded retries. Ambiguous connection timeouts
+are not automatically retried to avoid duplicate billing.
+
+The workflow serializes translation jobs and never force-pushes. If another CMS
+save reaches `main` during translation, the first push can be rejected; the queued
+run reads the latest content and regenerates against that source. A failed run
+can require retranslating work that was not committed. Set spending limits in
+DeepL and monitor the account usage reported in the workflow log.
+
+### Local commands
+
+`npm run translate:check` reports missing/outdated translations without a key,
+API calls, or file writes. `npm run translate` refreshes them when DEEPL_API_KEY
+is present in the local process environment. The script does not read `.env`
+automatically. `npm run translate -- --verify` also tests the live API connection.
+`npm test` includes mocked API tests; these do not incur charges or require secrets.
+
+Reference: https://developers.deepl.com/docs/translate/translating-html

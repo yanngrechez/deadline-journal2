@@ -5,7 +5,9 @@
   "scripts": {
     "build": "node build.js",
     "preview": "node preview.mjs",
-    "test": "node --test tests/*.test.cjs"
+    "test": "node --test tests/*.test.cjs",
+    "translate": "node scripts/translate-deepl.cjs",
+    "translate:check": "node scripts/translate-deepl.cjs --dry-run"
   },
   "dependencies": {
     "flag-icons": "7.5.0",

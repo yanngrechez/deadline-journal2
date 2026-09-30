@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-// Cached translations approved in the local preview. No API requests or credentials in the browser.
+// Saved editorial and DeepL translations. No API requests or credentials in the browser.
 const languages=['en','es','fr','de','nl','hu'];
 const availableLanguages=languages;
 const key='deadline-language';let language='en';try{const saved=localStorage.getItem(key);if(availableLanguages.includes(saved))language=saved}catch{}
