@@ -1,7 +1,7 @@
 {
   "slug": "hungary-ukraine-relations",
   "language": "fr",
-  "sourceHash": "ffffd60a8e5035f85d114be3a3431f0be3506d8a2da0c99dc6a6861d1b1982f8",
+  "sourceHash": "807fd84f97bc7aa4f9fa59595a3ec9b03e624f7565f23f3f6a24e28a73bd4aea",
   "provider": "assistant",
   "title": "Les relations ukraino-hongroises se rétablissent, mais cela prend du temps",
   "dek": "De la politique des gazoducs à la réconciliation.",
@@ -39,5 +39,6 @@
     }
   ],
   "hero_alt": "L’ancien Premier ministre hongrois Viktor Orbán avec le président ukrainien Volodymyr Zelensky en 2024 (Ludovic Marin/AFP)",
-  "hero_caption": "L’ancien Premier ministre hongrois Viktor Orbán avec le président ukrainien Volodymyr Zelensky en 2024 (Ludovic Marin/AFP)."
+  "hero_caption": "L’ancien Premier ministre hongrois Viktor Orbán avec le président ukrainien Volodymyr Zelensky en 2024 (Ludovic Marin/AFP).",
+  "contentHash": "c28b32911d2164b4c87f0ad1bbd25de6013587304290ac477ce487e16800726b"
 }

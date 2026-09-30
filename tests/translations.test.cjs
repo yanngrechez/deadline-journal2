@@ -29,3 +29,14 @@ test('missing translations leave CMS publishing available with English fallback'
  try{const result=compile({root:temporary,articles});assert.equal(result.issues.length,articles.length*5);}
  finally{fs.rmSync(temporary,{recursive:true,force:true});}
 });
+
+test('whitespace-only CMS edits retain translations while genuine edits still invalidate them',()=>{
+ const changed={...articles[0],title:'  '+articles[0].title+' ',body:articles[0].body.replace(/<p>/g,'<p> ').replace(/<\/p>/g,' </p>\n')};
+ assert.notEqual(sourceHash(changed),sourceHash(articles[0]));
+ const result=compile({root,articles:[changed],strict:true});
+ assert.deepEqual(result.coverage[changed.slug],locales);
+});
+test('shared interface copy covers every supported language without obsolete article samples',()=>{
+ const context={window:{}};require('node:vm').runInNewContext(fs.readFileSync(path.join(root,'journal-language-data.js'),'utf8'),context);
+ for(const row of context.window.JOURNAL_LANGUAGE_CATALOG){assert.equal(row.length,6,row[0]);assert.ok(row.every(value=>typeof value==='string'&&value.trim()),row[0]);}
+});
