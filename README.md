@@ -175,5 +175,6 @@ Reference: https://developers.deepl.com/docs/translate/translating-html
 ## Email updates
 
 See [NEWSLETTER.md](NEWSLETTER.md) for the bell signup, publication feed, edition
-and announcement editor, provider setup, and delivery verification. Signup is
-disabled until an email account is connected and tested.
+and announcement editor, free Buttondown account setup, and delivery verification.
+Newsletters are sent manually in Buttondown; publishing does not email readers.
+Signup is disabled until an account is connected and tested.

@@ -1,97 +1,79 @@
-# Email updates: activation and publishing
+# Email updates: free manual newsletter
 
-The website includes a compact bell signup, an RSS publication feed, and an
-**Email announcements** collection in Pages CMS. Signup starts disabled; no
-addresses are collected until the newsletter account is connected and verified.
-The dark-mode concept remains separate and unpublished.
+The selected setup is Buttondown’s free plan, using the owner’s existing Gmail
+account. Readers subscribe through the website bell; the editor sends newsletters
+manually from Buttondown. Publishing an article does not send an email.
+No paid RSS-to-email or automation add-on should be enabled for this setup.
 
-## Connect the email service
+## Connect the free account
 
-The prepared form supports Buttondown. Other providers can also consume the
-standard RSS feed; their signup endpoint must be adapted before enabling the bell.
-No newsletter account, paid plan, domain email address or sending automation is
-created by the code alone.
+1. Register at https://buttondown.com/register using `yanngrechez@gmail.com`.
+   Use Deadline Journal as the newsletter name and choose an available username.
+   Verify the account email. No separate journal mailbox is required.
+2. Keep Buttondown’s default sending address (`USERNAME@buttondown.email`).
+   Replies are forwarded through Buttondown to the account’s email address.
+   No custom-domain DNS changes are needed.
+3. Leave double opt-in enabled. Readers must confirm their own subscriptions.
+4. Enter the newsletter username under Pages CMS → **Email signup settings**.
+   Keep the public bell disabled while testing.
+5. Test the connected signup privately: verify the confirmation email, a sample
+   newsletter sent only to the owner’s test address, and unsubscribe.
+6. After delivery is verified, mark the verification checkbox and enable the bell
+   in Pages CMS. Cloudflare publishes the change.
 
-1. Create the journal's newsletter account. Use the display name Deadline Journal.
-   Choose a newsletter username and verify the account email.
-2. Configure a sender, ideally `updates@deadlinejournal.org`, using the DNS records
-   provided by the service. An inbox such as `hello@deadlinejournal.org` can forward
-   incoming messages to your Gmail. Don't replace existing mail DNS blindly.
-3. Leave double opt-in enabled. Subscribers must confirm their own address.
-   Buttondown handles confirmation, CAPTCHA, unsubscribe, bounces and suppression.
-4. Configure RSS-to-email using `https://deadlinejournal.org/feed.xml`.
-   Choose **every time**, and start in **create draft** mode for the first test.
-   Buttondown polls approximately every 30 minutes; it is not instantaneous.
-5. Enable **skip old items** when first connecting so the existing archive is not
-   emailed as a batch of new articles. Inspect the feed preview before sending.
-6. Use the provider's test-send feature to deliver a sample only to the owner's
-   test address. Verify signup confirmation, an article email, an edition or
-   announcement email, and unsubscribe before changing to automatic sending.
-7. In Pages CMS → **Email signup settings**, enter the username, confirm delivery
-   has been tested, and enable the signup bell. Cloudflare publishes the change.
+The account username is still needed before connecting the prepared form.
+No newsletter account or paid plan has been created by this code.
 
-The HTML form uses Buttondown's normal POST endpoint; it does not fake success or
-use fetch to bypass provider challenges. Subscribers may complete verification
-on Buttondown and then confirm by email. The browser never receives an API key.
-No email address is sent to PostHog or stored in localStorage.
+## Send an article update or announcement
 
-## Send updates
+1. Publish articles in Pages CMS as usual.
+2. Open Buttondown and compose a newsletter with a subject, a short introduction,
+   and links to the articles. You can include several articles in one email.
+3. Preview it and send a test to yourself.
+4. Send it to confirmed subscribers when ready. Buttondown supplies unsubscribe
+   controls and manages the subscriber list.
 
-- **New articles:** publish in Pages CMS as usual. Published, non-placeholder
-  articles with a valid, non-future publication date enter the feed automatically.
-- **New editions or announcements:** create an entry under **Email announcements**,
-  choose its type, write the message, add a journal link, set the current UTC
-  publication time and switch from Draft to Published when ready to email it.
-- **Manual emails:** use the newsletter provider's editor for messages that should
-  not appear in the public feed.
+For editions or general announcements, use the same Buttondown editor.
+The free plan currently covers the first 100 active subscribers. Published
+pricing assumes at most one email per day to the full list. Recheck the plan
+before exceeding either allowance; no paid upgrade is authorized automatically.
 
-Emails link back to the journal, and subscribers receive the English edition.
-The translated website remains available at the destination. Separate newsletter
-language preferences are not implemented.
+Suggested article email:
 
-Keep article slugs and announcement IDs stable after publication. Feed GUIDs use
-these IDs so ordinary edits, cover changes and translation builds do not trigger
-duplicate emails. Editing an already-sent announcement does not recall or resend
-the email. Use a new announcement ID for a separate correction notice.
+> Subject: New from Deadline Journal: [article title]
+>
+> [One or two sentences introducing the article.]
+>
+> [Read the article](https://deadlinejournal.org/ARTICLE-SLUG)
+>
+> Deadline Journal
 
-Publication dates are independent of update dates. Backdated items may be skipped
-by the provider's old-item filter. Future-dated items remain out of the feed until
-a build runs after that date; this is not a scheduled publishing service.
+The signup interface supports the journal’s six languages. Newsletter text is
+written manually in Buttondown; changing the website language does not select
+an email language or translate outgoing newsletters.
 
-## Suggested RSS email template
+## Website integration
 
-Configure the provider to render its normal confirmation and unsubscribe footer.
-Use an English subject such as `New from Deadline Journal` and this body:
+The HTML form uses Buttondown’s normal POST endpoint so the provider can handle
+verification and CAPTCHA. It never claims success before the provider accepts
+it. No email address is sent to PostHog or stored in localStorage, and no API key
+is exposed to the browser.
 
-```html
-{% for item in items %}
-<h2>{{ item.title }}</h2>
-{{ item.content }}
-{% endfor %}
-```
+The existing `/feed.xml` remains available to RSS readers. The **Publication
+announcements (RSS)** CMS collection adds messages to that public feed only.
+It does not send email with the selected free setup. Use Buttondown to send mail.
+Draft, placeholder and future-dated content stays out of the feed; article and
+announcement IDs remain stable across edits. Future publication dates require
+a site rebuild when due. This is not scheduled publishing.
 
-Preview the rendered email in Buttondown before turning on automatic sending.
-Do not send the same message both manually and through its RSS feed entry.
-
-## Costs and credentials
-
-Buttondown's published pricing lists free sending for the first 100 subscribers,
-with RSS-to-email as a paid add-on. Confirm current pricing and sending-frequency
-limits with the provider before purchasing or activation; automatic emails for
-multiple posts per day may require a different allowance. No plan is purchased
-by this integration. Public settings contain only the newsletter username.
+Signup remains hidden until a real username and delivery verification are set.
+The local preview cannot save or send email addresses. Run
+`node --test tests/newsletter.test.cjs` to check feed and activation behavior.
 
 Documentation:
+- https://buttondown.com/register
+- https://buttondown.com/pricing
+- https://docs.buttondown.com/welcome-to-buttondown
+- https://docs.buttondown.com/replies
 - https://docs.buttondown.com/building-your-subscriber-base
 - https://docs.buttondown.com/double-opt-in
-- https://docs.buttondown.com/rss-to-email
-- https://buttondown.com/pricing
-
-## Preview and verification
-
-`npm run build` generates `dist/feed.xml`. Normal production builds omit the bell
-while disabled. The local notification preview injects the same signup markup
-with a form that cannot save or transmit an email address. Its submit handler
-explicitly reports preview mode rather than pretending a subscription succeeded.
-Run `node --test tests/newsletter.test.cjs` for feed identity, escaping, exclusions
-and activation checks, and run the full suite before deployment.

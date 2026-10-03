@@ -236,7 +236,7 @@ content:
           label: "{fields.title} ({fields.status})"
 
   - name: email-announcements
-    label: Email announcements
+    label: Publication announcements (RSS)
     type: collection
     path: content/announcements
     format: json
@@ -248,7 +248,7 @@ content:
       fields: [title, kind, status, published_at]
     fields:
       - name: title
-        label: Email headline
+        label: Announcement headline
         type: string
         required: true
       - name: slug
@@ -270,7 +270,7 @@ content:
         label: Message
         type: text
         required: true
-        description: "Write the email introduction. Use blank lines between paragraphs. This text becomes public in the publication feed."
+        description: "Write the announcement. Use blank lines between paragraphs. This text becomes public in the RSS feed; send newsletters separately in Buttondown."
       - name: link
         label: Read more link
         type: string
@@ -283,7 +283,7 @@ content:
         options:
           time: true
           format: "yyyy-MM-dd'T'HH:mm"
-        description: "Use the current time when publishing. Changing this later does not resend the email. Future dates need a site rebuild when due."
+        description: "Use the current time when publishing to the RSS feed. Future dates need a site rebuild when due."
       - name: status
         label: Status
         type: select
@@ -291,7 +291,7 @@ content:
           values: [draft, published]
         default: draft
         required: true
-        description: "Once email automation is connected, Published adds this message to the feed and can send it to subscribers. Keep Draft until ready."
+        description: "Published adds this message to the public RSS feed only. The free setup does not email it; compose and send newsletters in Buttondown."
 
   - name: newsletter-settings
     label: Email signup settings
@@ -301,7 +301,7 @@ content:
       - name: buttondown_username
         label: Buttondown newsletter username
         type: string
-        description: "The newsletter account name, not an email address or API key."
+        description: "The username from your free Buttondown account, not an email address or API key."
       - name: delivery_verified
         label: Confirmation, email delivery and unsubscribe tested
         type: boolean
