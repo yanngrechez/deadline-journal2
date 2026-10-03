@@ -178,14 +178,6 @@ content:
           media: false
           switcher: true
 
-settings:
-  commit:
-    identity: user
-    templates:
-      create: "Publish content: {path}"
-      update: "Update content: {path}"
-      delete: "Remove content: {path}"
-
   - name: front-cover
     label: Front cover
     type: file
@@ -242,3 +234,88 @@ settings:
           search: "title,slug,author"
           value: "{fields.slug}"
           label: "{fields.title} ({fields.status})"
+
+  - name: email-announcements
+    label: Email announcements
+    type: collection
+    path: content/announcements
+    format: json
+    filename:
+      template: "{fields.slug}.json"
+      field: false
+    view:
+      primary: title
+      fields: [title, kind, status, published_at]
+    fields:
+      - name: title
+        label: Email headline
+        type: string
+        required: true
+      - name: slug
+        label: Permanent announcement ID
+        type: string
+        required: true
+        description: "Use lowercase words separated by hyphens. Keep this unchanged after publication to avoid sending the same announcement again."
+        pattern:
+          regex: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          message: "Use lowercase words separated by hyphens."
+      - name: kind
+        label: Type
+        type: select
+        options:
+          values: [edition, announcement]
+        required: true
+        default: announcement
+      - name: message
+        label: Message
+        type: text
+        required: true
+        description: "Write the email introduction. Use blank lines between paragraphs. This text becomes public in the publication feed."
+      - name: link
+        label: Read more link
+        type: string
+        default: /
+        description: "A Deadline Journal path, such as / or /europe."
+      - name: published_at
+        label: Publication time (UTC)
+        type: date
+        required: true
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
+        description: "Use the current time when publishing. Changing this later does not resend the email. Future dates need a site rebuild when due."
+      - name: status
+        label: Status
+        type: select
+        options:
+          values: [draft, published]
+        default: draft
+        required: true
+        description: "Once email automation is connected, Published adds this message to the feed and can send it to subscribers. Keep Draft until ready."
+
+  - name: newsletter-settings
+    label: Email signup settings
+    type: file
+    path: content/newsletter.json
+    fields:
+      - name: buttondown_username
+        label: Buttondown newsletter username
+        type: string
+        description: "The newsletter account name, not an email address or API key."
+      - name: delivery_verified
+        label: Confirmation, email delivery and unsubscribe tested
+        type: boolean
+        default: false
+      - name: enabled
+        label: Show the email signup bell
+        type: boolean
+        default: false
+        description: "Enable only after connecting the email provider and testing the complete signup and delivery flow."
+
+settings:
+  commit:
+    identity: user
+    templates:
+      create: "Publish content: {path}"
+      update: "Update content: {path}"
+      delete: "Remove content: {path}"

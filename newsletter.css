@@ -1,0 +1,22 @@
+.newsletter-bell{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:30px;height:32px;padding:0;border:0;background:none;color:var(--purple);cursor:pointer;transition:color 180ms ease,transform 150ms ease}
+.newsletter-bell:hover{color:var(--purple-dark)}.newsletter-bell:active{transform:translateY(1px)}
+.newsletter-bell:focus-visible,.newsletter-close:focus-visible,.newsletter-submit:focus-visible{outline:1px solid var(--purple);outline-offset:4px}
+.newsletter-dialog{width:min(470px,calc(100vw - 32px));max-height:calc(100dvh - 32px);margin:auto;padding:34px;border:1px solid var(--rule);border-top:3px solid var(--purple);border-radius:0;background:var(--paper);color:var(--ink);box-shadow:0 20px 70px #17141a30;overflow:auto}
+.newsletter-dialog::backdrop{background:rgba(23,20,26,.38);backdrop-filter:blur(2px)}
+.newsletter-dialog[open]{animation:newsletter-in 160ms ease-out}
+.newsletter-close{position:absolute;top:10px;right:10px;display:flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;border:0;background:none;color:var(--muted);cursor:pointer}
+.newsletter-eyebrow{font:700 10px/1.4 Arial,sans-serif;letter-spacing:.13em;color:var(--purple);margin:0 22px 15px 0}
+.newsletter-dialog h2{font:700 36px/1.04 Georgia,'Times New Roman',serif;letter-spacing:-.035em;margin:0 0 14px;max-width:340px}
+.newsletter-dialog>p{font:17px/1.5 Georgia,serif;margin:0 0 24px;color:var(--muted)}
+.newsletter-form>label:first-child{display:block;font:700 11px Arial,sans-serif;margin-bottom:8px}
+.newsletter-form input[type=email]{width:100%;min-height:46px;border:1px solid var(--rule);border-radius:0;background:var(--paper);color:var(--ink);padding:11px 12px;font:16px Arial,sans-serif}
+.newsletter-form input:focus-visible{outline:1px solid var(--purple);outline-offset:2px}
+.newsletter-consent{display:flex;align-items:flex-start;gap:9px;margin:15px 0;font:12px/1.5 Arial,sans-serif;cursor:pointer}
+.newsletter-consent input{margin:2px 0 0;width:16px;height:16px;flex-shrink:0;accent-color:var(--purple)}
+.newsletter-submit{width:100%;min-height:45px;padding:11px 16px;border:1px solid var(--purple);border-radius:0;background:var(--purple);color:#fff;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.newsletter-submit:hover{background:var(--purple-dark)}
+.newsletter-note,.newsletter-provider,.newsletter-preview{font:11px/1.5 Arial,sans-serif;color:var(--muted);margin:13px 0 0}.newsletter-provider{font-size:10px;margin-top:6px}.newsletter-provider a{color:var(--purple);text-decoration:underline;text-underline-offset:2px}
+.newsletter-preview{border-top:1px solid var(--rule);padding-top:12px;color:var(--purple)}
+@keyframes newsletter-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.utility-links:has(.newsletter-bell){gap:7px!important}.utility-links:has(.newsletter-bell) .utility-action,.utility-links:has(.newsletter-bell) .language-toggle{font-size:10px}.newsletter-bell{width:30px;height:44px}.newsletter-dialog{padding:29px 22px 22px}.newsletter-dialog h2{font-size:32px}.newsletter-dialog>p{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.newsletter-dialog[open]{animation:none}.newsletter-bell{transition:none}.newsletter-bell:active{transform:none}}

@@ -6,6 +6,7 @@ const seo=require('./seo.cjs');
 const {createRenderer}=require('./static-render.cjs');
 const {prepareImages}=require('./build-images.cjs');
 const crypto=require('node:crypto');
+const newsletter=require('./build-newsletter.cjs');
 const root=__dirname;
 const dist=path.join(root,'dist');
 const baseUrl='https://deadlinejournal.org';
@@ -59,10 +60,14 @@ articles.forEach(article=>{
   });
 });
 
+const emailSignup=newsletter.renderSignup(JSON.parse(fs.readFileSync(path.join(root,'content/newsletter.json'),'utf8')));
+const publicationFeed=newsletter.feed({articles,announcements:newsletter.readAnnouncements(root)});
+
 async function build(){
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
-for(const name of ['cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+fs.writeFileSync(path.join(dist,'feed.xml'),publicationFeed);
+for(const name of ['newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
@@ -86,6 +91,10 @@ for(const name of htmlFiles){
  let html=fs.readFileSync(path.join(root,name),'utf8')
   .replace('<html>','<html lang="en" data-prerendered>')
   .replace('</head>','<link rel="stylesheet" href="/journal-language.css"></head>');
+ html=html.replace('</head>','<link rel="alternate" type="application/rss+xml" title="Deadline Journal" href="/feed.xml"></head>');
+ if(emailSignup.button){
+  html=html.replace('<div class="utility-links">','<div class="utility-links">'+emailSignup.button).replace('</head>','<link rel="stylesheet" href="/newsletter.css"></head>').replace('</body>',emailSignup.dialog+'</body>');
+ }
  if(name!=='index.html')html=html.replace('<h1 class="masthead">Deadline Journal</h1>','<div class="masthead">Deadline Journal</div>');
  html=html.replace('<body>','<body><a class="skip-link" href="#main-content">Skip to content</a>');
  if(!html.includes('<main id='))html=html.replace('<main','<main id="main-content" tabindex="-1"');
@@ -108,6 +117,7 @@ for(const name of htmlFiles){
   return '';
  });
  deferred.push('<script defer src="/analytics.js"></script><script defer src="/journal-language-data.js"></script><script defer src="/journal-language.js"></script>');
+ if(emailSignup.button)deferred.push('<script defer src="/newsletter.js"></script>');
  html=html.replace('</body>',deferred.join('')+'</body>');
  templates[name]=html;
 }

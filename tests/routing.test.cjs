@@ -72,10 +72,11 @@ test('legacy URLs permanently redirect once; clean paths serve static directory 
 test('new CMS articles generate automatically; draft, reserved, invalid and duplicate slugs stay safe',()=>{
   const fixture=fs.mkdtempSync(path.join(os.tmpdir(),'deadline-routing-'));
   try{
-    for(const name of ['build-translations.cjs','seo.cjs','static-render.cjs','build-images.cjs','cover.js','journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
+    for(const name of ['build-newsletter.cjs','newsletter.js','newsletter.css','build-translations.cjs','seo.cjs','static-render.cjs','build-images.cjs','cover.js','journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
     for(const name of ['assets','media','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
     fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
     fs.writeFileSync(path.join(fixture,'content/front-cover.json'),'{}');
+    fs.writeFileSync(path.join(fixture,'content/newsletter.json'),JSON.stringify({enabled:true,buttondown_username:'test-journal',delivery_verified:true}));
     const file=path.join(fixture,'content/articles/new.json');
     const write=article=>fs.writeFileSync(file,JSON.stringify(article));
     const article={...articles[0],is_placeholder:false,body:'<p>Original article content.</p>',slug:'future-cms-story',status:'published',sections:[
@@ -90,6 +91,10 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     assert(!Object.hasOwn(generated,'body'),'full text is rendered in HTML instead of downloaded for every search');
     const rendered=fs.readFileSync(path.join(fixture,'dist/future-cms-story/index.html'),'utf8');
     assert(rendered.includes(article.body));
+    assert(rendered.includes('class="newsletter-bell"'));
+    assert(rendered.includes('action="https://buttondown.com/api/emails/embed-subscribe/test-journal"'));
+    assert(/src="\/static\/newsletter\.[a-f0-9]+\.js"/.test(rendered));
+    assert(fs.readFileSync(path.join(fixture,'dist/feed.xml'),'utf8').includes('future-cms-story'));
     assert(rendered.includes('href="/europe"'));
     assert(rendered.includes('alt="Sample photo"'));
     assert(rendered.indexOf('A caption')<rendered.indexOf('Continued reporting.'));

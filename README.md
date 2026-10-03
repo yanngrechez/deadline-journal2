@@ -171,3 +171,9 @@ automatically. `npm run translate -- --verify` also tests the live API connectio
 `npm test` includes mocked API tests; these do not incur charges or require secrets.
 
 Reference: https://developers.deepl.com/docs/translate/translating-html
+
+## Email updates
+
+See [NEWSLETTER.md](NEWSLETTER.md) for the bell signup, publication feed, edition
+and announcement editor, provider setup, and delivery verification. Signup is
+disabled until an email account is connected and tested.

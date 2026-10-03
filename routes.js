@@ -9,7 +9,7 @@
     'Asia-Pacific':'asia-pacific',
     'Actors':'actors'
   });
-  const reserved=Object.freeze(['index','about','write','article','region','country','search','latest','404','api','admin','assets','media','flags','content','functions','dist','node_modules','robots','sitemap','favicon','data','script','styles','analytics','routes','transition-boot','countries-data','world-map-data',...Object.values(regions),...countries.map(country=>country.slug)]);
+  const reserved=Object.freeze(['feed','newsletter','index','about','write','article','region','country','search','latest','404','api','admin','assets','media','flags','content','functions','dist','node_modules','robots','sitemap','favicon','data','script','styles','analytics','routes','transition-boot','countries-data','world-map-data',...Object.values(regions),...countries.map(country=>country.slug)]);
   function pathKey(pathname){
     try{return decodeURIComponent(pathname).replace(/\/index\.html$/,'').replace(/\/$/,'').replace(/\.html$/,'')}catch(error){return pathname}
   }
