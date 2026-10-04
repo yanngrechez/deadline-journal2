@@ -1,5 +1,10 @@
 .newsletter-bell{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:30px;height:32px;padding:0;border:0;background:none;color:var(--purple);cursor:pointer;transition:color 180ms ease,transform 150ms ease}
-.newsletter-bell:hover{color:var(--purple-dark)}.newsletter-bell:active{transform:translateY(1px)}
+.newsletter-bell svg{transform-origin:50% 12%;overflow:visible}
+.newsletter-bell svg path:first-child{fill:currentColor;fill-opacity:0;transition:fill-opacity 180ms ease}
+.newsletter-bell:focus-visible svg path:first-child,.newsletter-bell:active svg path:first-child{fill-opacity:1}
+@media(hover:hover) and (pointer:fine){.newsletter-bell:hover svg{animation:newsletter-ring 520ms ease-in-out}.newsletter-bell:hover svg path:first-child{fill-opacity:1}}
+.newsletter-bell:active{transform:translateY(1px)}
+@keyframes newsletter-ring{0%,100%{transform:rotate(0)}16%{transform:rotate(16deg)}34%{transform:rotate(-13deg)}52%{transform:rotate(9deg)}70%{transform:rotate(-5deg)}86%{transform:rotate(2deg)}}
 .newsletter-bell:focus-visible,.newsletter-close:focus-visible,.newsletter-submit:focus-visible{outline:1px solid var(--purple);outline-offset:4px}
 .newsletter-dialog{width:min(470px,calc(100vw - 32px));max-height:calc(100dvh - 32px);margin:auto;padding:34px;border:1px solid var(--rule);border-top:3px solid var(--purple);border-radius:0;background:var(--paper);color:var(--ink);box-shadow:0 20px 70px #17141a30;overflow:auto}
 .newsletter-dialog::backdrop{background:rgba(23,20,26,.38);backdrop-filter:blur(2px)}
@@ -19,4 +24,4 @@
 .newsletter-preview{border-top:1px solid var(--rule);padding-top:12px;color:var(--purple)}
 @keyframes newsletter-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @media(max-width:700px){.utility-links:has(.newsletter-bell){gap:7px!important}.utility-links:has(.newsletter-bell) .utility-action,.utility-links:has(.newsletter-bell) .language-toggle{font-size:10px}.newsletter-bell{width:30px;height:44px}.newsletter-dialog{padding:29px 22px 22px}.newsletter-dialog h2{font-size:32px}.newsletter-dialog>p{font-size:16px}}
-@media(prefers-reduced-motion:reduce){.newsletter-dialog[open]{animation:none}.newsletter-bell{transition:none}.newsletter-bell:active{transform:none}}
+@media(prefers-reduced-motion:reduce){.newsletter-dialog[open]{animation:none}.newsletter-bell{transition:none}.newsletter-bell:active{transform:none}.newsletter-bell svg{animation:none!important}.newsletter-bell svg path:first-child{transition:none}}
