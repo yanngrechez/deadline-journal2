@@ -22,7 +22,10 @@ No paid RSS-to-email or automation add-on should be enabled for this setup.
    in Pages CMS. Cloudflare publishes the change.
 
 The verified account username is `deadlinejournal`; it is saved in the website
-configuration. Public signup remains disabled pending delivery verification.
+configuration. Signup confirmation and test email delivery were confirmed on 4 October 2026.
+The signup bell is enabled. The test newsletter remains an unpublished draft;
+no broadcast or paid automation was activated. The subscriber account page and
+unsubscribe control were checked; the test subscription was left active.
 No newsletter account or paid plan has been created by this code.
 
 ## Send an article update or announcement
@@ -67,7 +70,7 @@ Draft, placeholder and future-dated content stays out of the feed; article and
 announcement IDs remain stable across edits. Future publication dates require
 a site rebuild when due. This is not scheduled publishing.
 
-Signup remains hidden until a real username and delivery verification are set.
+Signup is shown only when a real username and delivery verification are set.
 The local preview cannot save or send email addresses. Run
 `node --test tests/newsletter.test.cjs` to check feed and activation behavior.
 

@@ -303,7 +303,7 @@ content:
         type: string
         description: "The username from your free Buttondown account, not an email address or API key."
       - name: delivery_verified
-        label: Confirmation, email delivery and unsubscribe tested
+        label: Signup confirmation and email delivery tested
         type: boolean
         default: false
       - name: enabled

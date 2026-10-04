@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "buttondown_username": "deadlinejournal",
-  "delivery_verified": false
+  "delivery_verified": true
 }

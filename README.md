@@ -177,4 +177,4 @@ Reference: https://developers.deepl.com/docs/translate/translating-html
 See [NEWSLETTER.md](NEWSLETTER.md) for the bell signup, publication feed, edition
 and announcement editor, free Buttondown account setup, and delivery verification.
 Newsletters are sent manually in Buttondown; publishing does not email readers.
-Signup is disabled until an account is connected and tested.
+The signup bell connects to the verified `deadlinejournal` Buttondown account.

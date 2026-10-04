@@ -7,7 +7,7 @@ const base='https://deadlinejournal.org';
 function settings(config={}){
   if(config.enabled!==true)return {enabled:false};
   if(!/^[a-zA-Z0-9_-]{1,64}$/.test(config.buttondown_username||''))throw Error('Email updates: enter a valid Buttondown username before enabling signup.');
-  if(config.delivery_verified!==true)throw Error('Email updates: verify confirmation, delivery and unsubscribe before enabling signup.');
+  if(config.delivery_verified!==true)throw Error('Email updates: verify confirmation and delivery before enabling signup.');
   return {enabled:true,action:'https://buttondown.com/api/emails/embed-subscribe/'+config.buttondown_username};
 }
 function renderSignup(config={}, {preview=false}={}){
