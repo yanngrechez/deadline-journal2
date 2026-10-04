@@ -21,7 +21,8 @@ No paid RSS-to-email or automation add-on should be enabled for this setup.
 6. After delivery is verified, mark the verification checkbox and enable the bell
    in Pages CMS. Cloudflare publishes the change.
 
-The account username is still needed before connecting the prepared form.
+The verified account username is `deadlinejournal`; it is saved in the website
+configuration. Public signup remains disabled pending delivery verification.
 No newsletter account or paid plan has been created by this code.
 
 ## Send an article update or announcement
