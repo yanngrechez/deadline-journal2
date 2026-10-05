@@ -42,30 +42,28 @@ function articleMeta(article,linkCountry=false){
 }
 
 const pageTransitionKey='deadline-page-transition';
-const pageTransitionWindowPrefix='deadline-page-transition:';
+const transitionMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let activePageTransition=null;
+const transitionPrefetches=new Set();
 function savePageTransition(transition){
   const value=JSON.stringify({kind:transition.kind,name:transition.name,path:transition.url.pathname+transition.url.search,flags:transition.flags||[],time:Date.now()});
-  try{sessionStorage.setItem(pageTransitionKey,value);return value}catch(error){}
-  window.name=pageTransitionWindowPrefix+value;
+  try{sessionStorage.setItem(pageTransitionKey,value)}catch{}
   return value;
 }
 function takePageTransition(){
   let value=window.__DEADLINE_TRANSITION_BOOT?JSON.stringify(window.__DEADLINE_TRANSITION_BOOT):null;
-  try{value=value||sessionStorage.getItem(pageTransitionKey);sessionStorage.removeItem(pageTransitionKey)}catch(error){}
-  if(!value&&String(window.name||'').startsWith(pageTransitionWindowPrefix)){
-    value=String(window.name).slice(pageTransitionWindowPrefix.length);
-    window.name='';
-  }
-  const hashPrefix='#deadline-transition=';
-  if(location.hash.startsWith(hashPrefix)){
-    if(!value){try{value=decodeURIComponent(location.hash.slice(hashPrefix.length))}catch(error){}}
+  delete window.__DEADLINE_TRANSITION_BOOT;
+  try{value=value||sessionStorage.getItem(pageTransitionKey);sessionStorage.removeItem(pageTransitionKey)}catch{}
+  const prefix='#deadline-transition=';
+  if(location.hash.startsWith(prefix)){
+    if(!value){try{value=decodeURIComponent(location.hash.slice(prefix.length))}catch{}}
     history.replaceState(history.state,'',location.pathname+location.search);
   }
-  try{return JSON.parse(value||'null')}catch(error){return null}
+  try{return JSON.parse(value||'null')}catch{return null}
 }
 function transitionDestination(link){
   const url=new URL(link.href,location.href);
-  if(url.origin!==location.origin)return null;
+  if(url.origin!==location.origin||url.pathname===location.pathname&&url.search===location.search)return null;
   const route=DeadlineRoutes.resolve(url,articles);
   if(route.kind==='region'){
     const name=route.name;
@@ -78,101 +76,148 @@ function transitionDestination(link){
   }
   return null;
 }
-function clearPageTransition(){
+function preparePageTransition(link){
+  if(transitionMotion.matches||navigator.connection?.saveData||link.target==='_blank'||link.hasAttribute('download'))return;
+  const destination=transitionDestination(link);
+  if(!destination)return;
+  const href=destination.url.origin+destination.url.pathname+destination.url.search;
+  // Warm only an intended destination, not every country on the map.
+  if(!transitionPrefetches.has(href)&&transitionPrefetches.size<12){
+    transitionPrefetches.add(href);
+    const hint=document.createElement('link');hint.rel='prefetch';hint.as='document';hint.href=href;
+    document.head.appendChild(hint);
+  }
+  if(destination.flags?.length)window.prepareDeadlineFlags?.();
+}
+function clearPageTransition(expected){
+  if(expected&&activePageTransition!==expected)return;
+  const active=activePageTransition;activePageTransition=null;
+  if(active){clearTimeout(active.timer);active.animations.forEach(animation=>animation.cancel());}
+  clearTimeout(window.__DEADLINE_TRANSITION_TIMER);
   document.body.classList.remove('page-transition-outgoing','page-transition-arriving');
-  document.querySelectorAll('.page-transition-layer').forEach(layer=>layer.remove());
   document.querySelectorAll('.page-transition-target').forEach(target=>target.classList.remove('page-transition-target'));
+  document.querySelectorAll('.page-transition-layer').forEach(layer=>layer.remove());
 }
 function startPageTransition(event,link,transition){
-  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank'||link.hasAttribute('download'))return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  event.preventDefault();
-  if(document.body.classList.contains('page-transition-outgoing'))return;
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target&&link.target!=='_self'||link.hasAttribute('download'))return;
+  if(transitionMotion.matches||!Element.prototype.animate)return;
+  if(activePageTransition?.phase==='outgoing'){event.preventDefault();return;}
+  clearPageTransition();
+  preparePageTransition(link);
   const source=link.closest('svg')&&event.clientX
     ? {left:event.clientX,top:event.clientY,width:1,height:1}
     : (link.querySelector('strong')||link).getBoundingClientRect();
-  const {backdrop,word,flagFrame}=window.createDeadlineTitle(transition.name,transition.kind==='region'?transition.flags:[]);
+  // Only take over the link after an overlay is successfully constructed.
+  let title;
+  try{title=window.createDeadlineTitle(transition.name,transition.kind==='region'?transition.flags:[])}catch{clearPageTransition();return;}
+  event.preventDefault();
+  const {layer,backdrop,word,flagFrame}=title;
   const hero=word.getBoundingClientRect();
   const scale=Math.min(.45,Math.max(.12,source.width/hero.width));
-  const x=source.left+source.width/2-innerWidth/2;
-  const y=source.top+source.height/2-innerHeight/2;
+  const x=source.left+source.width/2-innerWidth/2,y=source.top+source.height/2-innerHeight/2;
+  const active=activePageTransition={phase:'outgoing',animations:[],timer:null};
   document.body.classList.add('page-transition-outgoing');
   const navigationUrl=new URL(transition.url.href);
-  navigationUrl.hash=`deadline-transition=${encodeURIComponent(savePageTransition(transition))}`;
-  const timing={duration:500,easing:'cubic-bezier(.22,.7,.22,1)',fill:'forwards'};
-  backdrop.animate([{opacity:0},{opacity:1}],timing);
-  word.animate([
-    {transform:`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(${scale})`,opacity:0},
-    {opacity:1,offset:.2},
-    {transform:'translate(-50%,-50%) scale(1)',opacity:1}
-  ],timing);
-  if(flagFrame){
-    const flags=[...flagFrame.querySelectorAll('img')];
-    flags.forEach((flag,index)=>{
-      const x=(parseFloat(flag.style.left)/flagFrame.offsetWidth-.5)*-28;
-      const y=(parseFloat(flag.style.top)/flagFrame.offsetHeight-.5)*-28;
-      flag.animate([
-        {opacity:0,transform:`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(.65) rotate(-5deg)`,filter:'blur(2px)'},
-        {opacity:1,transform:'translate(-50%,-50%) scale(1.06) rotate(1deg)',filter:'blur(0px)',offset:.75},
-        {opacity:1,transform:'translate(-50%,-50%) scale(1) rotate(0deg)',filter:'blur(0px)'}
-      ],{duration:380,delay:100+index/Math.max(1,flags.length-1)*170,easing:'cubic-bezier(.22,.7,.22,1)',fill:'both'});
-    });
-  }
-  window.setTimeout(()=>location.assign(navigationUrl.href),700);
+  const navigate=()=>{
+    if(activePageTransition!==active||active.navigated)return;
+    active.navigated=true;
+    navigationUrl.hash=`deadline-transition=${encodeURIComponent(savePageTransition(transition))}`;
+    location.assign(navigationUrl.href);
+    active.timer=setTimeout(()=>clearPageTransition(active),5000);
+  };
+  const timing={duration:440,easing:'cubic-bezier(.22,.7,.22,1)',fill:'forwards'};
+  try{
+    active.animations.push(backdrop.animate([{opacity:0},{opacity:1}],timing));
+    const expand=word.animate([
+      {transform:`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(${scale})`,opacity:0},
+      {opacity:1,offset:.2},
+      {transform:'translate(-50%,-50%) scale(1)',opacity:1}
+    ],timing);
+    active.animations.push(expand);
+    if(flagFrame){
+      // Read frame geometry once, before starting any animation writes.
+      const width=flagFrame.offsetWidth,height=flagFrame.offsetHeight;
+      const flags=[...flagFrame.querySelectorAll('.page-transition-flag')];
+      flags.forEach((flag,index)=>{
+        const dx=(parseFloat(flag.style.left)/width-.5)*-20,dy=(parseFloat(flag.style.top)/height-.5)*-20;
+        active.animations.push(flag.animate([
+          {opacity:0,transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(.8)`},
+          {opacity:1,transform:'translate(-50%,-50%) scale(1)'}
+        ],{duration:280,delay:35+index/Math.max(1,flags.length-1)*100,easing:'cubic-bezier(.22,.7,.22,1)',fill:'both'}));
+      });
+    }
+    expand.finished.then(navigate,()=>{});
+    // A cancelled or unavailable animation must never trap the reader.
+    active.timer=setTimeout(navigate,800);
+  }catch{navigate();}
 }
 function showArrivalTransition(){
   const saved=takePageTransition();
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){clearPageTransition();return}
-  const params=new URLSearchParams(location.search);
+  if(transitionMotion.matches||!Element.prototype.animate){clearPageTransition();return;}
   const route=DeadlineRoutes.resolve(new URL(location.href),articles);
   const destinationName=saved?.kind==='region'?route.name:countryByCode(route.code)?.name;
-  if(!saved||Date.now()-saved.time>30000||route.kind!==saved.kind||(window.journalTranslate?.(destinationName)||destinationName)!==saved.name){clearPageTransition();return}
+  if(!window.validDeadlineTransition(saved)||route.kind!==saved.kind||(window.journalTranslate?.(destinationName)||destinationName)!==saved.name){clearPageTransition();return;}
   const target=saved.kind==='region'?document.getElementById('regionName'):document.querySelector('.country-page-head h1');
-  if(!target){clearPageTransition();return}
+  if(!target){clearPageTransition();return;}
   const layer=document.querySelector('[data-transition-boot]')||window.createDeadlineTitle(saved.name,saved.kind==='region'?saved.flags:[]).layer;
-  const word=layer.querySelector('.page-transition-word');
-  const backdrop=layer.querySelector('.page-transition-backdrop');
-  const frame=layer.querySelector('.page-transition-flag-frame');
-  const style=getComputedStyle(target);
-  // Measure individual destination letters without modifying the real heading.
-  const destinations=[];
-  const walker=document.createTreeWalker(target,NodeFilter.SHOW_TEXT);
-  let node;
-  while((node=walker.nextNode())){
-    for(let i=0;i<node.length;i++){
-      if(/\s/.test(node.textContent[i]))continue;
-      const range=document.createRange();range.setStart(node,i);range.setEnd(node,i+1);
-      destinations.push(range.getBoundingClientRect());
+  const word=layer.querySelector('.page-transition-word'),backdrop=layer.querySelector('.page-transition-backdrop'),frame=layer.querySelector('.page-transition-flag-frame');
+  const active=activePageTransition={phase:'arrival',animations:[],timer:null};
+  clearTimeout(window.__DEADLINE_TRANSITION_TIMER);
+  active.timer=setTimeout(()=>clearPageTransition(active),1200);
+  try{
+    const style=getComputedStyle(target),wordStyle=getComputedStyle(word);
+    const heroFont=parseFloat(wordStyle.fontSize),scale=parseFloat(style.fontSize)/heroFont;
+    const color=wordStyle.color;
+    const destinations=[],walker=document.createTreeWalker(target,NodeFilter.SHOW_TEXT);
+    let node;
+    while((node=walker.nextNode())){
+      let i=0;
+      for(const letter of node.textContent){
+        if(letter.trim()){
+          const range=document.createRange();range.setStart(node,i);range.setEnd(node,i+letter.length);
+          destinations.push(range.getBoundingClientRect());
+        }
+        i+=letter.length;
+      }
     }
-  }
-  const glyphs=[...word.querySelectorAll('.page-transition-glyph')].filter(glyph=>glyph.textContent.trim());
-  if(glyphs.length!==destinations.length){clearPageTransition();return}
-  const starts=glyphs.map(glyph=>glyph.getBoundingClientRect());
-  const heroFont=parseFloat(getComputedStyle(word).fontSize);
-  const scale=parseFloat(style.fontSize)/heroFont;
-  target.classList.add('page-transition-target');
-  backdrop.style.opacity='1';
-  const timing={duration:680,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'};
-  const animations=glyphs.map((glyph,i)=>{
-    const start=starts[i],end=destinations[i];
-    const clone=glyph.cloneNode(true);
-    Object.assign(clone.style,{position:'fixed',left:`${start.left}px`,top:`${start.top}px`,fontFamily:style.fontFamily,fontWeight:style.fontWeight,fontSize:`${heroFont}px`,lineHeight:'normal',color:getComputedStyle(word).color,transformOrigin:'0 0',whiteSpace:'pre'});
-    // Range rectangles include font ascent/descent, so anchor each glyph by its own measured rectangle.
-    layer.appendChild(clone);
-    const range=document.createRange();range.selectNodeContents(clone);
-    const glyphRect=range.getBoundingClientRect(),box=clone.getBoundingClientRect();
-    const dx=glyphRect.left-box.left,dy=glyphRect.top-box.top;
-    clone.style.left=`${start.left-dx}px`;
-    clone.style.top=`${start.top-dy}px`;
-    return clone.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${end.left-start.left+dx*(1-scale)}px,${end.top-start.top+dy*(1-scale)}px) scale(${scale})`,color:style.color}],timing);
-  });
-  word.style.visibility='hidden';
-  backdrop.animate([{opacity:1},{opacity:0}],timing);
-  frame?.animate([{opacity:1},{opacity:0,offset:.55},{opacity:0}],timing);
-  const finish=()=>clearPageTransition();
-  Promise.all(animations.map(animation=>animation.finished)).then(finish,finish);
-  window.setTimeout(finish,950);
+    const glyphs=[...word.querySelectorAll('.page-transition-glyph')].filter(glyph=>glyph.textContent.trim());
+    if(glyphs.length!==destinations.length||!glyphs.length){clearPageTransition(active);return;}
+    const starts=glyphs.map(glyph=>glyph.getBoundingClientRect());
+    const fragment=document.createDocumentFragment();
+    const clones=glyphs.map((glyph,i)=>{
+      const clone=glyph.cloneNode(true),start=starts[i];
+      Object.assign(clone.style,{position:'fixed',left:`${start.left}px`,top:`${start.top}px`,fontFamily:style.fontFamily,fontWeight:style.fontWeight,fontSize:`${heroFont}px`,lineHeight:'normal',color,transformOrigin:'0 0',whiteSpace:'pre',willChange:'transform'});
+      fragment.appendChild(clone);return clone;
+    });
+    layer.appendChild(fragment);
+    // Batch reads and writes: one layout pass instead of one per character.
+    const offsets=clones.map(clone=>{
+      const range=document.createRange();range.selectNodeContents(clone);
+      const rect=range.getBoundingClientRect(),box=clone.getBoundingClientRect();
+      return {x:rect.left-box.left,y:rect.top-box.top};
+    });
+    clones.forEach((clone,i)=>{
+      clone.style.left=`${starts[i].left-offsets[i].x}px`;
+      clone.style.top=`${starts[i].top-offsets[i].y}px`;
+    });
+    target.classList.add('page-transition-target');
+    backdrop.style.opacity='1';word.style.visibility='hidden';
+    const timing={duration:500,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'};
+    clones.forEach((clone,i)=>{
+      const start=starts[i],end=destinations[i],offset=offsets[i];
+      active.animations.push(clone.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${end.left-start.left+offset.x*(1-scale)}px,${end.top-start.top+offset.y*(1-scale)}px) scale(${scale})`,color:style.color}],timing));
+    });
+    active.animations.push(backdrop.animate([{opacity:1},{opacity:0}],timing));
+    if(frame)active.animations.push(frame.animate([{opacity:1},{opacity:0}],{...timing,duration:260}));
+    Promise.all(active.animations.map(animation=>animation.finished)).then(()=>clearPageTransition(active),()=>clearPageTransition(active));
+  }catch{clearPageTransition(active);}
 }
+for(const type of ['pointerover','focusin','touchstart'])document.addEventListener(type,event=>{
+  const link=event.target.closest?.('a[href]');if(link)preparePageTransition(link);
+},{passive:true});
+// Geometry changes invalidate the measured destination; reveal the real heading.
+window.addEventListener('resize',()=>{if(activePageTransition?.phase==='arrival')clearPageTransition();},{passive:true});
+transitionMotion.addEventListener('change',()=>{if(activePageTransition?.phase==='arrival')clearPageTransition();});
 
 function initializeReadingProgress(){
   const bar=document.getElementById('readingProgressBar');
@@ -238,7 +283,7 @@ document.addEventListener('click',event=>{
   const transition=link&&transitionDestination(link);
   if(transition)startPageTransition(event,link,transition);
 });
-window.addEventListener('pageshow',event=>{if(event.persisted)clearPageTransition()});
+window.addEventListener('pageshow',event=>{if(event.persisted){takePageTransition();clearPageTransition();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch()});
 
 // Append ordered CMS sections inside the same reading/progress container.

@@ -156,4 +156,20 @@ async function prepareImages({ root, dist, articles }) {
   return image;
 }
 
-module.exports = { prepareImages };
+// One decoded image replaces dozens of SVG requests during the title animation.
+// ISO code coordinates stay stable regardless of country ordering or membership.
+async function prepareTransitionFlags({root,dist,countries}) {
+  const sharp=require('sharp'),tiles=[];
+  for(const country of countries){
+    const code=country.code.toLowerCase();
+    const input=await sharp(path.join(root,'node_modules/flag-icons/flags/4x3',code+'.svg')).resize(56,40,{fit:'fill'}).png().toBuffer();
+    tiles.push({input,left:(code.charCodeAt(0)-97)*56,top:(code.charCodeAt(1)-97)*40});
+  }
+  const buffer=await sharp({create:{width:26*56,height:26*40,channels:4,background:{r:0,g:0,b:0,alpha:0}}}).composite(tiles).webp({lossless:true}).toBuffer();
+  const name='transition-flags.'+crypto.createHash('sha256').update(buffer).digest('hex').slice(0,12)+'.webp';
+  await fs.mkdir(path.join(dist,'static'),{recursive:true});
+  await fs.writeFile(path.join(dist,'static',name),buffer);
+  return '/static/'+name;
+}
+
+module.exports = { prepareImages, prepareTransitionFlags };

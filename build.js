@@ -4,7 +4,7 @@ const routes=require('./routes.js');
 const countries=require('./countries-data.js');
 const seo=require('./seo.cjs');
 const {createRenderer}=require('./static-render.cjs');
-const {prepareImages}=require('./build-images.cjs');
+const {prepareImages,prepareTransitionFlags}=require('./build-images.cjs');
 const crypto=require('node:crypto');
 const newsletter=require('./build-newsletter.cjs');
 const root=__dirname;
@@ -71,6 +71,9 @@ for(const name of ['newsletter.js','newsletter.css','cover.js','journal-language
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
+const transitionSprite=await prepareTransitionFlags({root,dist,countries});
+const transitionBoot=path.join(dist,'transition-boot.js');
+fs.writeFileSync(transitionBoot,fs.readFileSync(transitionBoot,'utf8').replace("'/transition-flags.webp'",JSON.stringify(transitionSprite)));
 
 const escapeHtml=seo.escape;
 // Resolve country membership once, for browsing, metadata and analytics alike.

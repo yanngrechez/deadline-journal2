@@ -35,10 +35,11 @@
 .page-transition-center-word{opacity:0}
 .page-transition-flag-frame{position:fixed;left:50%;top:50%;z-index:2;width:min(760px,calc(100vw - 38px));height:min(220px,42vh);border:0;opacity:0;transform:translate(-50%,-50%) scale(.94)}
 .page-transition-flag-frame.is-visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.page-transition-flag-frame img{position:absolute;width:28px;height:20px;object-fit:cover;border:1px solid rgba(23,20,26,.16);box-shadow:0 1px 3px rgba(23,20,26,.12);transform:translate(-50%,-50%)}
+.page-transition-flag-frame .page-transition-flag{position:absolute;width:28px;height:20px;background-repeat:no-repeat;background-origin:border-box;border:1px solid rgba(23,20,26,.16);box-shadow:0 1px 3px rgba(23,20,26,.12);transform:translate(-50%,-50%)}
 .page-transition-target{visibility:hidden}
-body.page-transition-outgoing{overflow:hidden}
-body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.34;filter:blur(2px);transition:opacity 230ms ease,filter 230ms ease;pointer-events:none}
+body.page-transition-outgoing .page-transition-layer{pointer-events:auto}
+/* Fade one composited backdrop; avoid blurring/repainting the entire page. */
+.page-transition-backdrop,.page-transition-word{will-change:transform,opacity}
 .topic-separator{color:var(--muted)}
 .topic-label{font-weight:900;text-transform:uppercase;letter-spacing:.04em}
 .topic-politics{color:var(--purple)}
@@ -51,7 +52,7 @@ body.page-transition-outgoing>:not(.page-transition-layer):not(script){opacity:.
 @media(max-width:700px){.region-page-head{padding:30px 0 16px}.region-page-head h1{font-size:42px}}
 @media(prefers-reduced-motion:reduce){body.page-transition-outgoing>:not(.page-transition-layer):not(script),.reading-progress span{transition:none!important}}
 @media(max-width:700px){.article-hero figcaption{display:block}.article-hero figcaption span{display:block;max-width:none}.article-hero figcaption cite{display:block;margin-top:5px;text-align:left}}
-@media(max-width:700px){.page-transition-word.is-centered{width:calc(100vw - 96px)}.page-transition-flag-frame{width:calc(100vw - 28px);height:min(170px,36vh)}.page-transition-flag-frame img{width:19px;height:14px}}
+@media(max-width:700px){.page-transition-word.is-centered{width:calc(100vw - 96px)}.page-transition-flag-frame{width:calc(100vw - 28px);height:min(170px,36vh)}.page-transition-flag-frame .page-transition-flag{width:19px;height:14px}}
 
 .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .coverage-map-section{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}

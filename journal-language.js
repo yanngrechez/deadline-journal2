@@ -126,5 +126,14 @@ function sortCountries(){const list=document.getElementById('countryDirectory');
 // Match translated headlines in search without changing canonical content or routes.
 window.renderSearch=function(q){const t=(q||'').toLocaleLowerCase(language),out=document.getElementById('searchResults');if(!out)return;const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));out.innerHTML=(window.DEADLINE_ARTICLES||[]).filter(a=>!t||[a.title,a.country,a.author,a.region,a.dek,...(a.topics||[])].flatMap(x=>[x,translate(String(x||''))]).join(' ').toLocaleLowerCase(language).includes(t)).map(a=>`<a class="search-result" href="${articleUrl(a)}"><div><span>${escape(a.country)}</span> · <span>${escape(a.region)}</span></div><h3>${escape(a.title)}</h3><p>${escape(a.dek)}</p></a>`).join('');apply()};
 apply();sortCountries();
-observer=new MutationObserver(()=>{if(!scheduled){scheduled=true;queueMicrotask(()=>{scheduled=false;apply()})}});observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+observer=new MutationObserver(records=>{
+ // Animation-only DOM changes must not rescan and rewrite the whole journal.
+ const outsideTransition=records.some(record=>{
+   const target=record.target.nodeType===Node.ELEMENT_NODE?record.target:record.target.parentElement;
+   if(target?.closest('.page-transition-layer'))return false;
+   const nodes=[...record.addedNodes,...record.removedNodes];
+   return !nodes.length||nodes.some(node=>node.nodeType!==Node.ELEMENT_NODE||!node.matches('.page-transition-layer'));
+ });
+ if(outsideTransition&&!scheduled){scheduled=true;queueMicrotask(()=>{scheduled=false;apply()})}
+});observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
