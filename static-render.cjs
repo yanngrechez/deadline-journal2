@@ -62,6 +62,7 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
   const sections = article => (Array.isArray(article.sections) ? article.sections : []).map(section => {
     if (!section || typeof section !== 'object') return '';
     if (section.type === 'text' && typeof section.body === 'string') return section.body;
+    if (section.type === 'video') return require('./article-media.js').video(section);
     if (section.type !== 'image' || !imageSource(section.image)) return '';
     return `<figure class="article-inline-image">${renderImage(section.image, {alt:section.alt || '', lazy:true, sizes:'(max-width: 700px) calc(100vw - 36px), 660px'})}${caption(section.caption, section.credit)}</figure>`;
   }).join('');

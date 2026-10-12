@@ -189,16 +189,16 @@ body.page-transition-outgoing .page-transition-layer{pointer-events:auto}
 .article-page .body h3{font:700 23px/1.3 Georgia,serif;margin:1.5em 0 .7em}
 .article-page .body li{margin-bottom:.5em}
 .article-page .body img{display:block;max-width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
-.article-page .article-inline-image{margin:38px 0 40px;padding:0}
+.article-page .article-inline-image,.article-page .article-inline-video{margin:38px 0 40px;padding:0}
 .article-page .article-inline-image img{width:100%;margin:0}
-.article-page .article-inline-image figcaption{padding-top:10px;font:12px/1.55 Arial,Helvetica,sans-serif;color:var(--muted);overflow-wrap:anywhere}
-.article-inline-image figcaption span,.article-inline-image figcaption cite{display:block}
-.article-inline-image figcaption cite{font-style:normal;margin-top:3px}
+.article-page .article-inline-image figcaption,.article-page .article-inline-video figcaption{padding-top:10px;font:12px/1.55 Arial,Helvetica,sans-serif;color:var(--muted);overflow-wrap:anywhere}
+.article-inline-image figcaption span,.article-inline-image figcaption cite,.article-inline-video figcaption span,.article-inline-video figcaption cite{display:block}
+.article-inline-image figcaption cite,.article-inline-video figcaption cite{font-style:normal;margin-top:3px}
 @media(max-width:700px){
   .article-page .body{margin-top:28px;font-size:17.5px;line-height:1.8}
   .article-page .body h2{font-size:25px}
   .article-page .body h3{font-size:21px}
-  .article-page .article-inline-image{margin:30px 0 32px}
+  .article-page .article-inline-image,.article-page .article-inline-video{margin:30px 0 32px}
 }
 
 /* Compact end-of-article references; native details supplies disclosure behavior. */
@@ -347,3 +347,10 @@ img{height:auto}
   .world-map{max-width:none;overflow:hidden}
 }
 @media(prefers-reduced-motion:reduce){.map-marker{transition:none}}
+
+/* Native inline players share the article's image/caption rhythm. */
+.article-inline-video video{display:block;width:100%;height:auto;object-fit:contain;background:#17141a;aspect-ratio:16/9}
+.article-inline-video[data-ratio="9/16"]{max-width:360px;margin-left:auto;margin-right:auto}
+.article-inline-video[data-ratio="9/16"] video{aspect-ratio:9/16}
+.article-inline-video[data-ratio="1/1"] video{aspect-ratio:1}
+.article-inline-video video:focus-visible{outline:2px solid var(--purple);outline-offset:4px}

@@ -72,8 +72,10 @@ test('legacy URLs permanently redirect once; clean paths serve static directory 
 test('new CMS articles generate automatically; draft, reserved, invalid and duplicate slugs stay safe',()=>{
   const fixture=fs.mkdtempSync(path.join(os.tmpdir(),'deadline-routing-'));
   try{
-    for(const name of ['build-newsletter.cjs','newsletter.js','newsletter.css','build-translations.cjs','seo.cjs','static-render.cjs','build-images.cjs','cover.js','journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
-    for(const name of ['assets','media','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
+    for(const name of ['article-media.js','build-media.cjs','build-newsletter.cjs','newsletter.js','newsletter.css','build-translations.cjs','seo.cjs','static-render.cjs','build-images.cjs','cover.js','journal-language.js','journal-language.css','journal-language-data.js','build.js','routes.js','cloudflare-worker.js','styles.css','script.js','analytics.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html','index.html','article.html','region.html','country.html','about.html','write.html'])fs.copyFileSync(path.join(root,name),path.join(fixture,name));
+    for(const name of ['assets','node_modules'])fs.symlinkSync(path.join(root,name),path.join(fixture,name),'dir');
+    fs.cpSync(path.join(root,'media'),path.join(fixture,'media'),{recursive:true});
+    fs.writeFileSync(path.join(fixture,'media/test-clip.mp4'),'fixture video file');
     fs.mkdirSync(path.join(fixture,'content/articles'),{recursive:true});
     fs.writeFileSync(path.join(fixture,'content/front-cover.json'),'{}');
     fs.writeFileSync(path.join(fixture,'content/newsletter.json'),JSON.stringify({enabled:true,buttondown_username:'test-journal',delivery_verified:true}));
@@ -82,7 +84,9 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     const article={...articles[0],is_placeholder:false,body:'<p>Original article content.</p>',slug:'future-cms-story',status:'published',sections:[
       {type:'image',image:'/media/sample.jpg',alt:'Sample photo',caption:'A caption',credit:'Photo source'},
       {type:'text',body:'<p>Continued reporting. <a href="/region.html?region=Europe">Europe</a></p>'},
-      {type:'image',image:'/media/second.jpg',alt:'Second photo'}
+      {type:'image',image:'/media/second.jpg',alt:'Second photo'},
+      {type:'video',video:'/media/test-clip.mp4',title:'Reporting clip',caption:'Video explanation',credit:'Reporter'},
+      {type:'text',body:'<p>After the clip.</p>'}
     ]};
     const build=()=>execFileSync(process.execPath,[path.join(fixture,'build.js')],{stdio:'pipe'});
     write(article);build();
@@ -91,6 +95,12 @@ test('new CMS articles generate automatically; draft, reserved, invalid and dupl
     assert(!Object.hasOwn(generated,'body'),'full text is rendered in HTML instead of downloaded for every search');
     const rendered=fs.readFileSync(path.join(fixture,'dist/future-cms-story/index.html'),'utf8');
     assert(rendered.includes(article.body));
+    assert(rendered.includes('<video controls playsinline preload="none"'));
+    assert(rendered.includes('src="/media/test-clip.mp4" type="video/mp4"'));
+    assert(/src="\/static\/article-media\.[a-f0-9]+\.js"/.test(rendered));
+    assert.equal(fs.readFileSync(path.join(fixture,'dist/media/test-clip.mp4'),'utf8'),'fixture video file');
+    assert(rendered.indexOf('Second photo')<rendered.indexOf('Reporting clip'));
+    assert(rendered.indexOf('Video explanation')<rendered.indexOf('After the clip.'));
     assert(rendered.includes('class="newsletter-bell"'));
     assert(rendered.includes('action="https://buttondown.com/api/emails/embed-subscribe/test-journal"'));
     assert(/src="\/static\/newsletter\.[a-f0-9]+\.js"/.test(rendered));

@@ -2,7 +2,7 @@ media:
   input: media
   output: /media
   rename: safe
-  categories: [image]
+  categories: [image, video]
 
 content:
   - name: articles
@@ -135,7 +135,7 @@ content:
         type: block
         list: true
         blockKey: type
-        description: "Continue the article with text and images in reading order. To place a photo midway through a story, keep the opening in Article body, add an Image section, then put the following paragraphs in a Text section. Reorder sections to move them."
+        description: "Continue the article with text, images and video clips in reading order. Keep the opening in Article body, add an Image or Video section, then put the following paragraphs in a Text section. Reorder sections to move them."
         blocks:
           - name: text
             label: Text
@@ -168,6 +168,69 @@ content:
                 label: Photo credit / source
                 type: string
                 description: "Photographer, agency, archive, or other source."
+
+          - name: video
+            label: Video
+            fields:
+              - name: video
+                label: Upload video clip
+                type: file
+                required: true
+                options:
+                  extensions: [mp4, webm]
+                description: "Use MP4 exported with H.264 video and AAC audio for the widest phone/browser support. WebM is also accepted. Start with compressed clips under 3 MB for the hosted Pages CMS uploader; larger uploads may be rejected. The website has a 25 MiB per-file ceiling."
+              - name: title
+                label: Video description
+                type: string
+                required: true
+                description: "Briefly describe the clip for screen readers."
+              - name: poster
+                label: Preview image (optional)
+                type: image
+                description: "The still image shown before the reader presses play."
+              - name: aspect_ratio
+                label: Video shape
+                type: select
+                default: "16/9"
+                options:
+                  values:
+                    - name: "16/9"
+                      label: Landscape
+                    - name: "9/16"
+                      label: Portrait / phone video
+                    - name: "1/1"
+                      label: Square
+              - name: caption
+                label: Caption
+                type: text
+                description: "Explain what the clip shows. Displayed in small grey text below the player."
+              - name: credit
+                label: Video credit / source
+                type: string
+              - name: subtitles
+                label: Subtitles / closed captions (optional)
+                type: file
+                options:
+                  extensions: [vtt]
+                description: "Upload a WebVTT (.vtt) file for speech and important sounds. Captions are not generated or translated automatically."
+              - name: subtitles_language
+                label: Subtitle language
+                type: select
+                default: en
+                options:
+                  values:
+                    - name: en
+                      label: English
+                    - name: es
+                      label: Spanish
+                    - name: fr
+                      label: French
+                    - name: de
+                      label: German
+                    - name: nl
+                      label: Dutch
+                    - name: hu
+                      label: Hungarian
 
       - name: sources
         label: Sources

@@ -11,7 +11,8 @@ const article = {
   author:'Original Author', sources:'<p>ORIGINAL CITATION 2026.</p>',
   hero_alt:'Photo description', hero_caption:'Photo description',
   sections:[{type:'image', image:'/media/report.jpg', alt:'Image description', caption:'A caption', credit:'Original Agency'},
-    {type:'text', heading:'A heading', body:'<p>Another paragraph.</p>'}]
+    {type:'text', heading:'A heading', body:'<p>Another paragraph.</p>'},
+    {type:'video',video:'/media/clip.mp4',poster:'/media/still.jpg',title:'Interview clip',caption:'A short interview',credit:'Video Agency',aspect_ratio:'9/16',subtitles:'/media/clip.vtt',subtitles_language:'en'}]
 };
 function mockAPI(requests = []) {
   return {usage:async () => ({character_count:0, character_limit:500000}),
@@ -42,6 +43,10 @@ test('new CMS articles translate fully in all five languages; repeat runs cost n
   const saved = JSON.parse(fs.readFileSync(path.join(root,'content/translations/es/test-story.json')));
   assert.equal(saved.sections[0].credit, 'Original Agency');
   assert.equal(saved.sections[0].image, '/media/report.jpg');
+  for(const key of ['video','poster','credit','aspect_ratio','subtitles','subtitles_language'])assert.equal(saved.sections[2][key],article.sections[2][key]);
+  assert.equal(saved.sections[2].title,'es: Interview clip');
+  assert.equal(saved.sections[2].caption,'es: A short interview');
+  assert(!requests.some(r=>r.texts.some(t=>/clip\.mp4|clip\.vtt|Video Agency/.test(t))));
   assert.equal(saved.sourceHash, sourceHash(article));
   assert.equal(saved.contentHash, contentHash(article));
   assert.equal(saved.sources, undefined);

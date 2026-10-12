@@ -297,6 +297,10 @@ function appendArticleSections(body, sections) {
       const template = document.createElement('template');
       template.innerHTML = section.body;
       content.append(template.content);
+    } else if (section.type === 'video') {
+      const template = document.createElement('template');
+      template.innerHTML = window.DeadlineMedia.video(section);
+      content.append(template.content);
     } else if (section.type === 'image' && typeof section.image === 'string' && section.image.trim()) {
       // Support the CMS media folder and HTTPS sources, never executable URLs.
       let source;

@@ -36,7 +36,7 @@ function compile({root,articles,strict=false}){
    const pairs=[[a.body,t.body]];
    for(let i=0;i<(a.sections||[]).length;i++){
     const source=a.sections[i],translated=t.sections[i];
-    for(const key of ['type','image','credit'])if(JSON.stringify(source[key])!==JSON.stringify(translated[key]))throw Error(`Translation changed ${key}: ${file} section ${i}`);
+    for(const key of ['type','image','credit','video','poster','aspect_ratio','subtitles','subtitles_language'])if(JSON.stringify(source[key])!==JSON.stringify(translated[key]))throw Error(`Translation changed ${key}: ${file} section ${i}`);
     for(const key of ['body','heading','title','alt','caption'])if(source[key]){
      if(!translated[key])throw Error(`Missing section ${key}: ${file} section ${i}`);
      checkHTML(source[key],translated[key],file+' section '+i+' '+key);

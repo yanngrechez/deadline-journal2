@@ -5,7 +5,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(process.env.DEADLINE_DIST||path.join(path.dirname(fileURLToPath(import.meta.url)),'dist'));
 const worker=(await import('data:text/javascript;base64,'+fs.readFileSync(process.env.DEADLINE_WORKER||path.join(path.dirname(fileURLToPath(import.meta.url)),'.cloudflare/worker.mjs')).toString('base64'))).default;
-const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.svg':'image/svg+xml','.json':'application/json','.xml':'application/xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp'};
+const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.svg':'image/svg+xml','.json':'application/json','.xml':'application/xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.webm':'video/webm','.vtt':'text/vtt; charset=utf-8'};
 const assets={async fetch(request){
   const url=new URL(request.url);
   let pathname;
@@ -22,7 +22,15 @@ const assets={async fetch(request){
   }else if(!path.extname(file))file+='.html';
   const exists=fs.existsSync(file)&&fs.statSync(file).isFile();
   if(!exists)file=path.join(root,'404.html');
-  return new Response(request.method==='HEAD'?null:fs.readFileSync(file),{status:exists?200:404,headers:{'content-type':types[path.extname(file)]||'application/octet-stream'}});
+  const bytes=fs.readFileSync(file),headers={'content-type':types[path.extname(file)]||'application/octet-stream','content-length':String(bytes.length),'accept-ranges':'bytes'};
+  const range=request.headers.get('range')?.match(/^bytes=(\d*)-(\d*)$/);
+  if(exists&&request.method!=='HEAD'&&range&&(range[1]||range[2])){
+    const start=range[1]?Number(range[1]):Math.max(0,bytes.length-Number(range[2]));
+    const end=range[1]&&range[2]?Math.min(Number(range[2]),bytes.length-1):bytes.length-1;
+    if(start>end||start>=bytes.length)return new Response(null,{status:416,headers:{...headers,'content-length':'0','content-range':`bytes */${bytes.length}`}});
+    return new Response(bytes.subarray(start,end+1),{status:206,headers:{...headers,'content-length':String(end-start+1),'content-range':`bytes ${start}-${end}/${bytes.length}`}});
+  }
+  return new Response(request.method==='HEAD'?null:bytes,{status:exists?200:404,headers});
 }};
 const server=http.createServer(async(req,res)=>{
   try{

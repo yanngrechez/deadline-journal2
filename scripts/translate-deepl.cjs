@@ -36,7 +36,7 @@ function valid(article, translation, locale) {
       if (blocks(entry.text).length !== blocks(value).length) return false;
     }
     for (let i = 0; i < (article.sections || []).length; i++) {
-      for (const key of ['type','image','credit']) {
+      for (const key of ['type','image','credit','video','poster','aspect_ratio','subtitles','subtitles_language']) {
         if (JSON.stringify(article.sections[i][key]) !== JSON.stringify(translation.sections[i][key])) return false;
       }
     }

@@ -23,6 +23,8 @@ const articles=fs.readdirSync(path.join(root,'content/articles'))
     return {...rest,country:String(article.country||'').toUpperCase(),topics:topics.length?topics:['politics']};
   }).sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
 
+require('./build-media.cjs').validateVideos(root,articles);
+
 const frontCover=JSON.parse(fs.readFileSync(path.join(root,'content/front-cover.json'),'utf8'));
 require('./cover.js').validate(articles,frontCover);
 
@@ -67,7 +69,7 @@ async function build(){
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
 fs.writeFileSync(path.join(dist,'feed.xml'),publicationFeed);
-for(const name of ['newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+for(const name of ['article-media.js','newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});

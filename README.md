@@ -178,3 +178,35 @@ See [NEWSLETTER.md](NEWSLETTER.md) for the bell signup, publication feed, editio
 and announcement editor, free Buttondown account setup, and delivery verification.
 Newsletters are sent manually in Buttondown; publishing does not email readers.
 The signup bell connects to the verified `deadlinejournal` Buttondown account.
+
+
+### Video clips inside articles
+
+In Pages CMS, open **Articles → your article → Additional article sections**
+and add **Video**. Upload an MP4 (H.264 video + AAC audio recommended) or WebM,
+write a short video description, and optionally add a preview image, caption,
+credit and WebVTT subtitles. Pick Landscape, Portrait or Square to reserve the
+correct player shape before playback. No autoplay; readers control playback,
+sound and fullscreen using their browser's accessible player.
+
+Arrange **Text → Video → Text → Image** blocks in any order, just as with photos.
+The opening remains in Article body. Move subsequent paragraphs into Text blocks
+to insert clips between them without duplicating text. Each clip has its own
+upload and caption. Existing articles need no migration.
+
+Keep clips short and compressed: aim below **3 MB** for uploads through hosted
+Pages CMS. Its Vercel upload endpoint has a known request-size limit (encoding
+adds overhead), so this is guidance, not a guaranteed per-file allowance. If the
+uploader returns 413, reduce the file size and retry. The Cloudflare static-asset
+ceiling is **25 MiB per file**; the build rejects oversized/missing video files
+before deployment. Longer footage needs a separate video-storage workflow.
+There is no automatic transcoding: export phone MOV/HEVC recordings as H.264 MP4.
+
+Video descriptions and explanatory captions participate in the existing article
+translation workflow. Original credits, media URLs and subtitle tracks stay
+unchanged. Video audio and subtitles are not automatically translated. Upload
+`.vtt` captions for speech/important sounds and choose their original language.
+
+References: https://pagescms.org/docs/configuration/fields/file/,
+https://github.com/hunvreus/pagescms/issues/284,
+https://developers.cloudflare.com/workers/platform/limits/#static-assets.
