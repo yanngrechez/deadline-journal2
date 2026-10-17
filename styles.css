@@ -354,3 +354,9 @@ img{height:auto}
 .article-inline-video[data-ratio="9/16"] video{aspect-ratio:9/16}
 .article-inline-video[data-ratio="1/1"] video{aspect-ratio:1}
 .article-inline-video video:focus-visible{outline:2px solid var(--purple);outline-offset:4px}
+
+/* A quiet editorial note beneath the About text. */
+.about-disclaimer{grid-column:1/-1;border-top:1px solid var(--rule);padding-top:22px}
+.about-disclaimer h2{margin:0 0 12px;font:700 12px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--purple)}
+.about-grid .about-disclaimer p{max-width:90ch;margin:0 0 12px;font:15px/1.65 Georgia,serif;color:var(--muted)}
+.about-grid .about-disclaimer p:last-child{margin-bottom:0}
