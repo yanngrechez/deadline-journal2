@@ -6,7 +6,7 @@ const os=require('node:os');
 const {compile,sourceHash,checkHTML,locales}=require('../build-translations.cjs');
 const root=path.resolve(__dirname,'..');
 const articles=fs.readdirSync(path.join(root,'content/articles')).filter(f=>f.endsWith('.json')).map(f=>JSON.parse(fs.readFileSync(path.join(root,'content/articles',f)))).filter(a=>a.status==='published');
-test('every published article has five complete current-source translations',()=>{
+test('every published article has complete current-source translations',()=>{
  const result=compile({root,articles,strict:true});
  assert.ok(articles.length>=10);
  for(const a of articles){assert.deepEqual(result.coverage[a.slug],locales);assert.ok(result.articleRows[a.slug].length>0);}
@@ -16,17 +16,17 @@ test('source edits disable outdated translations instead of serving stale conten
  assert.notEqual(sourceHash(changed),sourceHash(articles[0]));
  const result=compile({root,articles:[changed]});
  assert.deepEqual(result.coverage[changed.slug],[]);
- assert.equal(result.issues.length,5);
+ assert.equal(result.issues.length,locales.length);
  assert.throws(()=>compile({root,articles:[changed],strict:true}),/English source changed/);
 });
 test('formatting and citation links cannot disappear or change',()=>{
  checkHTML('<p><em>Report</em></p>','<p><em>Rapport</em></p>','valid');
- assert.throws(()=>checkHTML('<p><em>Report</em></p>','<p>Rapport</p>','bad'),/formatting/);
+ assert.throws(()=>checkHTML('<p><em>Report</em></p>','<h2>Rapport</h2>','bad'),/formatting/);
  assert.throws(()=>checkHTML('<p><a href="https://example.org">Report</a></p>','<p><a href="https://other.org">Rapport</a></p>','bad'),/links/);
 });
 test('missing translations leave CMS publishing available with English fallback',()=>{
  const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'journal-translations-'));
- try{const result=compile({root:temporary,articles});assert.equal(result.issues.length,articles.length*5);}
+ try{const result=compile({root:temporary,articles});assert.equal(result.issues.length,articles.length*locales.length);}
  finally{fs.rmSync(temporary,{recursive:true,force:true});}
 });
 
@@ -38,5 +38,5 @@ test('whitespace-only CMS edits retain translations while genuine edits still in
 });
 test('shared interface copy covers every supported language without obsolete article samples',()=>{
  const context={window:{}};require('node:vm').runInNewContext(fs.readFileSync(path.join(root,'journal-language-data.js'),'utf8'),context);
- for(const row of context.window.JOURNAL_LANGUAGE_CATALOG){assert.equal(row.length,6,row[0]);assert.ok(row.every(value=>typeof value==='string'&&value.trim()),row[0]);}
+ for(const row of context.window.JOURNAL_LANGUAGE_CATALOG){assert.equal(row.length,locales.length+1,row[0]);assert.ok(row.every(value=>typeof value==='string'&&value.trim()),row[0]);}
 });

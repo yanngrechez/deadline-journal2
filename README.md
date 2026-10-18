@@ -102,13 +102,13 @@ canonical pages, local links, sitemap eligibility, structured data and redirects
 
 The **Translate articles with DeepL** GitHub Actions workflow runs after Pages CMS
 saves published article content to `main`. It generates missing or outdated
-Spanish, French, German, Dutch and Hungarian translations, validates their HTML,
+Spanish, French, German, Dutch, Hungarian, Brazilian Portuguese, Czech, Korean and Ukrainian translations, validates their HTML,
 and commits the translation JSON files. Cloudflare's existing GitHub integration
 then builds and publishes that commit. No DeepL key or request is sent to readers.
 
 ### One-time activation
 
-1. Create a **DeepL API** account/key (API Free or API Pro; a normal Translator
+1. Create a **DeepL API** account/key (an API plan; a normal Translator
    subscription alone does not provide this integration):
    https://www.deepl.com/en/your-account/keys
 2. In https://github.com/yanngrechez/deadline-journal2/settings/secrets/actions,
@@ -128,10 +128,13 @@ browser JavaScript, Cloudflare public variables, or repository files.
 
 - Headlines, subtitles, article body, text sections, section headings, image alt
   descriptions and captions are translated using DeepL's HTML handling and
-  preferred quality model. Article context accompanies the requests.
+  preferred quality model. Article context accompanies the requests. Full
+  sentences stay together; emphasis may follow translated word order while
+  paragraph structure, balanced markup and links are validated.
 - Sources are never sent to DeepL. Author names, URLs, image paths and separate
   photo-credit fields stay unchanged. Existing translated interface text remains
-  in the shared language catalog.
+  in the shared language catalog. Missing interface translations are generated
+  automatically and saved alongside article updates.
 - Current saved translations, including earlier editorial/AI translations, are
   retained. DeepL replaces them when their English article content changes; it
   does not automatically retranslate the existing archive just to change provider.

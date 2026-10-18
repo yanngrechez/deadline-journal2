@@ -29,3 +29,7 @@ html[lang] .region-col,html[lang] .top-col,html[lang] .region-card,html[lang] .a
   .language-panel{padding:16px}
   .slogan{padding-inline:16px;font-size:9px;letter-spacing:.09em}
 }
+
+/* Keep longer language names and Korean copy comfortable on small screens. */
+@media(max-width:700px){.language-toggle-label{max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+html[lang="ko"] .body,html[lang="ko"] .headline,html[lang="ko"] .article-page h1{word-break:keep-all;overflow-wrap:break-word;hyphens:none}

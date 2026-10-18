@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 // Saved editorial and DeepL translations. No API requests or credentials in the browser.
-const languages=['en','es','fr','de','nl','hu'];
+const languages=['en','es','fr','de','nl','hu','pt-BR','cs','ko','uk'];
 const availableLanguages=languages;
 const key='deadline-language';let language='en';try{const saved=localStorage.getItem(key);if(availableLanguages.includes(saved))language=saved}catch{}
 const decode=document.createElement('textarea');const plain=html=>{decode.innerHTML=String(html).replace(/<[^>]*>/g,'');return decode.value};
@@ -15,7 +15,11 @@ const labels={
  fr:{Languages:'Langues',About:'À propos',Write:'Contribuer',Search:'Rechercher',By:'Par',Desk:'RUBRIQUE PAYS',article:'article',articles:'articles',from:'de',flag:'Drapeau',view:'Voir les articles',country:'pays',countries:'pays'},
  de:{Languages:'Sprachen',About:'Über uns',Write:'Mitmachen',Search:'Suche',By:'Von',Desk:'LÄNDERRUBRIK',article:'Artikel',articles:'Artikel',from:'aus',flag:'Flagge',view:'Artikel ansehen',country:'Land',countries:'Ländern'},
  nl:{Languages:'Talen',About:'Over ons',Write:'Schrijf mee',Search:'Zoeken',By:'Door',Desk:'LANDENRUBRIEK',article:'artikel',articles:'artikelen',from:'uit',flag:'Vlag',view:'Artikelen bekijken',country:'land',countries:'landen'},
- hu:{Languages:'Nyelvek',About:'Rólunk',Write:'Írj nekünk',Search:'Keresés',By:'Szerző:',Desk:'ORSZÁGROVAT',article:'cikk',articles:'cikk',from:'',flag:'Zászló',view:'Cikkek megtekintése',country:'országból',countries:'országból'}
+ hu:{Languages:'Nyelvek',About:'Rólunk',Write:'Írj nekünk',Search:'Keresés',By:'Szerző:',Desk:'ORSZÁGROVAT',article:'cikk',articles:'cikk',from:'',flag:'Zászló',view:'Cikkek megtekintése',country:'országból',countries:'országból'},
+ 'pt-BR':{Languages:'Idiomas',About:'Sobre',Write:'Escreva para nós',Search:'Buscar',By:'Por',Desk:'SEÇÃO DO PAÍS',article:'artigo',articles:'artigos',from:'de',flag:'Bandeira',view:'Ver artigos',country:'país',countries:'países'},
+ cs:{Languages:'Jazyky',About:'O nás',Write:'Pište pro nás',Search:'Hledat',By:'Autor:',Desk:'RUBRIKA ZEMĚ',article:'článek',articles:'článků',from:'z',flag:'Vlajka',view:'Zobrazit články',country:'země',countries:'zemí'},
+ ko:{Languages:'언어',About:'소개',Write:'기고하기',Search:'검색',By:'글쓴이:',Desk:'국가별 기사',article:'편',articles:'편',from:'',flag:'국기',view:'기사 보기',country:'개국',countries:'개국'},
+ uk:{Languages:'Мови',About:'Про нас',Write:'Пишіть для нас',Search:'Пошук',By:'Автор:',Desk:'РОЗДІЛ КРАЇНИ',article:'стаття',articles:'статей',from:'з',flag:'Прапор',view:'Переглянути статті',country:'країни',countries:'країн'}
 };
 const notices={
  en:'Translations are generated automatically and may contain errors or inaccuracies.',
@@ -23,7 +27,11 @@ const notices={
  fr:'Les traductions sont générées automatiquement et peuvent contenir des erreurs ou des inexactitudes.',
  de:'Die Übersetzungen werden automatisch erstellt und können Fehler oder Ungenauigkeiten enthalten.',
  nl:'De vertalingen worden automatisch gegenereerd en kunnen fouten of onnauwkeurigheden bevatten.',
- hu:'A fordítások automatikusan készülnek, és hibákat vagy pontatlanságokat tartalmazhatnak.'
+ hu:'A fordítások automatikusan készülnek, és hibákat vagy pontatlanságokat tartalmazhatnak.',
+ 'pt-BR':'As traduções são geradas automaticamente e podem conter erros ou imprecisões.',
+ cs:'Překlady jsou generovány automaticky a mohou obsahovat chyby nebo nepřesnosti.',
+ ko:'번역은 자동으로 생성되며 오류나 부정확한 내용이 포함될 수 있습니다.',
+ uk:'Переклади створюються автоматично й можуть містити помилки або неточності.'
 };
 function translate(value){
  if(typeof value!=='string'||language==='en'||!value.trim())return value;
@@ -36,9 +44,13 @@ function translate(value){
  if(code)return new Intl.DisplayNames([language==='nl'?'nl-NL':language],{type:'region'}).of(code);
  let m;
  if((m=trimmed.match(/^Voices from (\d+) countr(?:y|ies), and counting\.$/))){
- const n=m[1];return {es:`Voces de ${n} ${n==='1'?'país':'países'}, y seguimos sumando.`,fr:`Des voix de ${n} pays, et ce n’est qu’un début.`,de:`Stimmen aus ${n} ${n==='1'?'Land':'Ländern'} – und es werden mehr.`,nl:`Stemmen uit ${n} ${n==='1'?'land':'landen'}, en er komen er meer bij.`,hu:`Hangok ${n} országból – és egyre több helyről.`}[language];
+ const n=m[1];return {es:`Voces de ${n} ${n==='1'?'país':'países'}, y seguimos sumando.`,fr:`Des voix de ${n} pays, et ce n’est qu’un début.`,de:`Stimmen aus ${n} ${n==='1'?'Land':'Ländern'} – und es werden mehr.`,nl:`Stemmen uit ${n} ${n==='1'?'land':'landen'}, en er komen er meer bij.`,hu:`Hangok ${n} országból – és egyre több helyről.`, 'pt-BR':`Vozes de ${n} ${n==='1'?'país':'países'}, e contando.`, cs:`Hlasy z ${n} zemí — a přibývají další.`, ko:`${n}개국의 목소리, 그리고 계속 늘어납니다.`, uk:`Голоси з ${n} країн — і їх стає більше.`}[language];
  }
- if((m=trimmed.match(/^(\d+) (?:story|stories|article|articles)$/)))return `${m[1]} ${m[1]==='1'?ui.article:ui.articles}`;
+ if((m=trimmed.match(/^(\d+) (?:story|stories|article|articles)$/))){
+ const count=Number(m[1]),form=new Intl.PluralRules(language).select(count);
+ const forms={cs:{one:'článek',few:'články',other:'článků'},uk:{one:'стаття',few:'статті',many:'статей',other:'статті'}};
+ return language==='ko'?`기사 ${count}편`:`${count} ${forms[language]?.[form]||(count===1?ui.article:ui.articles)}`;
+ }
  if((m=trimmed.match(/^(\d+) stories? from (.+)$/)))return `${translate(m[1]+' stories')} · ${translate(m[2])}`;
  if((m=trimmed.match(/^(.+) — (\d+) articles?$/)))return `${translate(m[1])} — ${translate(m[2]+' articles')}`;
  if((m=trimmed.match(/^View (.+) stories$/)))return `${ui.view}: ${translate(m[1])}`;
@@ -54,7 +66,7 @@ window.journalTranslate=translate;
 const utility=document.querySelector('.utility-links');
 if(!utility)return;
 const chooser=document.createElement('div');chooser.className='journal-languages';chooser.dataset.noTranslate='true';
-chooser.innerHTML=`<button class="language-toggle" type="button" aria-expanded="false" aria-controls="journalLanguagePanel"><svg viewBox="0 0 20 20" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="10" cy="10" r="8"/><ellipse cx="10" cy="10" rx="3.4" ry="8"/><path d="M2 10h16M4 5.5h12M4 14.5h12"/></svg><span class="language-toggle-label">Languages</span><svg class="language-chevron" viewBox="0 0 10 6" width="8" height="5" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="m1 1 4 4 4-4"/></svg></button><div class="language-panel" id="journalLanguagePanel" hidden><div class="language-panel-title">Languages</div><div class="language-options" role="group" aria-label="Journal language"><button type="button" lang="en" data-choice="en"><span>English</span><small class="english-origin">Original</small><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="es" data-choice="es"><span>Español</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="fr" data-choice="fr"><span>Français</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="de" data-choice="de"><span>Deutsch</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="nl-NL" data-choice="nl"><span>Nederlands <small>(Nederland)</small></span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="hu" data-choice="hu"><span>Magyar</span><span class="language-check" aria-hidden="true">✓</span></button></div><p class="language-panel-note"></p></div>`;
+chooser.innerHTML=`<button class="language-toggle" type="button" aria-expanded="false" aria-controls="journalLanguagePanel"><svg viewBox="0 0 20 20" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="10" cy="10" r="8"/><ellipse cx="10" cy="10" rx="3.4" ry="8"/><path d="M2 10h16M4 5.5h12M4 14.5h12"/></svg><span class="language-toggle-label">Languages</span><svg class="language-chevron" viewBox="0 0 10 6" width="8" height="5" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="m1 1 4 4 4-4"/></svg></button><div class="language-panel" id="journalLanguagePanel" hidden><div class="language-panel-title">Languages</div><div class="language-options" role="group" aria-label="Journal language"><button type="button" lang="en" data-choice="en"><span>English</span><small class="english-origin">Original</small><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="es" data-choice="es"><span>Español</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="fr" data-choice="fr"><span>Français</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="de" data-choice="de"><span>Deutsch</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="nl-NL" data-choice="nl"><span>Nederlands <small>(Nederland)</small></span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="hu" data-choice="hu"><span>Magyar</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="pt-BR" data-choice="pt-BR"><span>Português <small>(Brasil)</small></span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="cs" data-choice="cs"><span>Čeština</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="ko" data-choice="ko"><span>한국어</span><span class="language-check" aria-hidden="true">✓</span></button><button type="button" lang="uk" data-choice="uk"><span>Українська</span><span class="language-check" aria-hidden="true">✓</span></button></div><p class="language-panel-note"></p></div>`;
 utility.append(chooser);
 chooser.querySelectorAll('[data-choice]').forEach(button=>{if(!availableLanguages.includes(button.dataset.choice)){button.disabled=true;button.title='Coming soon';}});
 const trigger=chooser.querySelector('.language-toggle'),panel=chooser.querySelector('.language-panel');
@@ -88,7 +100,7 @@ const sourceDocumentTitle=document.title;
 const article=document.getElementById('articlePage');
 const articleSlug=typeof DeadlineRoutes!=='undefined'?DeadlineRoutes.resolve(new URL(location.href),window.DEADLINE_ARTICLES||[]).slug:null;
 const articleTranslationAvailable=locale=>locale==='en'||(window.JOURNAL_ARTICLE_LANGUAGES?.[articleSlug]||[]).includes(locale);
-const missingTranslation={es:'La traducción de esta versión aún no está disponible. Se muestra el artículo original en inglés.',fr:'La traduction de cette version n’est pas encore disponible. L’article original en anglais est affiché.',de:'Die Übersetzung dieser Fassung ist noch nicht verfügbar. Der englische Originaltext wird angezeigt.',nl:'De vertaling van deze versie is nog niet beschikbaar. Het oorspronkelijke Engelse artikel wordt weergegeven.',hu:'Ennek a változatnak a fordítása még nem érhető el. Az eredeti angol cikk jelenik meg.'};
+const missingTranslation={es:'La traducción de esta versión aún no está disponible. Se muestra el artículo original en inglés.',fr:'La traduction de cette version n’est pas encore disponible. L’article original en anglais est affiché.',de:'Die Übersetzung dieser Fassung ist noch nicht verfügbar. Der englische Originaltext wird angezeigt.',nl:'De vertaling van deze versie is nog niet beschikbaar. Het oorspronkelijke Engelse artikel wordt weergegeven.',hu:'Ennek a változatnak a fordítása még nem érhető el. Az eredeti angol cikk jelenik meg.','pt-BR':'A tradução desta versão ainda não está disponível. O artigo original em inglês é exibido.',cs:'Překlad této verze zatím není dostupný. Zobrazuje se původní článek v angličtině.',ko:'이 버전의 번역은 아직 제공되지 않습니다. 영어 원문이 표시됩니다.',uk:'Переклад цієї версії ще недоступний. Показано оригінальну статтю англійською.'};
 let articleNotice;
 if(article){articleNotice=document.createElement('p');articleNotice.className='translation-availability';articleNotice.dataset.noTranslate='true';article.before(articleNotice);}
 let observer;let scheduled=false;
@@ -98,7 +110,7 @@ function apply(announce=false){
  if(articleNotice){articleNotice.hidden=articleTranslationAvailable(language);articleNotice.textContent=missingTranslation[language]||'';}
  visit(document.body);
  document.querySelectorAll('.article-sources-content').forEach(el=>{el.setAttribute('translate','no')});
- const selectedName={en:'English',es:'Español',fr:'Français',de:'Deutsch',nl:'Nederlands',hu:'Magyar'}[language];
+ const selectedName={en:'English',es:'Español',fr:'Français',de:'Deutsch',nl:'Nederlands',hu:'Magyar','pt-BR':'Português',cs:'Čeština',ko:'한국어',uk:'Українська'}[language];
  chooser.querySelector('.language-toggle-label').textContent=selectedName;
  trigger.setAttribute('aria-label',labels[language].Languages+': '+selectedName);
  chooser.querySelector('.language-panel-title').textContent=translate('Languages');

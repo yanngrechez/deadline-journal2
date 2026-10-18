@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {sourceHash, contentHash, checkHTML, blocks, locales} = require('../build-translations.cjs');
-const targets = {es:'ES', fr:'FR', de:'DE', nl:'NL', hu:'HU'};
+const targets = {es:'ES', fr:'FR', de:'DE', nl:'NL', hu:'HU', 'pt-BR':'PT-BR', cs:'CS', ko:'KO', uk:'UK'};
 const articleFields = ['title', 'dek', 'body', 'hero_alt', 'hero_caption'];
 const sectionFields = ['body', 'heading', 'title', 'alt', 'caption'];
 
@@ -94,7 +94,13 @@ function client({key, fetchImpl = fetch, sleep = ms => new Promise(resolve => se
       const data = await request('/v2/translate', body);
       if (!Array.isArray(data.translations) || data.translations.length !== text.length ||
           data.translations.some(t => typeof t.text !== 'string' || !t.text.trim())) throw Error('DeepL returned incomplete translations.');
-      return data.translations.map(t => t.text);
+      return data.translations.map((t,i)=>{
+        // Translated word order can split/move emphasis. Keep full sentences,
+        // removing only meaningless emphasis around punctuation/whitespace.
+        const output=t.text.replace(/<(em|strong)>([\s\p{P}]*|(?:&nbsp;|&#160;|&#xA0;)*)<\/\1>/gu,'$2');
+        checkHTML(text[i],output,'DeepL response');
+        return output;
+      });
     }
   };
 }
@@ -133,13 +139,42 @@ async function translateArticle(article, locale, api) {
   return result;
 }
 
+function interfaceCatalog(root) {
+  const file = path.join(root, 'journal-language-data.js');
+  if (!fs.existsSync(file)) return {file, rows:[]};
+  const context = {window:{}};
+  require('node:vm').runInNewContext(fs.readFileSync(file,'utf8'),context);
+  return {file, rows:context.window.JOURNAL_LANGUAGE_CATALOG};
+}
+async function translateInterface(root, api, log) {
+  const {file,rows} = interfaceCatalog(root);
+  let written=0;
+  for (const [index,locale] of locales.entries()) {
+    const missing=rows.filter(row=>!row[index+1]);
+    for (let offset=0;offset<missing.length;offset+=40) {
+      const batch=missing.slice(offset,offset+40);
+      const translated=await api.translate(batch.map(row=>row[0]),locale,
+        'Interface for Deadline Journal, an independent student-led international affairs publication. Preserve the publication name Deadline Journal. Actors means international political actors, including the United Nations and NGOs.');
+      batch.forEach((row,i)=>checkHTML(row[0],translated[i],'Interface/'+locale));
+      batch.forEach((row,i)=>{row[index+1]=translated[i]});
+      // Save each validated batch so a retry does not repeat successful requests.
+      fs.writeFileSync(file+'.tmp','window.JOURNAL_LANGUAGE_CATALOG='+JSON.stringify(rows,null,2)+';\n');
+      fs.renameSync(file+'.tmp',file);
+      written+=batch.length;
+    }
+    if(missing.length)log(`Translated and validated ${missing.length} interface strings/${locale}`);
+  }
+  return written;
+}
+
 async function run({root = path.resolve(__dirname, '..'), key = process.env.DEEPL_API_KEY,
   dryRun = false, verify = false, api, log = console.log} = {}) {
   const jobs = jobsFor(root, readArticles(root));
-  const estimatedCharacters = jobs.reduce((sum, {article}) => sum + [...new Set(entries(article).map(e => e.text))].reduce((n, s) => n + [...s].length, 0), 0);
+  const interfaceMissing=interfaceCatalog(root).rows.flatMap(row=>locales.filter((locale,index)=>!row[index+1]).map(()=>row[0]));
+  const estimatedCharacters = interfaceMissing.reduce((sum,text)=>sum+[...text].length,0)+jobs.reduce((sum, {article}) => sum + [...new Set(entries(article).map(e => e.text))].reduce((n, s) => n + [...s].length, 0), 0);
   log(`${jobs.length} article/language translations need updating; at most approximately ${estimatedCharacters} source characters (including HTML).`);
   if (dryRun) return {jobs:jobs.length, estimatedCharacters, written:0};
-  if (!jobs.length && !verify) { log('All published translations are current. No DeepL calls needed.'); return {jobs:0, written:0}; }
+  if (!jobs.length && !interfaceMissing.length && !verify) { log('All published translations are current. No DeepL calls needed.'); return {jobs:0, written:0}; }
   api ||= client({key});
   const usage = await api.usage();
   if (typeof usage.character_count === 'number' && typeof usage.character_limit === 'number') {
@@ -152,6 +187,7 @@ async function run({root = path.resolve(__dirname, '..'), key = process.env.DEEP
     if (output === sample) throw Error('DeepL connection check returned untranslated text: ' + locale);
     log(`DeepL connection and HTML handling verified: ${locale}`);
   }
+  await translateInterface(root,api,log);
   // Each complete language file is saved atomically. Never replace a file with a partial response.
   let written = 0;
   for (const {article, locale, file} of jobs) {
@@ -170,4 +206,4 @@ if (require.main === module) {
   if (args.some(arg => !['--dry-run','--verify'].includes(arg))) { console.error('Use --dry-run or --verify.'); process.exitCode = 1; }
   else run({dryRun:args.includes('--dry-run'), verify:args.includes('--verify')}).catch(error => {console.error(error.message); process.exitCode = 1;});
 }
-module.exports = {client, entries, jobsFor, readArticles, run, translateArticle, valid};
+module.exports = {client, entries, jobsFor, readArticles, run, translateArticle, translateInterface, valid};

@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
-const locales=['es','fr','de','nl','hu'];
+const locales=['es','fr','de','nl','hu','pt-BR','cs','ko','uk'];
 const fields=['title','dek','body','sections','hero_alt','hero_caption'];
 function sorted(value){if(Array.isArray(value))return value.map(sorted);if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(k=>[k,sorted(value[k])]));return value;}
 function sourceHash(article){return crypto.createHash('sha256').update(JSON.stringify(sorted(Object.fromEntries(fields.map(k=>[k,article[k]??null]))))).digest('hex');}
@@ -12,7 +12,16 @@ function contentHash(article){
 function blocks(html){return [...String(html||'').matchAll(/<(p|h[1-6]|li|blockquote)\b[^>]*>([\s\S]*?)<\/\1>/gi)].map(m=>m[2]);}
 function checkHTML(source,target,label){
  const tags=s=>[...String(s||'').replace(/<(em|strong)>\s*<\/\1>/gi,'').matchAll(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi)].map(m=>m[0].replace(/\s[^>]*/,'').toLowerCase());
- if(JSON.stringify(tags(source))!==JSON.stringify(tags(target)))throw Error('Translation formatting mismatch: '+label);
+ // Emphasis follows translated word order; structural tags and links must remain.
+ const structure=s=>tags(s).filter(tag=>!/^<\/?(?:em|strong)>$/.test(tag));
+ if(JSON.stringify(structure(source))!==JSON.stringify(structure(target)))throw Error('Translation formatting mismatch: '+label);
+ const stack=[];
+ for(const match of String(target||'').matchAll(/<(\/?)([a-z][a-z0-9]*)\b[^>]*>/gi)){
+  const tag=match[2].toLowerCase();
+  if(/^(br|hr|img|input|source|wbr|area|base|col|embed|link|meta|param|track)$/.test(tag))continue;
+  if(match[1]){if(stack.pop()!==tag)throw Error('Unbalanced translation HTML: '+label)}else stack.push(tag);
+ }
+ if(stack.length)throw Error('Unbalanced translation HTML: '+label);
  const hrefs=s=>[...String(s||'').matchAll(/\b(?:href|src)\s*=\s*(["'])(.*?)\1/gi)].map(m=>m[2]);
  if(JSON.stringify(hrefs(source))!==JSON.stringify(hrefs(target)))throw Error('Translation links changed: '+label);
  if(/<\s*(script|iframe|object)\b|\bon\w+\s*=/i.test(target||''))throw Error('Unsafe translation HTML: '+label);

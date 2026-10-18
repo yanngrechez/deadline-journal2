@@ -7,6 +7,7 @@ on:
       - 'content/articles/**'
       - 'scripts/translate-deepl.cjs'
       - 'build-translations.cjs'
+      - 'journal-language-data.js'
       - '.github/workflows/deepl.yml'
   workflow_dispatch:
     inputs:
@@ -55,7 +56,7 @@ jobs:
         run: node --test tests/translations.test.cjs
       - name: Save translations and trigger Cloudflare publishing
         run: |
-          git add content/translations
+          git add content/translations journal-language-data.js
           if git diff --cached --quiet; then
             echo 'All translations are current; nothing to publish.'
             exit 0
@@ -71,5 +72,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: deepl-translations-${{ github.run_id }}
-          path: content/translations
+          path: |
+            content/translations
+            journal-language-data.js
           retention-days: 7

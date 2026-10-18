@@ -231,6 +231,14 @@ content:
                       label: Dutch
                     - name: hu
                       label: Hungarian
+                    - name: pt-BR
+                      label: Brazilian Portuguese
+                    - name: cs
+                      label: Czech
+                    - name: ko
+                      label: Korean
+                    - name: uk
+                      label: Ukrainian
 
       - name: sources
         label: Sources

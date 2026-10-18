@@ -30,12 +30,12 @@ function fixture(t) {
   return root;
 }
 
-test('new CMS articles translate fully in all five languages; repeat runs cost no API calls', async t => {
+test('new CMS articles translate fully in all supported languages; repeat runs cost no API calls', async t => {
   const root = fixture(t), requests = [], api = mockAPI(requests);
   const result = await run({root, api, log:() => {}});
-  assert.equal(result.written, 5);
+  assert.equal(result.written, locales.length);
   assert.deepEqual(compile({root,articles:[article],strict:true}).coverage[article.slug], locales);
-  assert.equal(requests.length, 5);
+  assert.equal(requests.length, locales.length);
   assert.ok(requests.every(r => !r.texts.join(' ').includes('ORIGINAL CITATION')));
   assert.ok(requests.every(r => !r.texts.join(' ').includes('Original Author')));
   assert.ok(requests.every(r => !r.texts.join(' ').includes('Original Agency')));
@@ -52,7 +52,7 @@ test('new CMS articles translate fully in all five languages; repeat runs cost n
   assert.equal(saved.sources, undefined);
   assert.equal(saved.provider, 'deepl');
   await run({root, api:{usage:() => assert.fail('No paid request needed')}, log:() => {}});
-  assert.equal(requests.length, 5);
+  assert.equal(requests.length, locales.length);
 });
 
 test('only stale or missing languages regenerate; Sources and whitespace edits do not trigger billing', async t => {
@@ -66,7 +66,7 @@ test('only stale or missing languages regenerate; Sources and whitespace edits d
   await run({root,api:mockAPI(requests),log:() => {}});
   assert.deepEqual(requests.map(r => r.locale), ['fr']);
   fs.writeFileSync(file,JSON.stringify({...article,body:article.body+'<p>Updated reporting.</p>'}));
-  assert.equal((await run({root,dryRun:true,log:() => {}})).jobs, 5);
+  assert.equal((await run({root,dryRun:true,log:() => {}})).jobs, locales.length);
 });
 
 test('current manually reviewed translations are preserved regardless of provider', async t => {
@@ -128,4 +128,46 @@ test('large articles batch fields and preserve full context; oversized fields fa
   assert.ok(requests.every(r => r.texts.length <= 40 && r.context.includes(article.title)));
   const api = client({key:'secret',fetchImpl:() => assert.fail('Oversized request sent')});
   await assert.rejects(api.translate(['x'.repeat(130*1024)],'es',''),/safe size limit/);
+});
+
+test('new language codes map to the precise DeepL targets', async () => {
+  const expected={'pt-BR':'PT-BR',cs:'CS',ko:'KO',uk:'UK'};
+  for(const [locale,target] of Object.entries(expected)) {
+    let body;
+    const api=client({key:'test:fx',fetchImpl:async (_url,options)=>{
+      body=JSON.parse(options.body);
+      return {ok:true,json:async()=>({translations:[{text:'Translated'}]})};
+    }});
+    await api.translate(['English'],locale,'');
+    assert.equal(body.target_lang,target);
+  }
+});
+
+test('missing interface columns translate once and retain existing editorial copy', async t => {
+  const root=fixture(t),file=path.join(root,'journal-language-data.js');
+  fs.writeFileSync(file,'window.JOURNAL_LANGUAGE_CATALOG=[["About","Acerca de","À propos","Über uns","Over ons","Rólunk"]];');
+  const {translateInterface}=require('../scripts/translate-deepl.cjs');
+  const requests=[];
+  assert.equal(await translateInterface(root,mockAPI(requests),()=>{}),4);
+  assert.deepEqual(requests.map(r=>r.locale),['pt-BR','cs','ko','uk']);
+  const context={window:{}};require('node:vm').runInNewContext(fs.readFileSync(file,'utf8'),context);
+  const row=context.window.JOURNAL_LANGUAGE_CATALOG[0];
+  assert.equal(row.length,locales.length+1);
+  assert.equal(row[1],'Acerca de');
+  assert.equal(row[6],'pt-BR: About');
+  assert.equal(await translateInterface(root,{translate:()=>assert.fail('Already translated')},()=>{}),0);
+});
+
+test('punctuation-only emphasis artifacts are cleaned without another request', async () => {
+  let calls=0;
+  const api=client({key:'test',fetchImpl:async()=>{calls++;return {ok:true,json:async()=>({translations:[{text:'<p><em>Zpráva</em><em>,</em> pokračuje.</p>'}]})}}});
+  assert.deepEqual(await api.translate(['<p><em>Report</em>, continued.</p>'],'cs',''),['<p><em>Zpráva</em>, pokračuje.</p>']);
+  assert.equal(calls,1);
+});
+
+test('translated emphasis can move while paragraphs and links remain protected', async () => {
+  const {checkHTML}=require('../build-translations.cjs');
+  checkHTML('<p><em>Report</em> and <em>context</em>.</p>','<p>문맥과 <em>기사</em>.</p>','word order');
+  assert.throws(()=>checkHTML('<p>Text</p>','<p><em>Text</p>','unbalanced'),/Unbalanced/);
+  assert.throws(()=>checkHTML('<p>Text</p>','<h2>Text</h2>','structure'),/formatting/);
 });
