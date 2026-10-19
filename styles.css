@@ -360,3 +360,13 @@ img{height:auto}
 .about-disclaimer h2{margin:0 0 12px;font:700 12px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--purple)}
 .about-grid .about-disclaimer p{max-width:90ch;margin:0 0 12px;font:15px/1.65 Georgia,serif;color:var(--muted)}
 .about-grid .about-disclaimer p:last-child{margin-bottom:0}
+
+/* Do not trap wheel/trackpad scrolling in the zoomed map. Programmatic drag
+   panning still uses scroll offsets; touch panning is explicitly enabled. */
+.world-map-shell{overflow:hidden;overscroll-behavior:auto;touch-action:pan-y pinch-zoom}
+.world-map-shell.is-zoomed{cursor:grab}
+.world-map-shell.is-pan-enabled{touch-action:none}
+.world-map-shell.is-dragging,.world-map-shell.is-dragging *{cursor:grabbing!important;user-select:none}
+.world-map-shell:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
+.map-controls [data-map-pan][hidden]{display:none}
+.map-controls [data-map-pan][aria-pressed="true"]{background:var(--purple);color:white;border-color:var(--purple)}

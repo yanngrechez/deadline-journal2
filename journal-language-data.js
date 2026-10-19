@@ -1138,5 +1138,53 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Zavázali jsme se k dodržování vysokých standardů faktické přesnosti. Tvrzení podložená důkazy a statistické údaje jsou před zveřejněním prověřovány. Pokud narazíte na obsah, který považujete za fakticky nesprávný nebo obecně znepokojivý, kontaktujte nás prosím přímo.",
     "저희는 사실의 정확성에 있어 높은 기준을 유지하기 위해 최선을 다하고 있습니다. 증거에 기반한 주장과 통계 자료는 게재 전에 검토를 거칩니다. 사실과 다르다고 생각되거나 전반적으로 문제가 있다고 판단되는 내용을 발견하신 경우, 저희에게 직접 연락해 주시기 바랍니다.",
     "Ми прагнемо дотримуватися високих стандартів фактичної точності. Твердження, що ґрунтуються на доказах, та статистичні дані перевіряються перед публікацією. Якщо ви натрапили на матеріал, який, на вашу думку, містить фактичні неточності або викликає занепокоєння, будь ласка, зверніться до нас безпосередньо."
+  ],
+  [
+    "Move map",
+    "Mover mapa",
+    "Déplacer la carte",
+    "Karte bewegen",
+    "Kaart verplaatsen",
+    "Térkép mozgatása",
+    "Mover mapa",
+    "Posunout mapu",
+    "지도 이동",
+    "Перемістити карту"
+  ],
+  [
+    "Done",
+    "Listo",
+    "Terminé",
+    "Fertig",
+    "Klaar",
+    "Kész",
+    "Concluído",
+    "Hotovo",
+    "완료",
+    "Готово"
+  ],
+  [
+    "Drag to explore. On touchscreens, choose Move map first.",
+    "Arrastra para explorar. En pantallas táctiles, pulsa primero Mover mapa.",
+    "Faites glisser pour explorer. Sur écran tactile, choisissez d’abord Déplacer la carte.",
+    "Zum Erkunden ziehen. Auf Touchscreens zuerst „Karte bewegen“ wählen.",
+    "Sleep om te verkennen. Kies op een touchscreen eerst Kaart verplaatsen.",
+    "Húzással fedezd fel a térképet. Érintőképernyőn előbb válaszd a Térkép mozgatása gombot.",
+    "Arraste para explorar. Em telas sensíveis ao toque, escolha primeiro Mover mapa.",
+    "Procházejte mapu tažením. Na dotykové obrazovce nejprve zvolte Posunout mapu.",
+    "드래그하여 둘러보세요. 터치스크린에서는 먼저 지도 이동을 선택하세요.",
+    "Перетягуйте, щоб дослідити карту. На сенсорному екрані спочатку виберіть «Перемістити карту»."
+  ],
+  [
+    "Drag to move the map. Choose Done to scroll the page.",
+    "Arrastra para mover el mapa. Pulsa Listo para desplazar la página.",
+    "Faites glisser pour déplacer la carte. Choisissez Terminé pour faire défiler la page.",
+    "Ziehen, um die Karte zu bewegen. „Fertig“ wählen, um die Seite zu scrollen.",
+    "Sleep om de kaart te verplaatsen. Kies Klaar om de pagina te scrollen.",
+    "Húzd a térképet a mozgatáshoz. Az oldal görgetéséhez válaszd a Kész gombot.",
+    "Arraste para mover o mapa. Escolha Concluído para rolar a página.",
+    "Tažením posouvejte mapu. Pro posouvání stránky zvolte Hotovo.",
+    "드래그하여 지도를 이동하세요. 페이지를 스크롤하려면 완료를 선택하세요.",
+    "Перетягуйте карту. Виберіть «Готово», щоб прокручувати сторінку."
   ]
 ];

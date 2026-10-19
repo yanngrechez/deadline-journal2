@@ -368,14 +368,60 @@ function initializeMobileNavigation(){
   matchMedia('(max-width:700px)').addEventListener('change',close);
 }
 
-// Native two-axis scrolling supports touch panning without intercepting page gestures.
+// Wheel and touch scrolling belong to the page; panning requires a deliberate drag.
 function initializeMapZoom(){
   const shell=document.getElementById('worldMapShell'),svg=document.getElementById('worldMap');
   const controls=document.querySelector('.map-controls');
   if(!shell||!svg||!controls)return;
   controls.hidden=false;
   const mobile=matchMedia('(max-width:700px)');
-  let zoom=1;
+  let zoom=1,panMode=false,drag=null,suppressClick=false;
+  const panButton=document.createElement('button');
+  panButton.type='button';panButton.dataset.mapPan='';panButton.textContent='Move map';
+  panButton.setAttribute('aria-pressed','false');panButton.setAttribute('aria-controls','worldMapShell');
+  controls.append(panButton);
+  const updateNote=()=>{
+    const note=document.querySelector('.map-key-note');
+    if(note)note.textContent=panMode?'Drag to move the map. Choose Done to scroll the page.':zoom>1?'Drag to explore. On touchscreens, choose Move map first.':'Zoom in to explore, or select a country.';
+  };
+  const setPanMode=active=>{
+    panMode=active&&zoom>1;shell.classList.toggle('is-pan-enabled',panMode);
+    panButton.textContent=panMode?'Done':'Move map';panButton.setAttribute('aria-pressed',String(panMode));updateNote();
+  };
+  const endDrag=()=>{
+    if(drag&&shell.hasPointerCapture(drag.id))shell.releasePointerCapture(drag.id);
+    drag=null;shell.classList.remove('is-dragging');
+  };
+  panButton.addEventListener('click',()=>setPanMode(!panMode));
+  shell.addEventListener('pointerdown',event=>{
+    suppressClick=false;
+    if(zoom===1||event.button!==0||(event.pointerType!=='mouse'&&!panMode))return;
+    drag={id:event.pointerId,x:event.clientX,y:event.clientY,left:shell.scrollLeft,top:shell.scrollTop,moved:false};
+  });
+  shell.addEventListener('pointermove',event=>{
+    if(!drag||event.pointerId!==drag.id)return;
+    const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
+    if(!drag.moved&&Math.hypot(dx,dy)<6)return;
+    drag.moved=true;suppressClick=true;shell.setPointerCapture(event.pointerId);
+    shell.classList.add('is-dragging');event.preventDefault();
+    shell.scrollLeft=drag.left-dx;shell.scrollTop=drag.top-dy;
+  });
+  for(const type of ['pointerup','pointercancel','lostpointercapture'])shell.addEventListener(type,endDrag);
+  shell.addEventListener('dragstart',event=>event.preventDefault());
+  shell.addEventListener('click',event=>{
+    if(suppressClick){suppressClick=false;event.preventDefault();event.stopImmediatePropagation()}
+  },true);
+  shell.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){endDrag();setPanMode(false);panButton.focus();return;}
+    if(event.target!==shell||zoom===1)return;
+    const steps={ArrowLeft:[-60,0],ArrowRight:[60,0],ArrowUp:[0,-60],ArrowDown:[0,60]};
+    const step=steps[event.key];if(!step)return;
+    event.preventDefault();shell.scrollLeft+=step[0];shell.scrollTop+=step[1];
+  });
+  document.addEventListener('pointerdown',event=>{
+    if(!shell.contains(event.target)&&!controls.contains(event.target)){endDrag();setPanMode(false)}
+  });
+  window.addEventListener('blur',()=>{endDrag();setPanMode(false)});
   const setZoom=next=>{
     const x=(shell.scrollLeft+shell.clientWidth/2)/(shell.clientWidth*zoom);
     const y=(shell.scrollTop+shell.clientHeight/2)/(shell.clientHeight*zoom);
@@ -386,8 +432,8 @@ function initializeMapZoom(){
     shell.scrollTop=y*shell.clientHeight*zoom-shell.clientHeight/2;
     controls.querySelector('[data-map-zoom="out"]').disabled=zoom===1;
     controls.querySelector('[data-map-zoom="in"]').disabled=zoom===4;
-    const note=document.querySelector('.map-key-note');
-    if(note)note.textContent=zoom>1?'Swipe to explore. Select a country to read its stories.':'Zoom in to explore, or select a country.';
+    endDrag();setPanMode(false);panButton.hidden=zoom===1;
+    shell.tabIndex=zoom>1?0:-1;
     document.getElementById('mapTooltip')?.setAttribute('aria-hidden','true');
   };
   controls.addEventListener('click',event=>{const button=event.target.closest('[data-map-zoom]');if(!button)return;setZoom(button.dataset.mapZoom==='reset'?1:zoom+(button.dataset.mapZoom==='in'?1:-1))});
