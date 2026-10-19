@@ -1,11 +1,18 @@
 {
   "slug": "social-media",
   "language": "fr",
-  "sourceHash": "61026d12a35b5a1a9d12e24866d02e8fa8f7adc284a443c4251aa9d7f2d73a9c",
-  "contentHash": "8a2bf249491e69f94a165f2e927b83dd4ee8526caddeb85eb220b346523fba51",
+  "sourceHash": "56578b2ed07137a378ccd036d666c85b5286bd31dede13f488ad05ad512a72e8",
+  "contentHash": "63d7da8673070ca002d187bae6e3dcb5c8c257ec1905d7b9863cde432bc3a5bc",
   "provider": "deepl",
   "translatedAt": "2026-10-19T13:26:38.714Z",
   "sections": [
+    {
+      "type": "video",
+      "video": "/media/img-3153-en-subtitles-original.mp4",
+      "title": "x",
+      "aspect_ratio": "16/9",
+      "subtitles_language": "en"
+    },
     {
       "type": "text",
       "body": "<p>À première vue, cela peut sembler tout à fait banal, une chaîne d’information comme les autres. Mais pour quelqu’un qui ne peut s’empêcher d’examiner tout sous un angle politique, cet extrait est absolument génial.</p><p>Pour moi, cet extrait illustre à la perfection l’objectif ultime des médias d’information modernes. Plutôt que de rendre compte objectivement de la situation, la journaliste passe d’un groupe à l’autre, relayant de manière sélective leurs propos les plus incendiaires hors de tout contexte, le tout sous la direction de ses producteurs restés au studio. </p><p>Son intention était claire : non pas rendre compte des faits, mais amplifier le scandale et creuser le fossé.</p><p>Mais nous le savons depuis longtemps. On nous répète sans cesse que les médias d’information et les réseaux sociaux ne constituent pas des sources saines d’éducation politique. J’ai même hésité à écrire cet article ; un texte publié sur les réseaux sociaux ou une chaîne d’information ne serait probablement pas le premier sur lequel je cliquerais.</p><p>Cependant, je tiens à aborder ce sujet car, bien que nous ayons entendu ce constat trop souvent, très peu de gens saisissent réellement la gravité extrême de cette manipulation dans notre formation politique.</p><p>Après avoir rédigé mon mémoire de sciences politiques sur la montée de l’extrémisme chez les jeunes et suivi un cours sur l’IA en politique, j’ai été confrontée à une réalité personnelle que la plupart des gens n’ont pas vécue, et ne vivront peut-être jamais : mon opinion est façonnée à ma place.</p>"

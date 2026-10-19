@@ -171,3 +171,19 @@ test('translated emphasis can move while paragraphs and links remain protected',
   assert.throws(()=>checkHTML('<p>Text</p>','<p><em>Text</p>','unbalanced'),/Unbalanced/);
   assert.throws(()=>checkHTML('<p>Text</p>','<h2>Text</h2>','structure'),/formatting/);
 });
+
+
+test('a quota failure preserves completed languages and a retry skips them', async t => {
+  const root = fixture(t), api = mockAPI();
+  const translate = api.translate;
+  api.translate = async (texts, locale, context) => {
+    if (locale === 'de') throw Error('DeepL character quota reached');
+    return translate(texts, locale, context);
+  };
+  await assert.rejects(run({root, api, log:() => {}}), /quota/);
+  assert.deepEqual(compile({root, articles:[article]}).coverage[article.slug], ['es','fr']);
+  const requests = [];
+  await run({root, api:mockAPI(requests), log:() => {}});
+  assert.deepEqual(requests.map(r => r.locale), locales.slice(2));
+  assert.deepEqual(compile({root, articles:[article], strict:true}).coverage[article.slug], locales);
+});

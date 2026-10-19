@@ -1,11 +1,18 @@
 {
   "slug": "social-media",
   "language": "pt-BR",
-  "sourceHash": "61026d12a35b5a1a9d12e24866d02e8fa8f7adc284a443c4251aa9d7f2d73a9c",
-  "contentHash": "8a2bf249491e69f94a165f2e927b83dd4ee8526caddeb85eb220b346523fba51",
+  "sourceHash": "56578b2ed07137a378ccd036d666c85b5286bd31dede13f488ad05ad512a72e8",
+  "contentHash": "63d7da8673070ca002d187bae6e3dcb5c8c257ec1905d7b9863cde432bc3a5bc",
   "provider": "deepl",
   "translatedAt": "2026-10-19T13:26:44.597Z",
   "sections": [
+    {
+      "type": "video",
+      "video": "/media/img-3153-en-subtitles-original.mp4",
+      "title": "x",
+      "aspect_ratio": "16/9",
+      "subtitles_language": "en"
+    },
     {
       "type": "text",
       "body": "<p>À primeira vista, isso pode parecer nada fora do comum, apenas um canal de notícias normal. Mas, como alguém que não consegue deixar de examinar tudo por uma lente política, esse vídeo é absolutamente valioso.</p><p>Para mim, esse clipe não poderia exemplificar melhor o objetivo final dos veículos de informação modernos. Em vez de reportar objetivamente a situação, a jornalista alterna entre grupos opostos, transmitindo seletivamente suas declarações mais inflamadas sem contexto, tudo sob a orientação de seus produtores no estúdio. </p><p>A intenção dela era clara: não reportar, mas ampliar o escândalo e aprofundar a divisão.</p><p>Mas já sabemos disso há muito tempo. Repetidamente, ouvimos que o noticiário e as redes sociais não são fontes saudáveis de educação política. Eu até hesitei em escrever este artigo; uma matéria sobre redes sociais ou canais de notícias provavelmente não seria a primeira em que eu clicaria.</p><p>No entanto, quero escrever sobre isso porque, embora já tenhamos ouvido essa premissa geral inúmeras vezes, pouquíssimas pessoas realmente compreendem a extrema gravidade dessa manipulação em nossa formação política.</p><p>Depois de escrever minha dissertação de Ciência Política sobre o aumento do extremismo juvenil e fazer um curso sobre IA na política, me deparei com uma realidade pessoal que a maioria não enfrentou — e talvez nunca enfrente: minha opinião está sendo formada por outros.</p>"

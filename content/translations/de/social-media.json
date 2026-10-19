@@ -1,11 +1,18 @@
 {
   "slug": "social-media",
   "language": "de",
-  "sourceHash": "61026d12a35b5a1a9d12e24866d02e8fa8f7adc284a443c4251aa9d7f2d73a9c",
-  "contentHash": "8a2bf249491e69f94a165f2e927b83dd4ee8526caddeb85eb220b346523fba51",
+  "sourceHash": "56578b2ed07137a378ccd036d666c85b5286bd31dede13f488ad05ad512a72e8",
+  "contentHash": "63d7da8673070ca002d187bae6e3dcb5c8c257ec1905d7b9863cde432bc3a5bc",
   "provider": "deepl",
   "translatedAt": "2026-10-19T13:26:40.159Z",
   "sections": [
+    {
+      "type": "video",
+      "video": "/media/img-3153-en-subtitles-original.mp4",
+      "title": "x",
+      "aspect_ratio": "16/9",
+      "subtitles_language": "en"
+    },
     {
       "type": "text",
       "body": "<p>Auf den ersten Blick mag dies wie nichts Außergewöhnliches erscheinen, einfach nur ein ganz normaler Nachrichtensender. Aber für jemanden wie mich, der nicht umhin kann, alles durch eine politische Brille zu betrachten, ist dieser Clip absolut goldwert.</p><p>Für mich könnte dieser Clip das ultimative Ziel moderner Informationsmedien nicht besser veranschaulichen. Anstatt objektiv über die Situation zu berichten, bewegt sich die Journalistin zwischen den gegnerischen Gruppen hin und her und gibt selektiv deren provokanteste Äußerungen ohne Kontext wieder – alles auf Anweisung ihrer Produzenten im Studio. </p><p>Ihre Absicht war klar: nicht zu berichten, sondern den Skandal anzuheizen und die Spaltung zu vertiefen.</p><p>Aber das wissen wir schon lange. Immer wieder wird uns gesagt, dass Nachrichten und soziale Medien keine gesunden Quellen für politische Bildung sind. Ich habe sogar gezögert, diesen Artikel zu schreiben; ein Beitrag über soziale Medien oder Nachrichtensender wäre wahrscheinlich nicht der erste, auf den ich klicken würde.</p><p>Dennoch möchte ich darüber schreiben, denn obwohl wir diese allgemeine These schon viel zu oft gehört haben, begreifen nur sehr wenige Menschen tatsächlich, wie extrem schwerwiegend diese Manipulation unserer politischen Bildung ist.</p><p>Nachdem ich meine politikwissenschaftliche Abschlussarbeit über den zunehmenden Extremismus unter Jugendlichen geschrieben und einen Kurs über KI in der Politik belegt hatte, wurde ich mit einer persönlichen Realität konfrontiert, die die meisten nicht kennen und vielleicht auch nie kennenlernen werden: Meine Meinung wird für mich gemacht.</p>"

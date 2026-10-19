@@ -1,11 +1,18 @@
 {
   "slug": "social-media",
   "language": "nl",
-  "sourceHash": "61026d12a35b5a1a9d12e24866d02e8fa8f7adc284a443c4251aa9d7f2d73a9c",
-  "contentHash": "8a2bf249491e69f94a165f2e927b83dd4ee8526caddeb85eb220b346523fba51",
+  "sourceHash": "56578b2ed07137a378ccd036d666c85b5286bd31dede13f488ad05ad512a72e8",
+  "contentHash": "63d7da8673070ca002d187bae6e3dcb5c8c257ec1905d7b9863cde432bc3a5bc",
   "provider": "deepl",
   "translatedAt": "2026-10-19T13:26:41.599Z",
   "sections": [
+    {
+      "type": "video",
+      "video": "/media/img-3153-en-subtitles-original.mp4",
+      "title": "x",
+      "aspect_ratio": "16/9",
+      "subtitles_language": "en"
+    },
     {
       "type": "text",
       "body": "<p>Op het eerste gezicht lijkt dit misschien niets bijzonders, gewoon een doorsnee nieuwszender. Maar als iemand die alles onwillekeurig door een politieke bril bekijkt, is dit filmpje absoluut goud waard.</p><p>Voor mij zou deze clip het uiteindelijke doel van moderne nieuwsmedia niet beter kunnen illustreren. In plaats van objectief verslag te doen van de situatie, beweegt de journaliste zich tussen tegengestelde groepen en geeft ze selectief hun meest opruiende opmerkingen weer zonder context, allemaal op aanwijzing van haar producenten in de studio. </p><p>Haar bedoeling was duidelijk: niet verslag doen, maar het schandaal aanwakkeren en de kloof vergroten.</p><p>Maar dit weten we al lang. Keer op keer wordt ons verteld dat het nieuws en sociale media geen gezonde bronnen van politieke vorming zijn. Ik aarzelde zelfs om dit artikel te schrijven; een stuk op sociale media of nieuwskanalen zou waarschijnlijk niet het eerste zijn waarop ik zou klikken.</p><p>Toch wil ik hierover schrijven, want hoewel we de algemene stelling al te vaak hebben gehoord, beseffen maar heel weinig mensen daadwerkelijk hoe extreem ernstig deze manipulatie is in onze politieke vorming.</p><p>Na het schrijven van mijn scriptie politicologie over toenemend extremisme onder jongeren en het volgen van een cursus over AI in de politiek, werd ik geconfronteerd met een persoonlijke realiteit die de meesten niet hebben meegemaakt, en misschien ook nooit zullen meemaken: mijn mening wordt voor mij gevormd.</p>"

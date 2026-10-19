@@ -1,11 +1,18 @@
 {
   "slug": "social-media",
   "language": "es",
-  "sourceHash": "61026d12a35b5a1a9d12e24866d02e8fa8f7adc284a443c4251aa9d7f2d73a9c",
-  "contentHash": "8a2bf249491e69f94a165f2e927b83dd4ee8526caddeb85eb220b346523fba51",
+  "sourceHash": "56578b2ed07137a378ccd036d666c85b5286bd31dede13f488ad05ad512a72e8",
+  "contentHash": "63d7da8673070ca002d187bae6e3dcb5c8c257ec1905d7b9863cde432bc3a5bc",
   "provider": "deepl",
   "translatedAt": "2026-10-19T13:26:37.605Z",
   "sections": [
+    {
+      "type": "video",
+      "video": "/media/img-3153-en-subtitles-original.mp4",
+      "title": "x",
+      "aspect_ratio": "16/9",
+      "subtitles_language": "en"
+    },
     {
       "type": "text",
       "body": "<p>A primera vista, esto puede parecer algo normal y corriente, simplemente un canal de noticias como cualquier otro. Pero, como persona que no puede evitar analizarlo todo desde una perspectiva política, este vídeo es absolutamente genial.</p><p>Para mí, este vídeo no podría ejemplificar mejor el objetivo último de los medios de comunicación modernos. En lugar de informar objetivamente sobre la situación, la periodista se mueve entre grupos opuestos, transmitiendo de forma selectiva sus comentarios más incendiarios sin contexto alguno, todo ello siguiendo las instrucciones de sus productores en el estudio. </p><p>Su intención era clara: no informar, sino avivar el escándalo y agrandar la brecha.</p><p>Pero esto ya lo sabemos desde hace mucho tiempo. Una y otra vez se nos dice que las noticias y las redes sociales no son fuentes saludables de educación política. Incluso dudé en escribir este artículo; probablemente, un artículo sobre las redes sociales o los canales de noticias no sería el primero en el que haría clic.</p><p>Sin embargo, sí quiero escribir sobre esto porque, aunque hemos oído esta premisa general demasiadas veces, muy poca gente comprende realmente la extrema gravedad de esta manipulación en nuestra formación política.</p><p>Tras escribir mi tesis de Ciencias Políticas sobre el auge del extremismo juvenil y cursar una asignatura sobre IA en la política, me enfrenté a una realidad personal que la mayoría no ha vivido, y quizá nunca vivirá: mi opinión me la están imponiendo.</p>"

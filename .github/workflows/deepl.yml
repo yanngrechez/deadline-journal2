@@ -39,6 +39,7 @@ jobs:
         run: node --test tests/deepl.test.cjs
       - name: Translate new and updated published articles
         id: translate
+        continue-on-error: true
         env:
           DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
           VERIFY_CONNECTION: ${{ inputs.verify }}
@@ -53,7 +54,11 @@ jobs:
             node scripts/translate-deepl.cjs
           fi
       - name: Validate complete translation coverage
+        id: coverage
+        continue-on-error: true
         run: node --test tests/translations.test.cjs
+      # The translator writes only complete, validated language files. Publish
+      # those even if another article fails or quota runs out, avoiding repeat billing.
       - name: Save translations and trigger Cloudflare publishing
         run: |
           git add content/translations journal-language-data.js
@@ -67,6 +72,11 @@ jobs:
           # Never force-push over a newer CMS save. Its queued run checks out the
           # latest main and regenerates against the current English source.
           git push origin HEAD:main
+      - name: Report incomplete translations
+        if: steps.translate.outcome == 'failure' || steps.coverage.outcome == 'failure'
+        run: |
+          echo '::error::Completed translations were saved, but some are still missing or outdated. Check the translation error above before retrying.'
+          exit 1
       - name: Keep completed translations if a run fails
         if: failure()
         uses: actions/upload-artifact@v4

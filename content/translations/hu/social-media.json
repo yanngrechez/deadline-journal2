@@ -1,11 +1,18 @@
 {
   "slug": "social-media",
   "language": "hu",
-  "sourceHash": "61026d12a35b5a1a9d12e24866d02e8fa8f7adc284a443c4251aa9d7f2d73a9c",
-  "contentHash": "8a2bf249491e69f94a165f2e927b83dd4ee8526caddeb85eb220b346523fba51",
+  "sourceHash": "56578b2ed07137a378ccd036d666c85b5286bd31dede13f488ad05ad512a72e8",
+  "contentHash": "63d7da8673070ca002d187bae6e3dcb5c8c257ec1905d7b9863cde432bc3a5bc",
   "provider": "deepl",
   "translatedAt": "2026-10-19T13:26:42.877Z",
   "sections": [
+    {
+      "type": "video",
+      "video": "/media/img-3153-en-subtitles-original.mp4",
+      "title": "x",
+      "aspect_ratio": "16/9",
+      "subtitles_language": "en"
+    },
     {
       "type": "text",
       "body": "<p>Első pillantásra ez talán semmi különösnek nem tűnik, csak egy átlagos hírtelevízió. De mint valaki, aki nem tud nem mindent politikai szemüvegen keresztül vizsgálni, számomra ez a videó egyszerűen aranyat ér.</p><p>Számomra ez a videó nem is illusztrálhatná jobban a modern hírközlő csatornák végső célját. Ahelyett, hogy objektíven tudósítana a helyzetről, az újságírónő az egymással szemben álló csoportok között mozog, és szelektíven, kontextus nélkül közvetíti a leginkább felkavaró megjegyzéseiket – mindezt a stúdióban ülő producerei utasításai alapján. </p><p>Szándéka egyértelmű volt: nem tudósítani, hanem felerősíteni a botrányt és elmélyíteni a megosztottságot.</p><p>De ezt már régóta tudjuk. Újra és újra azt halljuk, hogy a hírek és a közösségi média nem egészséges forrásai a politikai nevelésnek. Még én is haboztam, hogy megírjam-e ezt a cikket; egy írás a közösségi médiáról vagy a hírcsatornákról valószínűleg nem az első lenne, amire rákattintanék.</p><p>Mégis szeretnék erről írni, mert bár ezt az általános megállapítást már túl sokszor hallottuk, nagyon kevesen fogják fel valójában, milyen rendkívül súlyos hatással van ez a manipuláció a politikai nevelésünkre.</p><p>Miután megírtam a politikatudományi szakdolgozatomat a növekvő ifjúsági szélsőségességről, és elvégeztem egy kurzust a mesterséges intelligenciáról a politikában, szembesültem egy olyan személyes valósággal, amellyel a legtöbb ember nem találkozott, és talán soha nem is fog: a véleményemet mások alakítják ki helyettem.</p>"
