@@ -1,0 +1,45 @@
+{
+  "slug": "colombia-violence",
+  "language": "es",
+  "sourceHash": "01cf4c94bc6b58fa5921cfed064299400609abafeded07f795c8fa0a8293beb2",
+  "contentHash": "417ab4678c58f4e8417d5b04861ebfc49dd10afacb25505236d78bc532f7b996",
+  "provider": "assistant",
+  "translatedAt": "2026-10-19T21:49:49.168Z",
+  "sections": [
+    {
+      "type": "image",
+      "image": "/media/18fc086e-9bcf-431a-a52f-69f23d80eaab.png",
+      "alt": "Abelardo de la Espriella tras tomar posesión como presidente de Colombia (AP Photo/Matias Delacroix)",
+      "caption": "Abelardo de la Espriella tras tomar posesión como presidente de Colombia (AP Photo/Matias Delacroix)"
+    },
+    {
+      "type": "text",
+      "body": "<p>El 21 de junio de 2026, Abelardo de la Espriella fue declarado ganador de las elecciones presidenciales colombianas, convirtiéndose así en el nuevo presidente de la República, con una promesa de estabilidad y seguridad que se percibían perdidas bajo el Gobierno de Petro.</p><p>Estas promesas nacen de la presión del electorado colombiano para encontrar soluciones a problemas persistentes como el conflicto interno y las dificultades socioeconómicas, al elegir a De la Espriella como su «nuevo salvavidas» en un mar de inestabilidad cada vez más peligroso.</p><p>«Firme por la Patria» se convirtió en el nuevo lema del Gobierno colombiano, que apela a una gestión fuerte dispuesta a hacer frente a las presiones internas.</p><p>En efecto, la llegada de De la Espriella a la Casa de Nariño se produce tras un aumento de la violencia interna entre grupos guerrilleros. El incremento de guerrilleros, desplazamientos forzosos y violencia contra civiles hizo que los Acuerdos de Paz de 2016, que le valieron al presidente colombiano el Premio Nobel de la Paz, parecieran otra paradoja de la política colombiana. Un éxito que descarrila hacia el fracaso.</p><p>El desmantelamiento de las FARC no abordó el problema socioeconómico subyacente a la violencia interna: la desigualdad.</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/download-6.jpeg",
+      "alt": "Miembros de la guerrilla del ELN en Colombia (Daniel Munoz/AFP)",
+      "caption": "Miembros de la guerrilla del ELN en Colombia (Daniel Munoz/AFP)"
+    },
+    {
+      "type": "text",
+      "body": "<p>El ELN, el Estado Mayor Central (EMC) y el Estado Mayor de Bloques y Frentes (EMBF) tomaron el relevo como fuerzas de la violencia interna en territorio colombiano, devolviendo el «rojo» de la sangre a las llanuras del país. En este contexto, se presiona al nuevo presidente para que haga frente a estas organizaciones guerrilleras y traiga estabilidad al país.</p><p>El lema de De la Espriella, «Firme por la Patria», se traduce, por tanto, en «Firme contra las guerrillas». En efecto, el nuevo presidente ha establecido una política de confrontación para resolver el problema de la violencia interna, eligiendo armas estadounidenses para librar la interminable batalla contra la inseguridad. Esta táctica dista de ser nueva y reproduce un patrón de violencia que condujo a la violencia financiada por el Estado a través de grupos paramilitares durante el Gobierno de Uribe.</p><p>Que la violencia combata la violencia parece otra paradoja.</p><p>Surge, por tanto, la pregunta: ¿la solución al caso colombiano es más violencia?</p>"
+    },
+    {
+      "type": "image",
+      "image": "/media/images.jpeg",
+      "alt": "Familiares de víctimas de ejecuciones de falsos positivos marchan en Bogotá (South Colombian Human Rights Conservatory)",
+      "caption": "Familiares de víctimas de ejecuciones de falsos positivos marchan en Bogotá (South Colombian Human Rights Conservatory)"
+    },
+    {
+      "type": "text",
+      "body": "<p>La sociedad colombiana ha convivido tanto tiempo con el conflicto que ha terminado por tratarlo como parte del tejido nacional. El país debe elegir ahora entre añadir más sangre a la mesa o diluirla con diálogo e inversión social. Petro eligió el segundo camino, y fracasó.</p><p>Pero su fracaso no demuestra que el primero vaya a triunfar. Quizá solo muestre que ni la fuerza ni el diálogo funcionan por sí solos, y que la verdadera prueba consiste en saber si algún gobierno puede resistir la presión por obtener resultados rápidos y construir un Estado que llegue a los lugares donde los grupos armados han gobernado en su ausencia.</p><p>Permítanme, por tanto, retomar la primera paradoja planteada para dirigirle una última pregunta a usted, lector. Si la política cambia constantemente, ¿por qué sentimos que nada cambia? El caso colombiano resulta útil para abordar este interrogante.</p><p>¿Se agrava este vacío de violencia por el cambio de tácticas para combatirla, o porque el Gobierno colombiano no abordó su naturaleza subyacente? En otras palabras, ¿están los gobiernos preparados para afrontar la naturaleza de estos problemas o solo para remediar sus consecuencias?</p>"
+    }
+  ],
+  "title": "La paradoja colombiana de resolver la violencia con violencia",
+  "dek": "¿Qué ocurre cuando los gobiernos abordan las consecuencias de los problemas en lugar de su origen?",
+  "body": "<p>La paradoja colombiana reduce historias complejas a frases sencillas y fáciles de asimilar. «Todo cambia, nada cambia» es una de las que mejor captan la naturaleza de la política colombiana.</p><p>Con cada ciclo electoral, nuevos horizontes y ánimos florecen como las flores en primavera. Cada campaña política trae consigo un espíritu de renovación, la ilusión de un nuevo comienzo para un país en decadencia.</p><p>Como las flores en primavera, los ciclos electorales deciden el color de los campos sudamericanos.</p><p>Con la victoria de Gustavo Petro en 2022, Colombia se tiñó de «rojo» por primera vez en su vida democrática; con su derrota este año, Colombia adoptó un «amarillo» mucho más oscuro que el que pinta la franja superior de su bandera.</p>",
+  "hero_alt": "Guerrilleros de las FARC en 1998. (The Atlantic)",
+  "hero_caption": "Guerrilleros de las FARC en 1998 (The Atlantic)"
+}

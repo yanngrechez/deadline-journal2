@@ -1186,5 +1186,17 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Tažením posouvejte mapu. Pro posouvání stránky zvolte Hotovo.",
     "드래그하여 지도를 이동하세요. 페이지를 스크롤하려면 완료를 선택하세요.",
     "Перетягуйте карту. Виберіть «Готово», щоб прокручувати сторінку."
+  ],
+  [
+    "· Updated",
+    "· Actualizado",
+    "· Mis à jour",
+    "· Aktualisiert",
+    "· Bijgewerkt",
+    "· Frissítve",
+    "· Atualizado",
+    "· Aktualizováno",
+    "· 업데이트",
+    "· Оновлено"
   ]
 ];
