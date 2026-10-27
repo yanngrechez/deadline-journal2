@@ -289,6 +289,10 @@ content:
         label: Edition title
         type: string
         description: "Required when published. Leave blank for an unnamed upcoming edition."
+      - name: description
+        label: Edition introduction
+        type: text
+        description: "Shown on the opened edition page. Separate paragraphs with a blank line."
       - name: cover
         label: Edition cover
         type: image

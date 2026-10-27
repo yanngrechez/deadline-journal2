@@ -19,12 +19,11 @@
 .edition-back{display:inline-block;margin-bottom:38px;font:12px/1.5 Arial,sans-serif;color:var(--muted)}
 .edition-page-intro h1{font:italic clamp(64px,8vw,116px)/1.05 Georgia,serif;color:var(--purple);margin:12px 0 20px;overflow-wrap:anywhere}
 .edition-page-intro time{font:14px/1.5 Georgia,serif;color:var(--muted)}
-.edition-read{display:flex;align-items:center;justify-content:space-between;gap:32px;width:fit-content;border-bottom:1px solid var(--purple);margin-top:30px;padding:8px 0;color:var(--purple);font:12px/1.5 Arial,sans-serif}
 .edition-contents{padding-bottom:30px}
 .edition-articles{scroll-margin-top:70px}
 .edition-articles .region-card{min-width:0}
 .edition-articles .region-card img{width:100%}
-.edition-back:focus-visible,.edition-read:focus-visible{outline:2px solid var(--purple);outline-offset:5px}
+.edition-back:focus-visible{outline:2px solid var(--purple);outline-offset:5px}
 html.edition-anchor-entry,html.edition-native-transition{scroll-behavior:auto!important}
 @view-transition{navigation:auto}
 ::view-transition-group(*){animation-duration:520ms;animation-timing-function:cubic-bezier(.22,.75,.2,1)}
@@ -50,8 +49,7 @@ html.edition-fallback-arrival .edition-page-intro,html.edition-fallback-arrival 
  .edition-back{font-size:11px;margin-bottom:20px}
  .edition-page-intro h1{font-size:clamp(36px,9vw,60px);margin:8px 0 12px}
  .edition-page-intro time{font-size:12px}
- .edition-read{font-size:11px;margin-top:14px;gap:15px}
- .edition-contents .section-title{margin-top:12px}
+  .edition-contents .section-title{margin-top:12px}
  .editions-section .section-title{align-items:baseline;gap:12px;flex-wrap:wrap}
 }
 @media(prefers-reduced-motion:reduce){
@@ -59,4 +57,30 @@ html.edition-fallback-arrival .edition-page-intro,html.edition-fallback-arrival 
  .edition-card .edition-cover-wrap,.edition-arrow{transition:none!important;transform:none!important}
  html.edition-fallback-arrival .edition-page-intro,html.edition-fallback-arrival .edition-contents{animation:none}
  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+
+/* An issue opener: cover on one side, a typographic introduction on the other. */
+.edition-page-head{grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);grid-template-rows:auto auto 1fr;align-items:start;column-gap:clamp(32px,6vw,88px);row-gap:0;padding-block:28px 52px}
+.edition-page-head>.edition-back{grid-column:1/-1;margin:0 0 26px;width:fit-content}
+.edition-page-cover{grid-column:1;grid-row:2/4;position:relative;max-width:380px;width:100%;justify-self:center;box-shadow:0 18px 35px -20px #36204455}
+.edition-page-intro{grid-column:2;grid-row:2;padding-top:5px}
+.edition-issue-line{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;border-top:1px solid var(--purple);padding-top:14px}
+.edition-page-intro h1{font-size:clamp(68px,8.2vw,112px);margin:20px 0 24px;letter-spacing:-.045em;line-height:1}
+.edition-issue-line time{font:11px/1.5 Arial,sans-serif}
+.edition-description{grid-column:2;grid-row:3;max-width:580px;padding-bottom:10px}
+.edition-description p{font:17px/1.6 Georgia,serif;margin:0 0 18px;text-wrap:pretty}
+.edition-description p:first-child{font-size:clamp(20px,2vw,25px);line-height:1.4;color:var(--purple)}
+.edition-description p:last-child{margin-bottom:0}
+.edition-contents>.section-title{padding-top:20px;border-top:1px solid var(--purple)}
+@media(max-width:700px){
+ .edition-page-head{grid-template-columns:minmax(100px,34%) minmax(0,1fr);column-gap:22px;padding-block:20px 30px}
+ .edition-page-head>.edition-back{margin-bottom:20px}
+ .edition-page-cover{grid-row:2;align-self:center}
+ .edition-page-intro{align-self:center;padding:0}
+ .edition-issue-line{padding-top:10px;gap:7px}
+ .edition-issue-line time{font-size:10px}
+ .edition-page-intro h1{font-size:clamp(36px,9.8vw,66px);margin:18px 0 8px}
+ .edition-description{grid-column:1/-1;grid-row:3;padding-top:25px;max-width:none}
+ .edition-description p{font-size:16px;line-height:1.55;margin-bottom:16px}
+ .edition-description p:first-child{font-size:21px;line-height:1.4}
 }
