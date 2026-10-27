@@ -22,6 +22,7 @@ export default {
     const upgrade=production&&(url.protocol!=='https:'||url.hostname!=='deadlinejournal.org');
     if(upgrade){url.protocol='https:';url.hostname='deadlinejournal.org'}
     if(route.kind==='article'&&publishedRoutes.some(article=>article.slug===route.slug))destination=routes.articleUrl(route.slug);
+    if(route.kind==='edition')destination=routes.editionUrl(route.slug);
     if(route.kind==='region'&&route.name)destination=routes.regionUrl(route.name);
     if(route.kind==='country'&&route.code)destination=routes.countryUrl(route.code);
     if(destination){

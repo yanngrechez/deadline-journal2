@@ -3,7 +3,7 @@ const articles=fs.readdirSync(path.join(root,'content/articles')).map(file=>JSON
 const html=route=>fs.readFileSync(path.join(dist,route==='/'?'index.html':route+'/index.html'),'utf8');
 const graph=source=>JSON.parse(source.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
 test('editorial content exists without JavaScript, with one H1 and accurate structured data',()=>{
- const home=html('/');assert(home.includes('id="heroColumn"><article'));assert(home.includes('id="regionGrid"><div'));assert(home.includes('fetchpriority="high"'));assert(home.includes('srcset='));
+ const home=html('/');assert(home.includes('id="heroColumn"><article'));assert(home.includes('id="editionsGallery"><a'));assert(home.includes('fetchpriority="high"'));assert(home.includes('srcset='));
  for(const a of articles){const source=html(a.slug);assert(source.includes('<html lang="en" data-prerendered>'));assert.equal((source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,'').match(/<h1(?:\s|>)/g)||[]).length,1);assert(source.includes(a.body));assert(source.includes('max-image-preview:none'));assert.equal(/content="noindex/.test(source),!!a.is_placeholder);
   const data=graph(source).find(d=>d['@type']==='Article');assert.equal(!!data,!a.is_placeholder);if(data){assert.equal(data.author.name,a.author);assert.equal(data.headline,a.title);assert(!data.image);assert(data.datePublished)}
  }
@@ -75,7 +75,7 @@ test('lead image preload matches responsive markup and enhancements do not block
   assert.equal(attr(preload,'imagesrcset'),attr(lead,'srcset'));
   assert.equal(attr(preload,'imagesizes'),attr(lead,'sizes'));
   const scripts=[...source.matchAll(/<script\b([^>]*)>/g)].map(m=>m[1]).filter(a=>a.includes('src='));
-  assert.equal(scripts.filter(s=>!s.includes('defer')).length,1);
+  assert.equal(scripts.filter(s=>!s.includes('defer')).length,route==='/'?2:1);
   assert(scripts.find(s=>!s.includes('defer')).includes('transition-boot.'));
   assert(scripts.findIndex(s=>s.includes('/data.'))<scripts.findIndex(s=>s.includes('/script.')));
   assert(scripts.findIndex(s=>s.includes('/script.'))<scripts.findIndex(s=>s.includes('/journal-language.')));

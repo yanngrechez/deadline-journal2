@@ -43,6 +43,7 @@
     const type=route.kind;
     const article=type==='article'?(window.DEADLINE_ARTICLES||[]).find(item=>item.slug===route.slug):null;
     const properties={page_type:type,page_path:url.pathname,$pathname:url.pathname,$current_url:url.href,$title:document.title};
+    if(type==='edition')properties.edition_slug=route.slug;
     if(type==='region')properties.region=route.name;
     if(type==='country')properties.country_code=route.code;
     if(type==='article')properties.article_found=Boolean(article);

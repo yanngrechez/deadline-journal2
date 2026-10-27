@@ -10,7 +10,7 @@ const newsletter=require('./build-newsletter.cjs');
 const root=__dirname;
 const dist=path.join(root,'dist');
 const baseUrl='https://deadlinejournal.org';
-const htmlFiles=['index.html','article.html','region.html','country.html','about.html','write.html'];
+const htmlFiles=['index.html','article.html','region.html','country.html','about.html','write.html','edition.html'];
 const articles=fs.readdirSync(path.join(root,'content/articles'))
   .filter(file=>file.endsWith('.json'))
   .map(file=>JSON.parse(fs.readFileSync(path.join(root,'content/articles',file),'utf8')))
@@ -24,6 +24,7 @@ const articles=fs.readdirSync(path.join(root,'content/articles'))
   }).sort((a,b)=>new Date(b.published_at||0)-new Date(a.published_at||0));
 
 require('./build-media.cjs').validateVideos(root,articles);
+const editions=require('./editions.cjs').loadEditions(root,articles);
 
 const frontCover=JSON.parse(fs.readFileSync(path.join(root,'content/front-cover.json'),'utf8'));
 require('./cover.js').validate(articles,frontCover);
@@ -69,7 +70,7 @@ async function build(){
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
 fs.writeFileSync(path.join(dist,'feed.xml'),publicationFeed);
-for(const name of ['article-media.js','newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+for(const name of ['editions.css','edition-transition-boot.js','article-media.js','newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
@@ -86,8 +87,8 @@ articles.forEach(a=>{const country=countryOf(a);if(country&&a.region!=='Actors')
 const real=articles.filter(a=>!a.is_placeholder);
 const coveredCountries=countries.filter(c=>real.some(a=>a.region!=='Actors'&&countryOf(a)?.code===c.code));
 const coveredRegions=Object.keys(routes.regions).filter(name=>real.some(a=>a.region===name));
-const image=await prepareImages({root,dist,articles});
-const render=createRenderer({articles,countries,routes,image,frontCover});
+const image=await prepareImages({root,dist,articles:[...articles,...editions.filter(e=>e.cover).map(e=>({hero_image:e.cover}))]});
+const render=createRenderer({articles,countries,routes,image,frontCover,editions});
 fs.appendFileSync(path.join(dist,'journal-language-data.js'),'\nwindow.JOURNAL_LANGUAGE_CATALOG.push(...'+JSON.stringify(translations.globalRows)+');\nwindow.JOURNAL_ARTICLE_LANGUAGES='+JSON.stringify(translations.coverage)+';\n');
 for(const [slug,rows] of Object.entries(translations.articleRows))fs.writeFileSync(path.join(dist,'article-translations-'+slug+'.js'),'window.JOURNAL_LANGUAGE_CATALOG.push(...'+JSON.stringify(rows)+');\n');
 fs.writeFileSync(path.join(dist,'translation-coverage.json'),JSON.stringify({languages:require('./build-translations.cjs').locales,articles:translations.coverage,issues:translations.issues},null,2));
@@ -100,10 +101,11 @@ for(const name of htmlFiles){
  if(emailSignup.button){
   html=html.replace('<div class="utility-links">','<div class="utility-links">'+emailSignup.button).replace('</head>','<link rel="stylesheet" href="/newsletter.css"></head>').replace('</body>',emailSignup.dialog+'</body>');
  }
+ if(name==='index.html'||name==='edition.html')html=html.replace('</head>','<link rel="stylesheet" href="/editions.css"><script src="/edition-transition-boot.js"></script></head>');
  if(name!=='index.html')html=html.replace('<h1 class="masthead">Deadline Journal</h1>','<div class="masthead">Deadline Journal</div>');
  html=html.replace('<body>','<body><a class="skip-link" href="#main-content">Skip to content</a>');
  if(!html.includes('<main id='))html=html.replace('<main','<main id="main-content" tabindex="-1"');
- else html=html.replace('href="#main-content"','href="#countryPage"').replace('<main id="countryPage"','<main tabindex="-1" id="countryPage"');
+ else {const mainId=html.match(/<main id="([^"]+)"/)[1];html=html.replace('href="#main-content"',`href="#${mainId}"`).replace('<main id=', '<main tabindex="-1" id=');}
  html=html.replace('id="searchOverlay"','id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search Deadline Journal"')
   .replace('id="searchInput"','id="searchInput" type="search" aria-label="Search articles"')
   .replace('class="close-search"','class="close-search" aria-label="Close search"');
@@ -167,6 +169,10 @@ for(const name of Object.keys(routes.regions)){
  if(content.hideCountryDirectory)html=html.replace('id="countryDirectorySection"','id="countryDirectorySection" hidden');
  writeRoute(routes.regionUrl(name),html,{title:name+' | Deadline Journal',description:name==='Actors'?'Explore Deadline Journal articles on international institutions, organizations and other actors shaping global politics.':`Explore Deadline Journal reporting on ${name}: local political perspectives, history and economics from young contributors connected to the region.`,index:coveredRegions.includes(name),type:'CollectionPage',items:real.filter(a=>a.region===name).map(a=>({name:a.title,route:routes.articleUrl(a)}))});
 }
+for(const edition of editions.filter(e=>e.status==='published')){
+ const items=articles.filter(a=>a.edition===edition.slug);
+ writeRoute(routes.editionUrl(edition),fill(templates['edition.html'],'editionPage',render.edition(edition)),{title:edition.title+' — Edition '+edition.number+' | Deadline Journal',description:`Explore ${edition.title}, edition ${edition.number} of Deadline Journal. Read the complete collection of articles from this issue.`,type:'CollectionPage',items:items.map(a=>({name:a.title,route:routes.articleUrl(a)}))});
+}
 // Old URLs are handled by the Worker, never indexed as duplicate entry points.
 for(const name of ['article.html','region.html','country.html'])fs.writeFileSync(path.join(dist,name),templates[name].replace(' data-prerendered','').replace('</head>','<meta name="robots" content="noindex,follow,max-image-preview:none"></head>'));
 // Interactions/search/analytics need article metadata, not every story's full text.
@@ -199,7 +205,7 @@ fs.writeFileSync(path.join(root,'.cloudflare/worker.mjs'),'globalThis.DEADLINE_C
 
 // Only useful, indexable canonical pages belong in the sitemap. Coverage
 // automatically makes a country/region eligible on the next CMS publish.
-const entries=[...['/','/about','/write',...coveredRegions.map(routes.regionUrl),...coveredCountries.map(routes.countryUrl)].map(url=>({url})),...real.map(article=>({url:routes.articleUrl(article),date:seo.modified(article)}))];
+const entries=[...['/','/about','/write',...editions.filter(e=>e.status==='published').map(routes.editionUrl),...coveredRegions.map(routes.regionUrl),...coveredCountries.map(routes.countryUrl)].map(url=>({url})),...real.map(article=>({url:routes.articleUrl(article),date:seo.modified(article)}))];
 fs.writeFileSync(path.join(dist,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+entries.map(({url,date})=>`  <url><loc>${baseUrl}${url}</loc>${date?`<lastmod>${date.slice(0,10)}</lastmod>`:''}</url>`).join('\n')+'\n</urlset>\n');
 fs.writeFileSync(path.join(dist,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`);
 console.log(`Built ${articles.length} published articles; ${real.length} real stories, ${coveredCountries.length} covered countries and ${coveredRegions.length} covered regions eligible for indexing.`);

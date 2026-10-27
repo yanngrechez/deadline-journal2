@@ -29,7 +29,7 @@ function defaultImage(src, options = {}) {
   if (!imageSource(src)) return '';
   return `<img src="${escapeHtml(src)}" alt="${escapeHtml(options.alt || '')}" decoding="async"${options.priority ? ' fetchpriority="high"' : ''}${options.lazy ? ' loading="lazy"' : ''}>`;
 }
-function createRenderer({articles = [], countries = [], routes, image = defaultImage, authorUrl, frontCover = {}} = {}) {
+function createRenderer({articles = [], countries = [], routes, image = defaultImage, authorUrl, frontCover = {}, editions = []} = {}) {
   const byCode = new Map(countries.map(country => [String(country.code).toUpperCase(), country]));
   const byName = new Map(countries.map(country => [normalizeCountryName(country.name), country]));
   const countryForArticle = article => byCode.get(String(article.country_code || '').toUpperCase()) ||
@@ -79,14 +79,7 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
     const mediumStory = article => `<article class="medium-story"><a href="${escapeHtml(articleUrl(article))}">${heroImage(article, {alt:article.hero_alt || article.hero_caption || article.title, lazy:true, sizes:'(max-width: 700px) calc(100vw - 36px), 24vw'})}</a><div class="kicker">${articleMeta(article)}</div><a href="${escapeHtml(articleUrl(article))}"><h3 class="headline">${escapeHtml(article.title)}</h3></a><p class="dek">${escapeHtml(article.dek)}</p><div class="byline">${escapeHtml(article.author)}</div></article>`;
     const middleColumn = mids.map(mediumStory).join('');
     const railColumn = (extra ? mediumStory(extra) : '') + '<div class="headlines-under">' + rails.map(article => `<a class="rail-story" href="${escapeHtml(articleUrl(article))}"><h3 class="headline">${escapeHtml(article.title)}</h3><div class="meta">${articleMeta(article)} | ${escapeHtml(article.author)}</div></a>`).join('') + '</div>';
-    const regionGrid = Object.entries(regionLabels).map(([name, label]) => {
-      const items = byDate.filter(article => articleRegion(article) === name);
-      const link = `<a class="region-label" href="${escapeHtml(regionUrl(name))}">${label}</a>`;
-      if (!items.length) return `<div class="region-col">${link}<div class="mini">No published stories yet.</div></div>`;
-      const [feature, ...rest] = items;
-      return `<div class="region-col">${link}<a href="${escapeHtml(articleUrl(feature))}">${heroImage(feature, {alt:feature.hero_alt || feature.hero_caption || feature.title, lazy:true, sizes:'(max-width: 700px) 45vw, 16vw'})}</a><a href="${escapeHtml(articleUrl(feature))}"><h3 class="feature-title">${escapeHtml(feature.title)}</h3></a><div class="byline">${topicMeta(feature)} | ${escapeHtml(feature.author)}</div>${rest.slice(0, 4).map(item => `<a class="mini" href="${escapeHtml(articleUrl(item))}">${escapeHtml(item.title)}</a>`).join('')}</div>`;
-    }).join('');
-    return {heroColumn, middleColumn, railColumn, regionGrid};
+    return {heroColumn, middleColumn, railColumn, editionsGallery:editionGallery()};
   }
   function article(value) {
     if (!value) return '<h1>Article not found</h1><p>This article may be a draft or may have been removed.</p>';
@@ -120,7 +113,22 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
     if (!stories.length) return heading + '<section class="container country-empty"><p>No stories yet.</p><a class="cta" href="/write">Know this place? Write for Deadline</a></section>';
     return heading + `<section class="container country-stories"><div class="country-stories-head">${stories.length} ${stories.length === 1 ? 'story' : 'stories'} from ${escapeHtml(value.name)}</div>${stories.map(article => `<a class="country-story-card" href="${escapeHtml(articleUrl(article))}">${heroImage(article, {lazy:true, sizes:'(max-width: 700px) calc(100vw - 36px), 360px'})}<div><div class="kicker">${topicMeta(article)}</div><h2>${escapeHtml(article.title)}</h2><p>${escapeHtml(article.dek)}</p><div class="byline">${escapeHtml(article.author)}</div></div></a>`).join('')}</section>`;
   }
-  return {home, article, region, country};
+  function editionCover(e,lazy=true){
+    return renderImage(e.cover,{alt:e.title+' — Deadline Journal edition '+e.number,lazy,priority:!lazy,sizes:'(max-width: 600px) 44vw, 360px'},'edition-cover-image').replace('<img ',`<img width="952" height="1269" style="view-transition-name:edition-cover-${e.slug}" `);
+  }
+  function editionGallery(){
+    return editions.filter(e=>e.status!=='draft').map(e=>{
+      const published=e.status==='published';
+      const cover=published?editionCover(e):'<div class="edition-upcoming-cover"><span class="edition-upcoming-number" aria-hidden="true">'+String(e.number).padStart(2,'0')+'</span><span>Coming soon</span></div>';
+      const inside=`<div class="edition-cover-wrap">${cover}</div><div class="edition-card-meta"><span class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></span>${published?'<span class="edition-arrow" aria-hidden="true">↗</span>':''}</div>${e.title?`<h3 translate="no">${escapeHtml(e.title)}</h3>`:""}`;
+      return published?`<a class="edition-card" href="${routes.editionUrl(e)}" aria-label="${escapeHtml(e.title)} — Edition ${e.number}">${inside}</a>`:`<div class="edition-card edition-coming-soon">${inside}</div>`;
+    }).join('');
+  }
+  function edition(e){
+    const items=articles.filter(a=>a.edition===e.slug).sort(newestFirst);
+    return `<section class="edition-page-head container"><div class="edition-page-cover">${editionCover(e,false)}</div><div class="edition-page-intro"><a class="edition-back" href="/#editions">← <span>All editions</span></a><div class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></div><h1 translate="no">${escapeHtml(e.title)}</h1><time datetime="${escapeHtml(e.published_at)}">${new Date(e.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})}</time><a class="edition-read" href="#editionArticles"><span>Explore this edition</span> <span aria-hidden="true">↓</span></a></div></section><section class="container edition-contents"><h2 class="section-title"><span>In this edition</span><small><span>${items.length}</span> <span>articles</span></small></h2><div class="region-list edition-articles" id="editionArticles">${cards(items)}</div></section>`;
+  }
+  return {home, article, region, country, edition};
 }
 
 module.exports = {createRenderer};

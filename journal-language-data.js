@@ -1200,3 +1200,14 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "· Оновлено"
   ]
 ];
+
+window.JOURNAL_LANGUAGE_CATALOG.push(...[
+["Editions","Ediciones","Éditions","Ausgaben","Edities","Lapszámok","Edições","Vydání","발행호","Випуски"],
+["Edition","Edición","Édition","Ausgabe","Editie","Lapszám","Edição","Vydání","발행호","Випуск"],
+["Coming soon","Próximamente","À paraître","Demnächst","Binnenkort","Hamarosan","Em breve","Již brzy","곧 공개","Незабаром"],
+["The journal, issue by issue","La revista, edición a edición","Le journal, numéro après numéro","Das Journal, Ausgabe für Ausgabe","Het tijdschrift, editie na editie","A folyóirat, lapszámról lapszámra","A revista, edição por edição","Časopis, vydání po vydání","발행호별로 만나는 저널","Журнал, випуск за випуском"],
+["All editions","Todas las ediciones","Toutes les éditions","Alle Ausgaben","Alle edities","Minden lapszám","Todas as edições","Všechna vydání","전체 발행호","Усі випуски"],
+["Explore this edition","Explorar esta edición","Découvrir cette édition","Diese Ausgabe entdecken","Ontdek deze editie","A lapszám felfedezése","Explore esta edição","Prozkoumat toto vydání","이번 호 살펴보기","Переглянути цей випуск"],
+["In this edition","En esta edición","Dans cette édition","In dieser Ausgabe","In deze editie","Ebben a lapszámban","Nesta edição","V tomto vydání","이번 호의 기사","У цьому випуску"],
+["articles","artículos","articles","Artikel","artikelen","cikk","artigos","článků","기사","статей"]
+]);

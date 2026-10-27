@@ -213,3 +213,12 @@ unchanged. Video audio and subtitles are not automatically translated. Upload
 References: https://pagescms.org/docs/configuration/fields/file/,
 https://github.com/hunvreus/pagescms/issues/284,
 https://developers.cloudflare.com/workers/platform/limits/#static-assets.
+
+
+## Editions
+
+The homepage Editions shelf uses `content/editions/*.json`. In Pages CMS, create an edition under **Editions**, upload its portrait cover, and set its number, stable URL slug, publication date, and status. **Coming soon** displays a non-clickable placeholder; **Draft** is hidden; **Published** creates `/editions/<slug>` and adds it to the sitemap.
+
+Choose the **Edition** field on each article to assign it to an issue. Membership is independent of publication dates and front-cover slots. Only published articles appear in edition pages. Existing articles belong to Change (edition 1) or Pressure (edition 2). When edition 3 has a name, keep its existing `edition-3` slug if articles have already been assigned to it.
+
+Cover-to-page animation uses progressive cross-document View Transitions. Links work normally without JavaScript; unsupported browsers use a short destination reveal, and reduced-motion preferences disable the animation.
