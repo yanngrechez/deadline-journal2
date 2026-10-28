@@ -69,7 +69,6 @@ html.edition-fallback-arrival .edition-page-intro,html.edition-fallback-arrival 
 .edition-issue-line time{font:11px/1.5 Arial,sans-serif}
 .edition-description{grid-column:2;grid-row:3;max-width:580px;padding-bottom:10px}
 .edition-description p{font:17px/1.6 Georgia,serif;margin:0 0 18px;text-wrap:pretty}
-.edition-description p:first-child{font-size:clamp(20px,2vw,25px);line-height:1.4;color:var(--purple)}
 .edition-description p:last-child{margin-bottom:0}
 .edition-contents>.section-title{padding-top:20px;border-top:1px solid var(--purple)}
 @media(max-width:700px){
@@ -82,5 +81,4 @@ html.edition-fallback-arrival .edition-page-intro,html.edition-fallback-arrival 
  .edition-page-intro h1{font-size:clamp(36px,9.8vw,66px);margin:18px 0 8px}
  .edition-description{grid-column:1/-1;grid-row:3;padding-top:25px;max-width:none}
  .edition-description p{font-size:16px;line-height:1.55;margin-bottom:16px}
- .edition-description p:first-child{font-size:21px;line-height:1.4}
 }
