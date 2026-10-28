@@ -23,10 +23,14 @@ test('announcements can share the homepage URL without sharing their identity',(
  assert.throws(()=>feed({now,articles:[{...story,published_at:'invalid'}]}),/valid publication/);
 });
 test('signup is hidden until a real provider account and delivery verification are configured',()=>{
- assert.deepEqual(renderSignup(),{button:'',dialog:''});
+ assert.deepEqual(renderSignup(),{button:'',dialog:'',inline:''});
  assert.throws(()=>settings({enabled:true,buttondown_username:'journal'}),/verify confirmation/);
  assert.throws(()=>settings({enabled:true,buttondown_username:'x/evil',delivery_verified:true}),/valid Buttondown/);
  const live=renderSignup({enabled:true,buttondown_username:'journal',delivery_verified:true});
+ assert(live.inline.includes('action="https://buttondown.com/api/emails/embed-subscribe/journal" method="post"'));
+ assert(live.inline.includes('id="articleNewsletterEmail"'));
+ assert(!live.inline.includes('autofocus'));
+ assert(live.inline.includes('name="metadata__email-consent"'));
  assert(live.button.includes('aria-haspopup="dialog"'));
  assert(live.dialog.includes('action="https://buttondown.com/api/emails/embed-subscribe/journal" method="post"'));
  assert(live.dialog.includes('type="checkbox"'));assert(live.dialog.includes('required'));

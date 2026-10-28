@@ -25,3 +25,15 @@
 @keyframes newsletter-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @media(max-width:700px){.utility-links:has(.newsletter-bell){gap:7px!important}.utility-links:has(.newsletter-bell) .utility-action,.utility-links:has(.newsletter-bell) .language-toggle{font-size:10px}.newsletter-bell{width:30px;height:44px}.newsletter-dialog{padding:29px 22px 22px}.newsletter-dialog h2{font-size:32px}.newsletter-dialog>p{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.newsletter-dialog[open]{animation:none}.newsletter-bell{transition:none}.newsletter-bell:active{transform:none}.newsletter-bell svg{animation:none!important}.newsletter-bell svg path:first-child{transition:none}}
+
+.article-newsletter{border-top:2px solid var(--purple);border-bottom:1px solid var(--rule);padding:24px 0}
+.article-newsletter .newsletter-eyebrow{margin-bottom:10px}
+.article-newsletter h2{font:700 32px/1.1 Georgia,serif;letter-spacing:-.025em;color:var(--purple);margin:0 0 10px}
+.article-newsletter>p{font:16px/1.5 Georgia,serif;color:var(--muted);margin:0 0 20px;max-width:490px}
+.article-newsletter .newsletter-form{display:grid;grid-template-columns:1fr auto;gap:0 10px}
+.article-newsletter .newsletter-form>label:first-child{grid-column:1/-1}
+.article-newsletter .newsletter-form input[type=email]{grid-column:1;grid-row:2;min-width:0}
+.article-newsletter .newsletter-submit{grid-column:2;grid-row:2;width:auto;min-width:150px}
+.article-newsletter .newsletter-consent,.article-newsletter .newsletter-note,.article-newsletter .newsletter-provider{grid-column:1/-1}
+.article-newsletter .newsletter-consent{margin-bottom:0}
+@media(max-width:450px){.article-newsletter h2{font-size:28px}.article-newsletter .newsletter-form{display:block}.article-newsletter .newsletter-submit{width:100%;margin-top:14px}.article-newsletter .newsletter-consent{margin-bottom:0}}

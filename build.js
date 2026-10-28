@@ -70,7 +70,7 @@ async function build(){
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
 fs.writeFileSync(path.join(dist,'feed.xml'),publicationFeed);
-for(const name of ['editions.css','edition-transition-boot.js','article-media.js','newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
+for(const name of ['article-sharing.js','editions.css','edition-transition-boot.js','article-media.js','newsletter.js','newsletter.css','cover.js','journal-language.js','journal-language.css','journal-language-data.js','styles.css','script.js','analytics.js','routes.js','transition-boot.js','countries-data.js','world-map-data.js','favicon.svg','googlef859bf9f1619f912.html'])
   fs.copyFileSync(path.join(root,name),path.join(dist,name));
 for(const dir of ['assets','media'])fs.cpSync(path.join(root,dir),path.join(dist,dir),{recursive:true});
 fs.cpSync(path.join(root,'node_modules/flag-icons/flags/4x3'),path.join(dist,'flags'),{recursive:true});
@@ -100,6 +100,11 @@ for(const name of htmlFiles){
  html=html.replace('</head>','<link rel="alternate" type="application/rss+xml" title="Deadline Journal" href="/feed.xml"></head>');
  if(emailSignup.button){
   html=html.replace('<div class="utility-links">','<div class="utility-links">'+emailSignup.button).replace('</head>','<link rel="stylesheet" href="/newsletter.css"></head>').replace('</body>',emailSignup.dialog+'</body>');
+ }
+ if(name==='article.html'){
+  const sharing='<div class="article-sharing" aria-label="Share this article"><span class="article-sharing-label">Share this article</span><div class="article-sharing-actions"><button type="button" data-native-share hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg><span>Share</span></button><button type="button" data-copy-link><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M15 8V4H4v11h4"/></svg><span>Copy link</span></button><a data-email-share hidden>Email</a></div><p class="article-share-status" role="status" aria-live="polite"></p><label class="article-share-fallback" hidden>Copy this article link<input type="text" readonly aria-label="Article link" translate="no"></label></div>';
+  html=html.replace('</main>','<div class="article-engagement" id="articleUpdates">'+sharing+(emailSignup.inline||'')+'</div></main>');
+  html=html.replace('</body>','<script src="/article-sharing.js"></script></body>');
  }
  if(name==='index.html'||name==='edition.html')html=html.replace('</head>','<link rel="stylesheet" href="/editions.css"><script src="/edition-transition-boot.js"></script></head>');
  if(name!=='index.html')html=html.replace('<h1 class="masthead">Deadline Journal</h1>','<div class="masthead">Deadline Journal</div>');

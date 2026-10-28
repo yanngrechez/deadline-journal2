@@ -370,3 +370,18 @@ img{height:auto}
 .world-map-shell:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
 .map-controls [data-map-pan][hidden]{display:none}
 .map-controls [data-map-pan][aria-pressed="true"]{background:var(--purple);color:white;border-color:var(--purple)}
+
+/* Reader actions stay outside the measured article body. */
+.article-engagement{max-width:680px;margin:0 auto 44px}
+.article-sharing{border-top:1px solid var(--rule);padding:15px 0 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 20px}
+.article-sharing-label{font:italic 17px Georgia,serif;color:var(--muted)}
+.article-sharing-actions{display:flex;align-items:center;gap:16px}
+.article-sharing-actions button,.article-sharing-actions a{display:inline-flex;align-items:center;gap:7px;padding:9px 0;border:0;background:transparent;color:var(--purple);font:12px/1.4 Arial,sans-serif;cursor:pointer;text-decoration:none}
+.article-sharing-actions [hidden],.article-share-fallback[hidden]{display:none}
+.article-sharing-actions :is(button,a):hover{text-decoration:underline;text-underline-offset:4px}
+.article-sharing-actions :is(button,a):focus-visible{outline:1px solid var(--purple);outline-offset:4px}
+.article-share-status{width:100%;font:12px/1.4 Arial,sans-serif;color:var(--purple);margin:0}
+.article-share-status:empty{display:none}
+.article-share-fallback{width:100%;font:12px/1.5 Arial,sans-serif}
+.article-share-fallback input{display:block;width:100%;padding:9px;margin-top:6px;font:16px Arial,sans-serif;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+@media(max-width:700px){.article-engagement{margin-bottom:28px}.article-sharing-actions button,.article-sharing-actions a{min-height:44px}.article-sharing{padding-block:10px}}

@@ -1211,3 +1211,14 @@ window.JOURNAL_LANGUAGE_CATALOG.push(...[
 ["In this edition","En esta edición","Dans cette édition","In dieser Ausgabe","In deze editie","Ebben a lapszámban","Nesta edição","V tomto vydání","이번 호의 기사","У цьому випуску"],
 ["articles","artículos","articles","Artikel","artikelen","cikk","artigos","článků","기사","статей"]
 ]);
+
+window.JOURNAL_LANGUAGE_CATALOG.push(
+["Get the next edition.","Recibe la próxima edición.","Recevez la prochaine édition.","Erhalte die nächste Ausgabe.","Ontvang de volgende editie.","Kapd meg a következő lapszámot.","Receba a próxima edição.","Získejte příští vydání.","다음 호를 받아보세요.","Отримайте наступний випуск."],
+["Share this article","Comparte este artículo","Partager cet article","Diesen Artikel teilen","Deel dit artikel","A cikk megosztása","Compartilhe este artigo","Sdílet tento článek","기사 공유","Поділитися статтею"],
+["Share","Compartir","Partager","Teilen","Delen","Megosztás","Compartilhar","Sdílet","공유","Поділитися"],
+["Copy link","Copiar enlace","Copier le lien","Link kopieren","Link kopiëren","Hivatkozás másolása","Copiar link","Kopírovat odkaz","링크 복사","Копіювати посилання"],
+["Email","Correo electrónico","E-mail","E-Mail","E-mail","E-mail","E-mail","E-mail","이메일","Електронна пошта"],
+["Link copied.","Enlace copiado.","Lien copié.","Link kopiert.","Link gekopieerd.","Hivatkozás másolva.","Link copiado.","Odkaz zkopírován.","링크가 복사되었습니다.","Посилання скопійовано."],
+["Select and copy the link below.","Selecciona y copia el enlace de abajo.","Sélectionnez et copiez le lien ci-dessous.","Wähle den Link unten aus und kopiere ihn.","Selecteer en kopieer de onderstaande link.","Jelöld ki és másold ki az alábbi hivatkozást.","Selecione e copie o link abaixo.","Vyberte a zkopírujte odkaz níže.","아래 링크를 선택하여 복사하세요.","Виділіть і скопіюйте посилання нижче."],
+["Copy this article link","Copia el enlace de este artículo","Copiez le lien de cet article","Kopiere den Link zu diesem Artikel","Kopieer de link naar dit artikel","Másold ki a cikk hivatkozását","Copie o link deste artigo","Zkopírujte odkaz na tento článek","기사 링크 복사","Скопіюйте посилання на цю статтю"]
+);

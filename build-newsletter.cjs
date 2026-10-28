@@ -12,7 +12,7 @@ function settings(config={}){
 }
 function renderSignup(config={}, {preview=false}={}){
   const active=settings(config);
-  if(!active.enabled&&!preview)return {button:'',dialog:''};
+  if(!active.enabled&&!preview)return {button:'',dialog:'',inline:''};
   const button='<button class="newsletter-bell" type="button" aria-label="Email updates" title="Email updates" aria-haspopup="dialog" aria-controls="newsletterDialog"><svg width="17" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4M12 2V1"/></svg></button>';
   const dialog=`<dialog id="newsletterDialog" class="newsletter-dialog" aria-labelledby="newsletterTitle" aria-describedby="newsletterDescription">
 <button class="newsletter-close" type="button" aria-label="Close email signup"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="m4 4 12 12M16 4 4 16"/></svg></button>
@@ -26,7 +26,9 @@ function renderSignup(config={}, {preview=false}={}){
 <p class="newsletter-note">Confirm your subscription by email. Unsubscribe at any time.</p>
 <p class="newsletter-provider">Email subscriptions are managed by <a href="https://buttondown.com/legal/privacy" target="_blank" rel="noopener noreferrer">Buttondown</a>.</p>
 ${preview?'<p class="newsletter-preview" role="status">Preview only. No email address will be saved or sent.</p>':''}</form></dialog>`;
-  return {button,dialog};
+  const inlineForm=dialog.match(/<form[\s\S]*?<\/form>/)[0].replaceAll('newsletterEmail','articleNewsletterEmail').replace(' required autofocus',' required');
+  const inline=`<section class="article-newsletter" aria-labelledby="articleNewsletterTitle"><div class="newsletter-eyebrow">DEADLINE JOURNAL</div><h2 id="articleNewsletterTitle">Get the next edition.</h2><p>New articles, new editions, and occasional announcements. Delivered to your inbox.</p>${inlineForm}</section>`;
+  return {button,dialog,inline};
 }
 function readAnnouncements(root){
   const dir=path.join(root,'content/announcements');
