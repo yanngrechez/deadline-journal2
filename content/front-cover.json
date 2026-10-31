@@ -1,7 +1,7 @@
 {
-  "main-story": "social-media",
+  "main-story": "ukraine-invasion",
   "bottom-story": "brazil-elections",
-  "side-story-up": "ukraine-invasion",
+  "side-story-up": "social-media",
   "side-story-down": "south-korea-presidency",
   "side-story-right": "uk-eu"
 }
