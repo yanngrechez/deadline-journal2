@@ -174,9 +174,9 @@ for(const name of Object.keys(routes.regions)){
  if(content.hideCountryDirectory)html=html.replace('id="countryDirectorySection"','id="countryDirectorySection" hidden');
  writeRoute(routes.regionUrl(name),html,{title:name+' | Deadline Journal',description:name==='Actors'?'Explore Deadline Journal articles on international institutions, organizations and other actors shaping global politics.':`Explore Deadline Journal reporting on ${name}: local political perspectives, history and economics from young contributors connected to the region.`,index:coveredRegions.includes(name),type:'CollectionPage',items:real.filter(a=>a.region===name).map(a=>({name:a.title,route:routes.articleUrl(a)}))});
 }
-for(const edition of editions.filter(e=>e.status==='published')){
- const items=articles.filter(a=>a.edition===edition.slug);
- writeRoute(routes.editionUrl(edition),fill(templates['edition.html'],'editionPage',render.edition(edition)),{title:edition.title+' — Edition '+edition.number+' | Deadline Journal',description:`Explore ${edition.title}, edition ${edition.number} of Deadline Journal. Read the complete collection of articles from this issue.`,type:'CollectionPage',items:items.map(a=>({name:a.title,route:routes.articleUrl(a)}))});
+for(const edition of editions.filter(require('./editions.cjs').hasEditionPage)){
+ const items=edition.status==='published'?articles.filter(a=>a.edition===edition.slug):[];
+ writeRoute(routes.editionUrl(edition),fill(templates['edition.html'],'editionPage',render.edition(edition)),{index:edition.status==='published',title:edition.title+' — Edition '+edition.number+' | Deadline Journal',description:edition.status==='coming-soon'?`${edition.title}, edition ${edition.number} of Deadline Journal. Coming soon.`:`Explore ${edition.title}, edition ${edition.number} of Deadline Journal. Read the complete collection of articles from this issue.`,type:'CollectionPage',items:items.map(a=>({name:a.title,route:routes.articleUrl(a)}))});
 }
 // Old URLs are handled by the Worker, never indexed as duplicate entry points.
 for(const name of ['article.html','region.html','country.html'])fs.writeFileSync(path.join(dist,name),templates[name].replace(' data-prerendered','').replace('</head>','<meta name="robots" content="noindex,follow,max-image-preview:none"></head>'));

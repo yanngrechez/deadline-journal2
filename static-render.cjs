@@ -1,4 +1,5 @@
 'use strict';
+const {hasEditionPage}=require('./editions.cjs');
 
 // Render the journal's existing page components into the build output. Browser
 // enhancements can hydrate this markup without hiding content from HTML readers.
@@ -118,16 +119,17 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
   }
   function editionGallery(){
     return editions.filter(e=>e.status!=='draft').map(e=>{
-      const published=e.status==='published';
-      const cover=published?editionCover(e):'<div class="edition-upcoming-cover"><span class="edition-upcoming-number" aria-hidden="true">'+String(e.number).padStart(2,'0')+'</span><span>Coming soon</span></div>';
-      const inside=`<div class="edition-cover-wrap">${cover}</div><div class="edition-card-meta"><span class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></span>${published?'<span class="edition-arrow" aria-hidden="true">↗</span>':''}</div>${e.title?`<h3 translate="no">${escapeHtml(e.title)}</h3>`:""}`;
-      return published?`<a class="edition-card" href="${routes.editionUrl(e)}" aria-label="${escapeHtml(e.title)} — Edition ${e.number}">${inside}</a>`:`<div class="edition-card edition-coming-soon">${inside}</div>`;
+      const published=e.status==='published',openable=hasEditionPage(e);
+      const cover=openable?editionCover(e):'<div class="edition-upcoming-cover"><span class="edition-upcoming-number" aria-hidden="true">'+String(e.number).padStart(2,'0')+'</span><span>Coming soon</span></div>';
+      const inside=`<div class="edition-cover-wrap">${cover}${!published&&openable?'<span class="edition-soon-badge">Coming soon</span>':''}</div><div class="edition-card-meta"><span class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></span>${openable?'<span class="edition-arrow" aria-hidden="true">↗</span>':''}</div>${e.title?`<h3 translate="no">${escapeHtml(e.title)}</h3>`:""}`;
+      return openable?`<a class="edition-card${!published?' is-upcoming':''}" href="${routes.editionUrl(e)}" aria-label="${escapeHtml(e.title)} — Edition ${e.number}">${inside}</a>`:`<div class="edition-card edition-coming-soon">${inside}</div>`;
     }).join('');
   }
   function edition(e){
-    const items=articles.filter(a=>a.edition===e.slug).sort(newestFirst);
+    const upcoming=e.status==='coming-soon';
+    const items=upcoming?[]:articles.filter(a=>a.edition===e.slug).sort(newestFirst);
     const description=String(e.description||'').split(/\n\s*\n/).filter(p=>p.trim()).map(p=>`<p>${escapeHtml(p.trim())}</p>`).join('');
-    return `<section class="edition-page-head container"><a class="edition-back" href="/#editions">← <span>All editions</span></a><div class="edition-page-cover">${editionCover(e,false)}</div><div class="edition-page-intro"><div class="edition-issue-line"><div class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></div><time datetime="${escapeHtml(e.published_at)}">${new Date(e.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})}</time></div><h1 translate="no">${escapeHtml(e.title)}</h1></div>${description?`<div class="edition-description">${description}</div>`:''}</section><section class="container edition-contents"><h2 class="section-title"><span>In this edition</span><small><span>${items.length}</span> <span>articles</span></small></h2><div class="region-list edition-articles" id="editionArticles">${cards(items)}</div></section>`;
+    return `<section class="edition-page-head container"><a class="edition-back" href="/#editions">← <span>All editions</span></a><div class="edition-page-cover">${editionCover(e,false)}</div><div class="edition-page-intro"><div class="edition-issue-line"><div class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></div>${upcoming?'<span class="edition-soon-label">Coming soon</span>':`<time datetime="${escapeHtml(e.published_at)}">${new Date(e.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})}</time>`}</div><h1 translate="no">${escapeHtml(e.title)}</h1></div>${description?`<div class="edition-description">${description}</div>`:''}</section>${upcoming?'':`<section class="container edition-contents"><h2 class="section-title"><span>In this edition</span><small><span>${items.length}</span> <span>articles</span></small></h2><div class="region-list edition-articles" id="editionArticles">${cards(items)}</div></section>`}`;
   }
   return {home, article, region, country, edition};
 }

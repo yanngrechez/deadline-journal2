@@ -312,7 +312,7 @@ content:
             - name: draft
               label: Draft (hidden)
             - name: coming-soon
-              label: Coming soon (cover placeholder only)
+              label: Coming soon (preview page when title and cover are added)
             - name: published
               label: Published (cover and article page)
 

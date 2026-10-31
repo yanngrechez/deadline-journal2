@@ -27,9 +27,16 @@ test('edition pages contain exactly their assigned articles, with canonical URLs
   assert(html.includes('href="#editionPage"'));
   assert.equal(routes.resolve(new URL('https://deadlinejournal.org'+url)).kind,'edition');
  }
- assert(!home.includes('href="/editions/edition-3"'));
+ assert(home.includes('href="/editions/edition-3"'));
+ assert(home.includes('edition-soon-badge'));
+ const preview=fs.readFileSync(path.join(root,'dist/editions/edition-3/index.html'),'utf8');
+ assert(preview.includes('Pressure creates choices.'));
+ assert(preview.includes('Coming soon'));
+ assert(preview.includes('noindex'));
+ assert(!preview.includes('Invalid Date'));
+ assert(!preview.includes('class="region-card"'));
  assert(!sitemap.includes('/editions/edition-3'));
- assert(!fs.existsSync(path.join(root,'dist/editions/edition-3/index.html')));
+
  assert(routes.reserved.includes('editions'));
 });
 test('new CMS editions and article membership work without adding route-specific code',()=>{

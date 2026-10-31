@@ -13,4 +13,5 @@ function loadEditions(root,articles){
  for(const a of articles)if(a.edition&&!slugs.has(a.edition))throw Error('Unknown edition for '+a.slug+': '+a.edition);
  return editions.sort((a,b)=>a.number-b.number);
 }
-module.exports={loadEditions};
+const hasEditionPage=e=>e.status==='published'||(e.status==='coming-soon'&&Boolean(e.title&&e.cover));
+module.exports={loadEditions,hasEditionPage};
