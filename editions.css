@@ -88,3 +88,15 @@ html.edition-fallback-arrival .edition-page-intro,html.edition-fallback-arrival 
 .edition-soon-badge{position:absolute;top:14px;left:14px;background:var(--purple);color:#fff;padding:8px 12px;font:700 10px/1.4 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 2px 10px #21142e18}
 .edition-soon-label{display:inline-block;color:var(--purple);border:1px solid var(--purple);padding:5px 9px;font:700 10px/1.4 Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase}
 @media(max-width:700px){.edition-soon-badge{top:9px;left:9px;font-size:9px;padding:6px 8px}}
+
+@media(max-width:700px){
+ .editions-gallery{gap:24px 18px;padding-top:10px}
+ .edition-card-meta{margin-top:10px}
+ .edition-card h3{font-size:clamp(27px,7.5vw,36px)}
+ .edition-page-head>.edition-back{min-height:44px;display:inline-flex;align-items:center;margin-bottom:12px}
+ .edition-page-head{padding-top:8px;column-gap:18px}
+ .edition-description{padding-top:20px}
+ .edition-description p{font-size:17px;line-height:1.6}
+ .edition-contents .section-title{font-size:25px}
+ .edition-page-intro h1{font-size:clamp(32px,9.4vw,66px)}
+}

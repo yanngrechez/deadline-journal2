@@ -33,3 +33,16 @@ html[lang] .region-col,html[lang] .top-col,html[lang] .region-card,html[lang] .a
 /* Keep longer language names and Korean copy comfortable on small screens. */
 @media(max-width:700px){.language-toggle-label{max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 html[lang="ko"] .body,html[lang="ko"] .headline,html[lang="ko"] .article-page h1{word-break:keep-all;overflow-wrap:break-word;hyphens:none}
+
+/* Two short columns keep all languages reachable without a tall phone overlay. */
+@media(max-width:700px){
+ .language-panel{position:fixed;top:48px;left:12px;right:12px;width:auto;max-width:none;max-height:calc(100dvh - 64px);padding:16px}
+ .language-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ .language-options button{min-width:0;min-height:48px;padding:10px 8px;gap:5px;flex-wrap:wrap;font-size:13px}
+ .language-options button>span:first-child{min-width:0;overflow-wrap:anywhere}
+ .language-options small{display:block;font-size:10px}
+ .language-check{flex-shrink:0}
+ .language-panel-title{font-size:22px;margin-bottom:10px}
+ .language-panel-note{font-size:12px;margin-top:10px;padding-top:10px}
+ .language-toggle{max-width:94px}
+}

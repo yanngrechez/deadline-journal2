@@ -37,3 +37,19 @@
 .article-newsletter .newsletter-consent,.article-newsletter .newsletter-note,.article-newsletter .newsletter-provider{grid-column:1/-1}
 .article-newsletter .newsletter-consent{margin-bottom:0}
 @media(max-width:450px){.article-newsletter h2{font-size:28px}.article-newsletter .newsletter-form{display:block}.article-newsletter .newsletter-submit{width:100%;margin-top:14px}.article-newsletter .newsletter-consent{margin-bottom:0}}
+
+@media(max-width:700px){
+ .utility-links:has(.newsletter-bell){gap:6px!important}
+ .newsletter-bell{width:44px;min-width:44px;height:44px}
+ .newsletter-close{width:44px;height:44px;top:4px;right:4px}
+ .newsletter-dialog{max-height:calc(100dvh - 24px);width:calc(100vw - 24px);padding:30px 20px 22px;overscroll-behavior:contain}
+ .newsletter-dialog h2{font-size:30px}
+ .newsletter-consent{font-size:13px;min-height:44px;align-items:center;line-height:1.45}
+ .newsletter-consent input{width:20px;height:20px;margin:0}
+ .newsletter-note{font-size:12px}
+ .newsletter-submit{min-height:48px;font-size:12px}
+ .article-newsletter{padding-block:22px}
+ .article-newsletter .newsletter-form{display:block}
+ .article-newsletter .newsletter-submit{width:100%;margin-top:14px}
+ .article-newsletter .newsletter-consent{margin-bottom:0}
+}
