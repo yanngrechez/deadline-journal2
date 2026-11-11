@@ -1,7 +1,7 @@
 
 const articles=window.DEADLINE_ARTICLES||[];
 const countries=window.DEADLINE_COUNTRIES||[];
-const topicNames={politics:'Politics',economics:'Economics',history:'History',philosophy:'Philosophy'};
+const topicNames={politics:'Politics',economics:'Economics',history:'History',philosophy:'Philosophy',psychology:'Psychology'};
 
 function normalizeCountryName(value){
   return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/gi,'').toLowerCase();

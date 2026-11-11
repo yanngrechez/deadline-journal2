@@ -1,4 +1,5 @@
 window.JOURNAL_LANGUAGE_CATALOG=[
+["Psychology","Psicología","Psychologie","Psychologie","Psychologie","Pszichológia","Psicologia","Psychologie","심리학","Психологія"],
 ["Worth reading","Vale la pena leer","À lire","Lesenswert","Het lezen waard","Érdemes elolvasni","Vale a pena ler","Stojí za přečtení","읽어볼 만한 기사","Варто прочитати"],
 ["Continue reading","Sigue leyendo","Poursuivre la lecture","Weiterlesen","Lees verder","Olvasson tovább","Continue lendo","Čtěte dále","계속 읽기","Читайте далі"],
 ["From other editions","De otras ediciones","Dans d’autres éditions","Aus anderen Ausgaben","Uit andere edities","Más lapszámokból","De outras edições","Z dalších vydání","다른 호의 기사","З інших випусків"],

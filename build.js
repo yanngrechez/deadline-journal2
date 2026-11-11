@@ -16,7 +16,7 @@ const articles=fs.readdirSync(path.join(root,'content/articles'))
   .map(file=>JSON.parse(fs.readFileSync(path.join(root,'content/articles',file),'utf8')))
   .filter(article=>article.status==='published')
   .map(article=>{
-    const allowed=['politics','economics','history','philosophy'];
+    const allowed=['politics','economics','history','philosophy','psychology'];
     const source=Array.isArray(article.topics)?article.topics:(article.type?['politics']:[]);
     const topics=[...new Set(source.map(topic=>String(topic).toLowerCase()).filter(topic=>allowed.includes(topic)))];
     const {type,homepage_position,...rest}=article;

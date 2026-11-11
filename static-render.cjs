@@ -5,7 +5,7 @@ const {hasEditionPage}=require('./editions.cjs');
 // enhancements can hydrate this markup without hiding content from HTML readers.
 const escapeHtml = value => String(value == null ? '' : value).replace(/[&<>"']/g,
   character => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[character]));
-const topicNames = {politics:'Politics', economics:'Economics', history:'History', philosophy:'Philosophy'};
+const topicNames = {politics:'Politics', economics:'Economics', history:'History', philosophy:'Philosophy',psychology:'Psychology'};
 const regionLabels = {
   Europe:'EUROPE', Americas:'AMERICAS', 'Middle East & North Africa':'MENA',
   'Sub-Saharan Africa':'SUB-SAHARAN AFRICA', 'Asia-Pacific':'ASIA-PACIFIC', Actors:'ACTORS'
