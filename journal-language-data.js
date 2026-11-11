@@ -1,4 +1,5 @@
 window.JOURNAL_LANGUAGE_CATALOG=[
+["Worth reading","Vale la pena leer","À lire","Lesenswert","Het lezen waard","Érdemes elolvasni","Vale a pena ler","Stojí za přečtení","읽어볼 만한 기사","Варто прочитати"],
 ["Continue reading","Sigue leyendo","Poursuivre la lecture","Weiterlesen","Lees verder","Olvasson tovább","Continue lendo","Čtěte dále","계속 읽기","Читайте далі"],
 ["From other editions","De otras ediciones","Dans d’autres éditions","Aus anderen Ausgaben","Uit andere edities","Más lapszámokból","De outras edições","Z dalších vydání","다른 호의 기사","З інших випусків"],
 ["No articles found. Try another search.","No se encontraron artículos. Prueba otra búsqueda.","Aucun article trouvé. Essayez une autre recherche.","Keine Artikel gefunden. Versuchen Sie eine andere Suche.","Geen artikelen gevonden. Probeer een andere zoekopdracht.","Nem található cikk. Próbáljon más keresést.","Nenhum artigo encontrado. Tente outra busca.","Žádné články nenalezeny. Zkuste jiné vyhledávání.","기사를 찾을 수 없습니다. 다른 검색어를 입력해 보세요.","Статей не знайдено. Спробуйте інший пошук."],

@@ -30,7 +30,7 @@ function defaultImage(src, options = {}) {
   if (!imageSource(src)) return '';
   return `<img src="${escapeHtml(src)}" alt="${escapeHtml(options.alt || '')}" decoding="async"${options.priority ? ' fetchpriority="high"' : ''}${options.lazy ? ' loading="lazy"' : ''}>`;
 }
-function createRenderer({articles = [], countries = [], routes, image = defaultImage, authorUrl, frontCover = {}, editions = []} = {}) {
+function createRenderer({articles = [], countries = [], routes, image = defaultImage, authorUrl, frontCover = {}, editions = [], worthReading = []} = {}) {
   const byCode = new Map(countries.map(country => [String(country.code).toUpperCase(), country]));
   const byName = new Map(countries.map(country => [normalizeCountryName(country.name), country]));
   const countryForArticle = article => byCode.get(String(article.country_code || '').toUpperCase()) ||
@@ -80,7 +80,7 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
     const mediumStory = article => `<article class="medium-story"><a href="${escapeHtml(articleUrl(article))}">${heroImage(article, {alt:article.hero_alt || article.hero_caption || article.title, lazy:true, sizes:'(max-width: 700px) calc(100vw - 36px), 24vw'})}</a><div class="kicker">${articleMeta(article)}</div><a href="${escapeHtml(articleUrl(article))}"><h3 class="headline">${escapeHtml(article.title)}</h3></a><p class="dek">${escapeHtml(article.dek)}</p><div class="byline">${escapeHtml(article.author)}</div></article>`;
     const middleColumn = mids.map(mediumStory).join('');
     const railColumn = (extra ? mediumStory(extra) : '') + '<div class="headlines-under">' + rails.map(article => `<a class="rail-story" href="${escapeHtml(articleUrl(article))}"><h3 class="headline">${escapeHtml(article.title)}</h3><div class="meta">${articleMeta(article)} | ${escapeHtml(article.author)}</div></a>`).join('') + '</div>';
-    return {heroColumn, middleColumn, railColumn, editionsGallery:editionGallery()};
+    return {heroColumn, middleColumn, railColumn, editionsGallery:editionGallery(), worthReadingSection:worthReading.length?`<div class="container section"><h2 class="section-title"><span>Worth reading</span></h2><div class="worth-reading-grid">${worthReading.map(a=>`<a class="reading-card" href="${articleUrl(a)}">${heroImage(a,{lazy:true,sizes:"(max-width:700px) 112px, (max-width:1000px) 30vw, 18vw"})}<div class="reading-card-copy"><div class="kicker">${articleMeta(a)}</div><h3>${escapeHtml(a.title)}</h3><p class="reading-card-author">${escapeHtml(a.author)}</p></div></a>`).join('')}</div></div>`:''};
   }
   function article(value) {
     if (!value) return '<h1>Article not found</h1><p>This article may be a draft or may have been removed.</p>';

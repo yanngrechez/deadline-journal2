@@ -26,6 +26,7 @@ const articles=fs.readdirSync(path.join(root,'content/articles'))
 require('./build-media.cjs').validateVideos(root,articles);
 const editions=require('./editions.cjs').loadEditions(root,articles);
 
+const worthReading=require('./worth-reading.cjs').selectWorthReading(articles,JSON.parse(fs.readFileSync(path.join(root,'content/worth-reading.json'),'utf8')));
 const frontCover=JSON.parse(fs.readFileSync(path.join(root,'content/front-cover.json'),'utf8'));
 require('./cover.js').validate(articles,frontCover);
 
@@ -88,7 +89,7 @@ const real=articles.filter(a=>!a.is_placeholder);
 const coveredCountries=countries.filter(c=>real.some(a=>a.region!=='Actors'&&countryOf(a)?.code===c.code));
 const coveredRegions=Object.keys(routes.regions).filter(name=>real.some(a=>a.region===name));
 const image=await prepareImages({root,dist,articles:[...articles,...editions.filter(e=>e.cover).map(e=>({hero_image:e.cover}))]});
-const render=createRenderer({articles,countries,routes,image,frontCover,editions});
+const render=createRenderer({articles,countries,routes,image,frontCover,editions,worthReading});
 fs.appendFileSync(path.join(dist,'journal-language-data.js'),'\nwindow.JOURNAL_LANGUAGE_CATALOG.push(...'+JSON.stringify(translations.globalRows)+');\nwindow.JOURNAL_ARTICLE_LANGUAGES='+JSON.stringify(translations.coverage)+';\n');
 for(const [slug,rows] of Object.entries(translations.articleRows))fs.writeFileSync(path.join(dist,'article-translations-'+slug+'.js'),'window.JOURNAL_LANGUAGE_CATALOG.push(...'+JSON.stringify(rows)+');\n');
 fs.writeFileSync(path.join(dist,'translation-coverage.json'),JSON.stringify({languages:require('./build-translations.cjs').locales,articles:translations.coverage,issues:translations.issues},null,2));

@@ -478,3 +478,15 @@ img{height:auto}
  .reading-card-author{font-size:11px;margin-top:7px}
 }
 @media(min-width:390px) and (max-width:700px){.reading-card{grid-template-columns:112px minmax(0,1fr)}}
+
+/* Five editor-selected archive highlights; no carousel or hidden cards on phones. */
+.worth-reading-section:empty{display:none}
+.worth-reading-section{border-top:1px solid var(--rule);scroll-margin-top:64px}
+.worth-reading-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;padding:8px 0 14px}
+.worth-reading-grid .reading-card h3{font-size:21px;line-height:1.16}
+@media(min-width:701px) and (max-width:1000px){.worth-reading-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}}
+@media(max-width:700px){
+ .worth-reading-grid{display:block;padding:0}
+ .worth-reading-section .section-title{margin-bottom:0}
+ .worth-reading-grid .reading-card h3{font-size:20px;line-height:1.2}
+}

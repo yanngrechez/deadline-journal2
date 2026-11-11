@@ -226,3 +226,7 @@ Cover-to-page animation uses progressive cross-document View Transitions. Links 
 ## Continue reading
 
 Article pages include three cross-edition recommendations above the newsletter signup. `content/related-articles.json` holds the editorial choices in order: two geography-led selections, then one topic-led selection. Where the catalogue has insufficient geographic coverage, the curated choices use thematic alternatives. `related-articles.cjs` filters out drafts, placeholders, future-dated stories, the current story, and unpublished or same-edition content. New stories and missing/unpublished choices fall back to country/region ranking for the first two slots and shared topics for the third, favoring older stories on ties. Fewer than three eligible stories yields fewer cards. No browser request or tracking is needed to generate recommendations.
+
+## Worth reading
+
+In Pages CMS, open **Worth reading** and choose **Story 1** through **Story 5**. These fixed slots appear in that order between the homepage map and Editions, independently of front-cover placement. Select published articles by title; clear a slot to omit it. The build rejects duplicate, missing, draft, future-dated, or placeholder selections, without silently substituting stories. All five blank hides the section. Initial choices highlight the first edition and can be replaced at any time.
