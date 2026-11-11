@@ -131,7 +131,15 @@ function createRenderer({articles = [], countries = [], routes, image = defaultI
     const description=String(e.description||'').split(/\n\s*\n/).filter(p=>p.trim()).map(p=>`<p>${escapeHtml(p.trim())}</p>`).join('');
     return `<section class="edition-page-head container"><a class="edition-back" href="/#editions">← <span>All editions</span></a><div class="edition-page-cover">${editionCover(e,false)}</div><div class="edition-page-intro"><div class="edition-issue-line"><div class="kicker"><span>Edition</span> <span>${String(e.number).padStart(2,'0')}</span></div>${upcoming?'<span class="edition-soon-label">Coming soon</span>':`<time datetime="${escapeHtml(e.published_at)}">${new Date(e.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})}</time>`}</div><h1 translate="no">${escapeHtml(e.title)}</h1></div>${description?`<div class="edition-description">${description}</div>`:''}</section>${upcoming?'':`<section class="container edition-contents"><h2 class="section-title"><span>In this edition</span><small><span>${items.length}</span> <span>articles</span></small></h2><div class="region-list edition-articles" id="editionArticles">${cards(items)}</div></section>`}`;
   }
-  return {home, article, region, country, edition};
+  function continueReading(current){
+    const stories=require('./related-articles.cjs').selectRelated(current,articles,editions);
+    if(!stories.length)return '';
+    return `<section class="continue-reading" aria-labelledby="continueReadingTitle"><div class="continue-reading-head"><h2 id="continueReadingTitle">Continue reading</h2><p>From other editions</p></div><div class="continue-reading-grid">${stories.map(a=>{
+      const issue=editions.find(e=>e.slug===a.edition);
+      return `<a class="reading-card" href="${articleUrl(a)}">${heroImage(a,{sizes:'(max-width:700px) 112px, 220px',loading:'lazy'})}<div class="reading-card-copy"><div class="reading-card-edition"><span>Edition</span> ${escapeHtml(issue.number)} · <span translate="no">${escapeHtml(issue.title)}</span></div><div class="kicker">${articleMeta(a)}</div><h3>${escapeHtml(a.title)}</h3><p class="reading-card-author">${escapeHtml(a.author)}</p></div></a>`;
+    }).join('')}</div></section>`;
+  }
+  return {home, article, region, country, edition, continueReading};
 }
 
 module.exports = {createRenderer};

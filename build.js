@@ -103,7 +103,7 @@ for(const name of htmlFiles){
  }
  if(name==='article.html'){
   const sharing='<div class="article-sharing" aria-label="Share this article"><span class="article-sharing-label">Share this article</span><div class="article-sharing-actions"><button type="button" data-native-share hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg><span>Share</span></button><button type="button" data-copy-link><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M15 8V4H4v11h4"/></svg><span>Copy link</span></button><a data-email-share hidden>Email</a></div><p class="article-share-status" role="status" aria-live="polite"></p><label class="article-share-fallback" hidden>Copy this article link<input type="text" readonly aria-label="Article link" translate="no"></label></div>';
-  html=html.replace('</main>','<div class="article-engagement" id="articleUpdates">'+sharing+(emailSignup.inline||'')+'</div></main>');
+  html=html.replace('</main>','<div class="article-engagement" id="articleUpdates">'+sharing+'<!--continue-reading-->'+(emailSignup.inline||'')+'</div></main>');
   html=html.replace('</body>','<script src="/article-sharing.js"></script></body>');
  }
  if(name==='index.html'||name==='edition.html')html=html.replace('</head>','<link rel="stylesheet" href="/editions.css"><script src="/edition-transition-boot.js"></script></head>');
@@ -166,7 +166,7 @@ for(const article of articles){
  const breadcrumbs=[];
  if(routes.regionUrl(article.region))breadcrumbs.push({name:article.region,route:routes.regionUrl(article.region)});
  if(country)breadcrumbs.push({name:country.name,route:routes.countryUrl(country)});
- writeRoute(routes.articleUrl(article),fill(templates['article.html'],'articlePage',render.article(article)),{title:article.title+' | Deadline Journal',description:article.dek||seo.plain(article.body).slice(0,180),article,index:!article.is_placeholder,breadcrumbs});
+ writeRoute(routes.articleUrl(article),fill(templates['article.html'],'articlePage',render.article(article)).replace('<!--continue-reading-->',render.continueReading(article)),{title:article.title+' | Deadline Journal',description:article.dek||seo.plain(article.body).slice(0,180),article,index:!article.is_placeholder,breadcrumbs});
 }
 for(const name of Object.keys(routes.regions)){
  const content=render.region(name);let html=templates['region.html'];

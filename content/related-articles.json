@@ -1,0 +1,97 @@
+{
+  "spain-housing": [
+    "spain-immigration",
+    "spain-populism",
+    "argentina-milei"
+  ],
+  "ukraine-invasion": [
+    "hungary-ukraine-relations",
+    "hungary-revolution",
+    "lebanon-amnesty"
+  ],
+  "corsica-autonomy": [
+    "france-elections",
+    "hungary-revolution",
+    "spain-populism"
+  ],
+  "cezchia-romani": [
+    "hungary-revolution",
+    "germany-afd",
+    "spain-immigration"
+  ],
+  "uk-eu": [
+    "france-elections",
+    "netherlands-ai",
+    "hungary-ukraine-relations"
+  ],
+  "brazil-elections": [
+    "argentina-milei",
+    "france-elections",
+    "germany-afd"
+  ],
+  "colombia-violence": [
+    "argentina-milei",
+    "lebanon-amnesty",
+    "hungary-revolution"
+  ],
+  "south-korea-presidency": [
+    "hungary-revolution",
+    "lebanon-amnesty",
+    "spain-populism"
+  ],
+  "social-media": [
+    "netherlands-ai",
+    "germany-afd",
+    "spain-populism"
+  ],
+  "france-elections": [
+    "corsica-autonomy",
+    "uk-eu",
+    "brazil-elections"
+  ],
+  "germany-afd": [
+    "cezchia-romani",
+    "spain-housing",
+    "social-media"
+  ],
+  "argentina-milei": [
+    "brazil-elections",
+    "colombia-violence",
+    "spain-housing"
+  ],
+  "hungary-revolution": [
+    "ukraine-invasion",
+    "cezchia-romani",
+    "south-korea-presidency"
+  ],
+  "hungary-ukraine-relations": [
+    "ukraine-invasion",
+    "cezchia-romani",
+    "uk-eu"
+  ],
+  "lebanon-amnesty": [
+    "colombia-violence",
+    "south-korea-presidency",
+    "corsica-autonomy"
+  ],
+  "netherlands-ai": [
+    "uk-eu",
+    "corsica-autonomy",
+    "social-media"
+  ],
+  "spain-immigration": [
+    "spain-housing",
+    "cezchia-romani",
+    "brazil-elections"
+  ],
+  "spain-populism": [
+    "spain-housing",
+    "corsica-autonomy",
+    "social-media"
+  ],
+  "un": [
+    "ukraine-invasion",
+    "colombia-violence",
+    "uk-eu"
+  ]
+}

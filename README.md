@@ -222,3 +222,7 @@ The homepage Editions shelf uses `content/editions/*.json`. In Pages CMS, create
 Choose the **Edition** field on each article to assign it to an issue. Membership is independent of publication dates and front-cover slots. Only published articles appear in edition pages. Existing articles belong to Change (edition 1) or Pressure (edition 2). When edition 3 has a name, keep its existing `edition-3` slug if articles have already been assigned to it.
 
 Cover-to-page animation uses progressive cross-document View Transitions. Links work normally without JavaScript; unsupported browsers use a short destination reveal, and reduced-motion preferences disable the animation.
+
+## Continue reading
+
+Article pages include three cross-edition recommendations above the newsletter signup. `content/related-articles.json` holds the editorial choices in order: two geography-led selections, then one topic-led selection. Where the catalogue has insufficient geographic coverage, the curated choices use thematic alternatives. `related-articles.cjs` filters out drafts, placeholders, future-dated stories, the current story, and unpublished or same-edition content. New stories and missing/unpublished choices fall back to country/region ranking for the first two slots and shared topics for the third, favoring older stories on ties. Fewer than three eligible stories yields fewer cards. No browser request or tracking is needed to generate recommendations.
