@@ -54,8 +54,7 @@ Main story, Bottom story, Side story up, Side story down, and Side story right.
 Save the entire cover once. These selections remain fixed when new stories are published
 or dates change. The old per-article position field is no longer used.
 
-All other published articles form the title-only column, newest first (up to four).
-Blank image slots stay empty. No column story is promoted automatically.
+Choose **Column story 1–4** in the same Front cover screen to control the headline-only column and its order. Blank image or column slots stay empty. No article is added, promoted, or reordered automatically.
 Choose an article only once. A missing, draft, or duplicate selection stops deployment
 with an actionable error and keeps the existing live site intact. Before deleting,
 unpublishing, or renaming a selected article, clear or replace its cover selection.

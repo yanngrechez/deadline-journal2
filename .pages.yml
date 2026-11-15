@@ -375,6 +375,47 @@ content:
           value: "{fields.slug}"
           label: "{fields.title} ({fields.status})"
 
+      - name: column-story-1
+        label: Column story 1
+        type: reference
+        description: "Headline-only column, shown in this order. Choose a published article from the edition you want to feature. Leave empty to hide this slot; older articles are never added automatically. Do not repeat an image-slot article."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: column-story-2
+        label: Column story 2
+        type: reference
+        description: "Headline-only column, shown in this order. Choose a published article from the edition you want to feature. Leave empty to hide this slot; older articles are never added automatically. Do not repeat an image-slot article."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: column-story-3
+        label: Column story 3
+        type: reference
+        description: "Headline-only column, shown in this order. Choose a published article from the edition you want to feature. Leave empty to hide this slot; older articles are never added automatically. Do not repeat an image-slot article."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+      - name: column-story-4
+        label: Column story 4
+        type: reference
+        description: "Headline-only column, shown in this order. Choose a published article from the edition you want to feature. Leave empty to hide this slot; older articles are never added automatically. Do not repeat an image-slot article."
+        options:
+          collection: articles
+          multiple: false
+          search: "title,slug,author"
+          value: "{fields.slug}"
+          label: "{fields.title} ({fields.status})"
+
   - name: worth-reading
     label: Worth reading
     type: file
