@@ -1,11 +1,7 @@
 {
   "main-story": "serbia-elections",
-  "bottom-story": "france-macron",
+  "bottom-story": "turkey-corruption",
   "side-story-up": "us-midterms",
   "side-story-down": "switzerland-democracy",
-  "side-story-right": "france-protests",
-  "column-story-1": "portugal-populism",
-  "column-story-2": "turkey-corruption",
-  "column-story-3": "",
-  "column-story-4": ""
+  "side-story-right": "france-protests"
 }
