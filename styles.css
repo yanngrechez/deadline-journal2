@@ -491,3 +491,15 @@ img{height:auto}
  .worth-reading-section .section-title{margin-bottom:0}
  .worth-reading-grid .reading-card h3{font-size:20px;line-height:1.2}
 }
+
+/* Search: quiet editorial rule, no input frame. */
+.search-overlay.open{background:var(--paper)}
+.search-top{align-items:center;gap:12px;border-bottom:1px solid var(--rule);transition:border-color .18s ease}
+.search-top:focus-within{border-bottom-color:var(--purple)}
+.search-top #searchInput,.search-top #searchInput:focus,.search-top #searchInput:focus-visible{min-width:0;outline:none;box-shadow:none;border:0;border-radius:0;padding:8px 0;color:var(--ink);caret-color:var(--purple);font-size:clamp(22px,3.2vw,36px);line-height:1.25}
+.search-top #searchInput::placeholder{color:var(--muted);opacity:1}
+.search-top #searchInput::-webkit-search-cancel-button{-webkit-appearance:none}
+.close-search{flex:0 0 44px;min-height:44px;color:var(--muted)}
+.close-search:hover{color:var(--purple)}
+.close-search:focus-visible{outline:1px solid var(--purple);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.search-top{transition:none}}

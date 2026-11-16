@@ -294,6 +294,7 @@ document.addEventListener('keydown',event=>{
 function renderSearch(q){
   const t=(q||'').trim().toLowerCase(),o=document.getElementById('searchResults');
   if(!o)return;
+  if(!t){o.replaceChildren();return;}
   o.innerHTML=articles.filter(a=>!t||[a.title,a.country,articleTopics(a).join(' '),a.author,a.region,a.dek].join(' ').toLowerCase().includes(t))
     .map(a=>`<a class="search-result" href="${articleUrl(a)}">
       <div>${articleMeta(a)}</div><h3>${a.title}</h3></a>`).join('');
