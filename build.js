@@ -113,7 +113,6 @@ for(const name of htmlFiles){
  if(!html.includes('<main id='))html=html.replace('<main','<main id="main-content" tabindex="-1"');
  else {const mainId=html.match(/<main id="([^"]+)"/)[1];html=html.replace('href="#main-content"',`href="#${mainId}"`).replace('<main id=', '<main tabindex="-1" id=');}
  html=html.replace('id="searchOverlay"','id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search Deadline Journal"')
-  .replace('id="searchInput"','id="searchInput" type="search" aria-label="Search articles"')
   .replace('class="close-search"','class="close-search" aria-label="Close search"');
  // Defer enhancements in dependency order. Keep the tiny transition bootstrap
  // synchronous so an incoming transition cannot flash the underlying page.
