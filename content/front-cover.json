@@ -2,10 +2,10 @@
   "main-story": "serbia-elections",
   "bottom-story": "turkey-corruption",
   "side-story-up": "us-midterms",
-  "side-story-down": "bulgaria-black-sea",
-  "side-story-right": "france-burning",
+  "side-story-down": "switzerland-democracy",
+  "side-story-right": "france-protests",
   "column-story-1": "france-macron",
   "column-story-2": "portugal-populism",
-  "column-story-3": "",
-  "column-story-4": ""
+  "column-story-3": "bulgaria-black-sea",
+  "column-story-4": "france-burning"
 }
