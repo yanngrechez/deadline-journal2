@@ -30,7 +30,7 @@ content:
         label: URL slug
         type: string
         required: true
-        description: "Lowercase words separated by hyphens, e.g. spain-housing-crisis"
+        description: "Use a unique article-specific slug, e.g. spain-housing-crisis. Never reuse another article’s slug or a country/region page name such as bulgaria or europe; these stop publication."
         pattern:
           regex: "^[a-z0-9-]+$"
           message: "Use lowercase letters, numbers and hyphens only."
