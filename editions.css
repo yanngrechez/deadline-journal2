@@ -1,6 +1,6 @@
 /* Editions are an editorial shelf; the original cover artwork remains uncropped. */
 .editions-section{border-top:1px solid var(--rule);scroll-margin-top:65px}
-.editions-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,4vw,60px);padding:14px 0 18px}
+.editions-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,4vw,60px);padding:14px 0 18px}
 .edition-card{display:block;min-width:0;color:var(--ink)}
 .edition-cover-wrap{overflow:hidden;background:#f4f0e9;box-shadow:0 2px 5px #21142e12,0 14px 28px -20px #21142e45;transition:box-shadow 220ms ease,transform 220ms ease}
 .edition-cover-image{display:block;width:100%;height:auto;aspect-ratio:952/1269;object-fit:contain}

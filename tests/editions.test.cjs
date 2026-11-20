@@ -27,15 +27,15 @@ test('edition pages contain exactly their assigned articles, with canonical URLs
   assert(html.includes('href="#editionPage"'));
   assert.equal(routes.resolve(new URL('https://deadlinejournal.org'+url)).kind,'edition');
  }
- assert(home.includes('href="/editions/edition-3"'));
+ assert(home.includes('href="/editions/nuance"'));
  assert(home.includes('edition-soon-badge'));
- const preview=fs.readFileSync(path.join(root,'dist/editions/edition-3/index.html'),'utf8');
- assert(preview.includes('Pressure creates choices.'));
+ const preview=fs.readFileSync(path.join(root,'dist/editions/nuance/index.html'),'utf8');
+ assert(preview.includes('Politics is rarely black and white.'));
  assert(preview.includes('Coming soon'));
  assert(preview.includes('noindex'));
  assert(!preview.includes('Invalid Date'));
  assert(!preview.includes('class="region-card"'));
- assert(!sitemap.includes('/editions/edition-3'));
+ assert(!sitemap.includes('/editions/nuance'));
 
  assert(routes.reserved.includes('editions'));
 });
