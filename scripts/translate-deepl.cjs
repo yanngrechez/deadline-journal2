@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {sourceHash, contentHash, checkHTML, blocks, locales} = require('../build-translations.cjs');
-const targets = {es:'ES', fr:'FR', de:'DE', nl:'NL', hu:'HU', 'pt-BR':'PT-BR', cs:'CS', ko:'KO', uk:'UK'};
+const targets = {es:'ES', fr:'FR', de:'DE', nl:'NL', hu:'HU', 'pt-BR':'PT-BR', cs:'CS', ko:'KO', uk:'UK', sr:'SR', bg:'BG', tr:'TR'};
 const articleFields = ['title', 'dek', 'body', 'hero_alt', 'hero_caption'];
 const sectionFields = ['body', 'heading', 'title', 'alt', 'caption'];
 

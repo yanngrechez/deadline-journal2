@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
-const locales=['es','fr','de','nl','hu','pt-BR','cs','ko','uk'];
+const locales=['es','fr','de','nl','hu','pt-BR','cs','ko','uk','sr','bg','tr'];
 const fields=['title','dek','body','sections','hero_alt','hero_caption'];
 function sorted(value){if(Array.isArray(value))return value.map(sorted);if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(k=>[k,sorted(value[k])]));return value;}
 function sourceHash(article){return crypto.createHash('sha256').update(JSON.stringify(sorted(Object.fromEntries(fields.map(k=>[k,article[k]??null]))))).digest('hex');}

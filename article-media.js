@@ -5,7 +5,7 @@
   'use strict';
   const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const extensions={video:['mp4','webm'],poster:['jpg','jpeg','png','webp','avif','gif','svg'],subtitles:['vtt']};
-  const languages={en:'English',es:'Español',fr:'Français',de:'Deutsch',nl:'Nederlands',hu:'Magyar','pt-BR':'Português (Brasil)',cs:'Čeština',ko:'한국어',uk:'Українська'};
+  const languages={en:'English',es:'Español',fr:'Français',de:'Deutsch',nl:'Nederlands',hu:'Magyar','pt-BR':'Português (Brasil)',cs:'Čeština',ko:'한국어',uk:'Українська',sr:'Српски',bg:'Български',tr:'Türkçe'};
   function mediaPath(value,kind){
     if(typeof value!=='string'||!value.startsWith('/media/'))return '';
     let decoded;try{decoded=decodeURIComponent(value)}catch{return '';}

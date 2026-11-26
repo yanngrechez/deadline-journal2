@@ -131,7 +131,7 @@ test('large articles batch fields and preserve full context; oversized fields fa
 });
 
 test('new language codes map to the precise DeepL targets', async () => {
-  const expected={'pt-BR':'PT-BR',cs:'CS',ko:'KO',uk:'UK'};
+  const expected={'pt-BR':'PT-BR',cs:'CS',ko:'KO',uk:'UK',sr:'SR',bg:'BG',tr:'TR'};
   for(const [locale,target] of Object.entries(expected)) {
     let body;
     const api=client({key:'test:fx',fetchImpl:async (_url,options)=>{
@@ -148,8 +148,8 @@ test('missing interface columns translate once and retain existing editorial cop
   fs.writeFileSync(file,'window.JOURNAL_LANGUAGE_CATALOG=[["About","Acerca de","À propos","Über uns","Over ons","Rólunk"]];');
   const {translateInterface}=require('../scripts/translate-deepl.cjs');
   const requests=[];
-  assert.equal(await translateInterface(root,mockAPI(requests),()=>{}),4);
-  assert.deepEqual(requests.map(r=>r.locale),['pt-BR','cs','ko','uk']);
+  assert.equal(await translateInterface(root,mockAPI(requests),()=>{}),7);
+  assert.deepEqual(requests.map(r=>r.locale),['pt-BR','cs','ko','uk','sr','bg','tr']);
   const context={window:{}};require('node:vm').runInNewContext(fs.readFileSync(file,'utf8'),context);
   const row=context.window.JOURNAL_LANGUAGE_CATALOG[0];
   assert.equal(row.length,locales.length+1);

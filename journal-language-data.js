@@ -1,9 +1,79 @@
 window.JOURNAL_LANGUAGE_CATALOG=[
-["Psychology","Psicología","Psychologie","Psychologie","Psychologie","Pszichológia","Psicologia","Psychologie","심리학","Психологія"],
-["Worth reading","Vale la pena leer","À lire","Lesenswert","Het lezen waard","Érdemes elolvasni","Vale a pena ler","Stojí za přečtení","읽어볼 만한 기사","Варто прочитати"],
-["Continue reading","Sigue leyendo","Poursuivre la lecture","Weiterlesen","Lees verder","Olvasson tovább","Continue lendo","Čtěte dále","계속 읽기","Читайте далі"],
-["From other editions","De otras ediciones","Dans d’autres éditions","Aus anderen Ausgaben","Uit andere edities","Más lapszámokból","De outras edições","Z dalších vydání","다른 호의 기사","З інших випусків"],
-["No articles found. Try another search.","No se encontraron artículos. Prueba otra búsqueda.","Aucun article trouvé. Essayez une autre recherche.","Keine Artikel gefunden. Versuchen Sie eine andere Suche.","Geen artikelen gevonden. Probeer een andere zoekopdracht.","Nem található cikk. Próbáljon más keresést.","Nenhum artigo encontrado. Tente outra busca.","Žádné články nenalezeny. Zkuste jiné vyhledávání.","기사를 찾을 수 없습니다. 다른 검색어를 입력해 보세요.","Статей не знайдено. Спробуйте інший пошук."],
+  [
+    "Psychology",
+    "Psicología",
+    "Psychologie",
+    "Psychologie",
+    "Psychologie",
+    "Pszichológia",
+    "Psicologia",
+    "Psychologie",
+    "심리학",
+    "Психологія",
+    "Психологија",
+    "Психология",
+    "Psikoloji"
+  ],
+  [
+    "Worth reading",
+    "Vale la pena leer",
+    "À lire",
+    "Lesenswert",
+    "Het lezen waard",
+    "Érdemes elolvasni",
+    "Vale a pena ler",
+    "Stojí za přečtení",
+    "읽어볼 만한 기사",
+    "Варто прочитати",
+    "Вреди прочитати",
+    "Заслужава си да прочетете",
+    "Okumaya değer"
+  ],
+  [
+    "Continue reading",
+    "Sigue leyendo",
+    "Poursuivre la lecture",
+    "Weiterlesen",
+    "Lees verder",
+    "Olvasson tovább",
+    "Continue lendo",
+    "Čtěte dále",
+    "계속 읽기",
+    "Читайте далі",
+    "Наставите са читањем",
+    "Продължете да четете",
+    "Okumaya devam edin"
+  ],
+  [
+    "From other editions",
+    "De otras ediciones",
+    "Dans d’autres éditions",
+    "Aus anderen Ausgaben",
+    "Uit andere edities",
+    "Más lapszámokból",
+    "De outras edições",
+    "Z dalších vydání",
+    "다른 호의 기사",
+    "З інших випусків",
+    "Из других издања",
+    "От други броеве",
+    "Diğer sayılardan"
+  ],
+  [
+    "No articles found. Try another search.",
+    "No se encontraron artículos. Prueba otra búsqueda.",
+    "Aucun article trouvé. Essayez une autre recherche.",
+    "Keine Artikel gefunden. Versuchen Sie eine andere Suche.",
+    "Geen artikelen gevonden. Probeer een andere zoekopdracht.",
+    "Nem található cikk. Próbáljon más keresést.",
+    "Nenhum artigo encontrado. Tente outra busca.",
+    "Žádné články nenalezeny. Zkuste jiné vyhledávání.",
+    "기사를 찾을 수 없습니다. 다른 검색어를 입력해 보세요.",
+    "Статей не знайдено. Спробуйте інший пошук.",
+    "Ниједан чланак није пронађен. Покушајте другу претрагу.",
+    "Няма намерени статии. Опитайте друго търсене.",
+    "Makale bulunamadı. Başka bir arama deneyin."
+  ],
   [
     "Languages",
     "Idiomas",
@@ -14,7 +84,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Idiomas",
     "Jazyky",
     "언어",
-    "Мови"
+    "Мови",
+    "Језици",
+    "Езици",
+    "Diller"
   ],
   [
     "About",
@@ -26,7 +99,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Sobre",
     "O nás",
     "소개",
-    "Про нас"
+    "Про нас",
+    "О нама",
+    "За нас",
+    "Hakkımızda"
   ],
   [
     "Write for Us",
@@ -38,7 +114,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Escreva para nós",
     "Pište pro nás",
     "기고하기",
-    "Пишіть для нас"
+    "Пишіть для нас",
+    "Пишите за нас",
+    "Пишете за нас",
+    "Bizim için yazın"
   ],
   [
     "Search",
@@ -50,7 +129,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Buscar",
     "Hledat",
     "검색",
-    "Пошук"
+    "Пошук",
+    "Претрага",
+    "Търсене",
+    "Ara"
   ],
   [
     "Latest",
@@ -62,7 +144,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Últimas notícias",
     "Nejnovější",
     "최신 소식",
-    "Останні новини"
+    "Останні новини",
+    "Најновије",
+    "Най-новото",
+    "En yeni"
   ],
   [
     "Europe",
@@ -74,7 +159,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Europa",
     "Evropa",
     "유럽",
-    "Європа"
+    "Європа",
+    "Европа",
+    "Европа",
+    "Avrupa"
   ],
   [
     "Americas",
@@ -86,7 +174,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Américas",
     "Amerika",
     "아메리카",
-    "Америка"
+    "Америка",
+    "Северна и Јужна Америка",
+    "Северна и Южна Америка",
+    "Amerika kıtaları"
   ],
   [
     "Middle East & North Africa",
@@ -98,7 +189,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Oriente Médio e Norte da África",
     "Blízký východ a severní Afrika",
     "중동 및 북아프리카",
-    "Близький Схід та Північна Африка"
+    "Близький Схід та Північна Африка",
+    "Блиски исток и Северна Африка",
+    "Близък изток и Северна Африка",
+    "Orta Doğu ve Kuzey Afrika"
   ],
   [
     "MENA",
@@ -110,7 +204,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Oriente Médio e Norte da África",
     "Blízký východ a severní Afrika",
     "중동 및 북아프리카",
-    "Близький Схід та Північна Африка"
+    "Близький Схід та Північна Африка",
+    "Блиски исток и Северна Африка",
+    "Близък изток и Северна Африка",
+    "Orta Doğu ve Kuzey Afrika"
   ],
   [
     "Sub-Saharan Africa",
@@ -122,7 +219,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "África Subsaariana",
     "Subsaharská Afrika",
     "사하라 이남 아프리카",
-    "Африка на південь від Сахари"
+    "Африка на південь від Сахари",
+    "Подсахарска Африка",
+    "Субсахарска Африка",
+    "Sahra Altı Afrika"
   ],
   [
     "Asia-Pacific",
@@ -134,7 +234,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ásia-Pacífico",
     "Asie a Tichomoří",
     "아시아-태평양",
-    "Азіатсько-Тихоокеанський регіон"
+    "Азіатсько-Тихоокеанський регіон",
+    "Азија и Пацифик",
+    "Азия и Тихоокеанският регион",
+    "Asya-Pasifik"
   ],
   [
     "Actors",
@@ -146,7 +249,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Atores",
     "Aktéři",
     "국제 행위자",
-    "Міжнародні актори"
+    "Міжнародні актори",
+    "Актери",
+    "Участници",
+    "Aktörler"
   ],
   [
     "Student-led international affairs journal",
@@ -158,7 +264,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Revista sobre assuntos internacionais dirigida por estudantes",
     "Studentský časopis o mezinárodních vztazích",
     "학생 주도의 국제 문제 전문 저널",
-    "Студентський журнал з питань міжнародних відносин"
+    "Студентський журнал з питань міжнародних відносин",
+    "Студентски часопис о међународним питањима",
+    "Студентско списание за международни въпроси",
+    "Öğrencilerin hazırladığı uluslararası ilişkiler dergisi"
   ],
   [
     "POLITICS FROM THE PEOPLE CLOSEST TO IT",
@@ -170,7 +279,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "A POLÍTICA POR QUEM A VIVE DE PERTO",
     "POLITIKA OČIMA TĚCH, KTEŘÍ JI ZNAJÍ ZBLÍZKA",
     "정치를 가까이에서 경험하는 이들의 목소리",
-    "ПОЛІТИКА ОЧИМА ТИХ, ХТО НАЙБЛИЖЧЕ ДО НЕЇ"
+    "ПОЛІТИКА ОЧИМА ТИХ, ХТО НАЙБЛИЖЧЕ ДО НЕЇ",
+    "ПОЛИТИКА ИЗ ПЕРА ОНИХ КОЈИ СУ ЈОЈ НАЈБЛИЖИ",
+    "ПОЛИТИКАТА ПРЕЗ ПОГЛЕДА НА ХОРАТА НАЙ-БЛИЗО ДО НЕЯ",
+    "SİYASETİ EN YAKININDAKİ İNSANLARDAN OKUYUN"
   ],
   [
     "Politics from the people closest to it.",
@@ -182,7 +294,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "A política por quem a vive de perto.",
     "Politika očima těch, kteří ji znají zblízka.",
     "정치를 가까이에서 경험하는 이들의 목소리.",
-    "Політика очима тих, хто найближче до неї."
+    "Політика очима тих, хто найближче до неї.",
+    "Политика из пера оних који су јој најближи.",
+    "Политиката през погледа на хората най-близо до нея.",
+    "Siyaseti en yakınındaki insanlardan okuyun."
   ],
   [
     "Politics",
@@ -194,7 +309,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Política",
     "Politika",
     "정치",
-    "Політика"
+    "Політика",
+    "Политика",
+    "Политика",
+    "Siyaset"
   ],
   [
     "Economics",
@@ -206,7 +324,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Economia",
     "Ekonomie",
     "경제",
-    "Економіка"
+    "Економіка",
+    "Економија",
+    "Икономика",
+    "Ekonomi"
   ],
   [
     "History",
@@ -218,7 +339,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "História",
     "Historie",
     "역사",
-    "Історія"
+    "Історія",
+    "Историја",
+    "История",
+    "Tarih"
   ],
   [
     "Philosophy",
@@ -230,7 +354,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Filosofia",
     "Filozofie",
     "철학",
-    "Філософія"
+    "Філософія",
+    "Филозофија",
+    "Философия",
+    "Felsefe"
   ],
   [
     "DEADLINE JOURNAL AROUND THE WORLD",
@@ -242,7 +369,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "DEADLINE JOURNAL AO REDOR DO MUNDO",
     "DEADLINE JOURNAL PO CELÉM SVĚTĚ",
     "전 세계의 ‘Deadline Journal’",
-    "«DEADLINE JOURNAL» У СВІТІ"
+    "«DEADLINE JOURNAL» У СВІТІ",
+    "DEADLINE JOURNAL ШИРОМ СВЕТА",
+    "DEADLINE JOURNAL ПО СВЕТА",
+    "DÜNYANIN DÖRT BİR YANINDA DEADLINE JOURNAL"
   ],
   [
     "Around the World",
@@ -254,7 +384,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ao redor do mundo",
     "Po celém světě",
     "전 세계",
-    "По всьому світу"
+    "По всьому світу",
+    "Широм света",
+    "По света",
+    "Dünyanın dört bir yanında"
   ],
   [
     "Browse by region",
@@ -266,7 +399,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Navegar por região",
     "Procházet podle regionu",
     "지역별 탐색",
-    "Перегляд за регіонами"
+    "Перегляд за регіонами",
+    "Прегледајте по регионима",
+    "Разгледайте по региони",
+    "Bölgelere göre göz atın"
   ],
   [
     "Published coverage",
@@ -278,7 +414,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Cobertura publicada",
     "Zveřejněné reportáže",
     "게재된 기사",
-    "Опубліковані матеріали"
+    "Опубліковані матеріали",
+    "Објављени текстови",
+    "Публикувани материали",
+    "Yayımlanan haberler"
   ],
   [
     "No stories yet",
@@ -290,7 +429,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ainda não há matérias",
     "Zatím žádné články",
     "아직 기사가 없습니다",
-    "Поки що немає матеріалів"
+    "Поки що немає матеріалів",
+    "Још нема текстова",
+    "Все още няма материали",
+    "Henüz yazı yok"
   ],
   [
     "No stories yet.",
@@ -302,7 +444,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ainda não há matérias.",
     "Zatím žádné články.",
     "아직 기사가 없습니다.",
-    "Поки що немає матеріалів."
+    "Поки що немає матеріалів.",
+    "Још нема текстова.",
+    "Все още няма материали.",
+    "Henüz yazı yok."
   ],
   [
     "No published stories yet.",
@@ -314,7 +459,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ainda não há matérias publicadas.",
     "Zatím nebyly zveřejněny žádné články.",
     "아직 게시된 기사가 없습니다.",
-    "Поки що немає опублікованих матеріалів."
+    "Поки що немає опублікованих матеріалів.",
+    "Још нема објављених текстова.",
+    "Все още няма публикувани материали.",
+    "Henüz yayımlanmış yazı yok."
   ],
   [
     "Select any country to visit its page.",
@@ -326,7 +474,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Selecione qualquer país para acessar sua página.",
     "Vyberte libovolnou zemi a přejděte na její stránku.",
     "방문하고자 하는 국가를 선택하면 해당 국가 페이지로 이동합니다.",
-    "Виберіть будь-яку країну, щоб перейти на її сторінку."
+    "Виберіть будь-яку країну, щоб перейти на її сторінку.",
+    "Изаберите земљу да посетите њену страницу.",
+    "Изберете държава, за да посетите страницата ѝ.",
+    "Sayfasını ziyaret etmek için bir ülke seçin."
   ],
   [
     "An interactive world map. Select a country to see its Deadline Journal stories.",
@@ -338,7 +489,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Um mapa-múndi interativo. Selecione um país para ver as matérias do Deadline Journal sobre ele.",
     "Interaktivní mapa světa. Vyberte zemi a podívejte se na články z časopisu Deadline Journal, které se jí týkají.",
     "상호작용이 가능한 세계 지도. 국가를 선택하면 해당 국가에 관한 ‘Deadline Journal’ 기사를 볼 수 있습니다.",
-    "Інтерактивна карта світу. Виберіть країну, щоб переглянути статті «Deadline Journal» про неї."
+    "Інтерактивна карта світу. Виберіть країну, щоб переглянути статті «Deadline Journal» про неї.",
+    "Интерактивна мапа света. Изаберите земљу да видите текстове о њој у Deadline Journal-у.",
+    "Интерактивна карта на света. Изберете държава, за да видите материалите за нея в Deadline Journal.",
+    "Etkileşimli dünya haritası. Deadline Journal'da bir ülkeyle ilgili yazıları görmek için o ülkeyi seçin."
   ],
   [
     "Deadline Journal is a student-led publication that gives young writers a platform to highlight political developments in their own communities that they believe deserve greater, or different, attention.",
@@ -350,7 +504,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "A Deadline Journal é uma publicação dirigida por estudantes que oferece aos jovens escritores uma plataforma para destacar os acontecimentos políticos em suas próprias comunidades que, na opinião deles, merecem maior atenção ou uma abordagem diferente.",
     "Deadline Journal je studentský časopis, který poskytuje mladým autorům platformu k tomu, aby upozornili na politické události ve svých vlastních komunitách, o nichž se domnívají, že si zaslouží větší nebo jinou pozornost.",
     "&#x27;Deadline Journal&#x27;은 학생들이 주도하는 간행물로, 젊은 작가들에게 자신의 지역 사회에서 더 많은 관심이나 다른 시각의 주목을 받아야 한다고 생각하는 정치적 동향을 조명할 수 있는 플랫폼을 제공합니다.",
-    "«Deadline Journal» — це студентське видання, яке надає молодим авторам платформу для висвітлення політичних подій у їхніх власних громадах, які, на їхню думку, заслуговують на більшу або іншу увагу."
+    "«Deadline Journal» — це студентське видання, яке надає молодим авторам платформу для висвітлення політичних подій у їхніх власних громадах, які, на їхню думку, заслуговують на більшу або іншу увагу.",
+    "Deadline Journal је студентска публикација која младим ауторима пружа простор да истакну политичка дешавања у својим заједницама за која сматрају да заслужују већу или другачију пажњу.",
+    "Deadline Journal е студентско издание, което предоставя на младите автори платформа да открояват политически събития в своите общности, които според тях заслужават повече или по-различно внимание.",
+    "Deadline Journal, genç yazarlara kendi toplumlarında daha fazla ya da farklı bir ilgiyi hak ettiğine inandıkları siyasi gelişmeleri öne çıkarabilecekleri bir platform sunan, öğrenciler tarafından yürütülen bir yayındır."
   ],
   [
     "We prioritize proximity. Political issues are best understood through local context, lived knowledge, and personal stories.",
@@ -362,7 +519,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Priorizamos a proximidade. As questões políticas são melhor compreendidas por meio do contexto local, do conhecimento vivenciado e das histórias pessoais.",
     "Upřednostňujeme blízkost. Politické otázky lze nejlépe pochopit prostřednictvím místního kontextu, zkušeností z praxe a osobních příběhů.",
     "우리는 ‘가까움’을 최우선으로 여깁니다. 정치적 현안은 지역적 맥락, 실제 경험을 바탕으로 한 지식, 그리고 개인의 이야기를 통해 가장 잘 이해될 수 있습니다.",
-    "Ми надаємо пріоритет близькості до подій. Політичні питання найкраще розуміти через місцевий контекст, практичний досвід та особисті історії."
+    "Ми надаємо пріоритет близькості до подій. Політичні питання найкраще розуміти через місцевий контекст, практичний досвід та особисті історії.",
+    "Дајемо предност непосредном искуству. Политичка питања најбоље се разумеју кроз локални контекст, искуствено знање и личне приче.",
+    "Даваме предимство на близостта. Политическите въпроси се разбират най-добре чрез местния контекст, натрупания опит и личните истории.",
+    "Yakınlığa öncelik veriyoruz. Siyasi meseleler en iyi yerel bağlam, yaşanmış deneyim ve kişisel hikâyeler aracılığıyla anlaşılır."
   ],
   [
     "Write for Deadline Journal",
@@ -374,7 +534,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Escreva para a Deadline Journal",
     "Pište pro časopis Deadline Journal",
     "Deadline Journal에 기고하기",
-    "Пишіть для «Deadline Journal»"
+    "Пишіть для «Deadline Journal»",
+    "Пишите за Deadline Journal",
+    "Пишете за Deadline Journal",
+    "Deadline Journal için yazın"
   ],
   [
     "A student-led international journal told by people with a direct connection to the topics they cover.",
@@ -386,7 +549,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Uma revista internacional dirigida por estudantes, com matérias escritas por pessoas que têm uma conexão direta com os temas que abordam.",
     "Studentský časopis o mezinárodních záležitostech, v němž přispívají lidé, kteří mají přímou souvislost s tématy, jimž se věnuje.",
     "주제를 직접 경험한 사람들의 이야기를 담은, 학생들이 주도하는 국제 저널입니다.",
-    "Студентський журнал з питань міжнародних відносин, у якому публікуються матеріали від людей, безпосередньо пов’язаних із темами, що висвітлюються."
+    "Студентський журнал з питань міжнародних відносин, у якому публікуються матеріали від людей, безпосередньо пов’язаних із темами, що висвітлюються.",
+    "Међународни студентски часопис у којем пишу људи непосредно повезани с темама које обрађују.",
+    "Международно студентско списание, в което пишат хора с пряка връзка с темите, които отразяват.",
+    "Ele aldıkları konularla doğrudan bağı olan insanların kaleminden çıkan uluslararası bir öğrenci dergisi."
   ],
   [
     "Giving our contributors an opportunity to present a unique, first-hand angle into their own political contexts allows readers to learn about international politics from the people closest to it.",
@@ -398,7 +564,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Oferecer aos nossos colaboradores a oportunidade de apresentar uma perspectiva única e em primeira mão sobre seus próprios contextos políticos permite que os leitores aprendam sobre política internacional com as pessoas mais próximas a ela.",
     "Tím, že dáváme našim přispěvatelům příležitost představit jedinečný pohled z první ruky na jejich vlastní politické kontexty, umožňujeme čtenářům poznat mezinárodní politiku od lidí, kteří jsou jí nejblíže.",
     "기여자들에게 각자의 정치적 맥락에 대한 독창적이고 생생한 관점을 제시할 기회를 제공함으로써, 독자들은 국제 정치와 가장 밀접한 관계에 있는 사람들로부터 국제 정치를 배울 수 있습니다.",
-    "Надаючи нашим авторам можливість представити унікальний погляд з перших рук на власні політичні реалії, ми даємо читачам змогу дізнаватися про міжнародну політику від людей, які знаходяться найближче до неї."
+    "Надаючи нашим авторам можливість представити унікальний погляд з перших рук на власні політичні реалії, ми даємо читачам змогу дізнаватися про міжнародну політику від людей, які знаходяться найближче до неї.",
+    "Пружајући нашим сарадницима прилику да понуде јединствен поглед из прве руке на сопствени политички контекст, омогућавамо читаоцима да о међународној политици уче од људи који су јој најближи.",
+    "Като даваме на нашите сътрудници възможност да представят уникален поглед от първо лице към собствения си политически контекст, позволяваме на читателите да научат за международната политика от хората най-близо до нея.",
+    "Yazarlarımıza kendi siyasi bağlamlarına ilişkin özgün ve birinci elden bir bakış sunma fırsatı vermek, okuyucuların uluslararası siyaseti ona en yakın insanlardan öğrenmesini sağlar."
   ],
   [
     "Deadline Journal is built around the core belief that relativity, curiosity, and tolerance are the foundational values of politics. To understand a political issue in full, one must listen to those that deal with it directly.",
@@ -410,7 +579,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "A Deadline Journal baseia-se na convicção de que a relatividade, a curiosidade e a tolerância são os valores fundamentais da política. Para compreender plenamente uma questão política, é preciso ouvir aqueles que lidam diretamente com ela.",
     "Časopis Deadline Journal vychází z přesvědčení, že relativita, zvědavost a tolerance jsou základními hodnotami politiky. Abychom plně porozuměli politické otázce, musíme naslouchat těm, kteří se s ní přímo potýkají.",
     "‘Deadline Journal’은 상대성, 호기심, 관용이 정치의 기본 가치라는 핵심 신념을 바탕으로 설립되었습니다. 정치적 문제를 온전히 이해하기 위해서는 그 문제를 직접 다루는 사람들의 목소리에 귀를 기울여야 합니다.",
-    "«Deadline Journal» ґрунтується на переконанні, що відносність, допитливість і толерантність є основоположними цінностями політики. Щоб повністю зрозуміти політичне питання, потрібно прислухатися до тих, хто безпосередньо має з ним справу."
+    "«Deadline Journal» ґрунтується на переконанні, що відносність, допитливість і толерантність є основоположними цінностями політики. Щоб повністю зрозуміти політичне питання, потрібно прислухатися до тих, хто безпосередньо має з ним справу.",
+    "Deadline Journal почива на уверењу да су релативност, радозналост и толеранција темељне вредности политике. Да бисмо политичко питање разумели у целини, морамо слушати оне који се с њим непосредно суочавају.",
+    "Deadline Journal се основава на убеждението, че относителността, любознателността и толерантността са основополагащи ценности на политиката. За да разберем напълно един политически въпрос, трябва да изслушаме хората, които се сблъскват пряко с него.",
+    "Deadline Journal, göreceliliğin, merakın ve hoşgörünün siyasetin temel değerleri olduğu inancıyla kurulmuştur. Bir siyasi meseleyi bütünüyle anlamak için onu doğrudan yaşayanları dinlemek gerekir."
   ],
   [
     "Anyone is welcome to submit their proposal in the",
@@ -422,7 +594,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Qualquer pessoa é bem-vinda a enviar sua proposta na",
     "Kdokoli může zaslat svůj návrh do",
     "누구나 다음의",
-    "Будь-хто може подати свою пропозицію в"
+    "Будь-хто може подати свою пропозицію в",
+    "Свако може да пошаље свој предлог у одељку",
+    "Всеки е добре дошъл да изпрати предложение в раздела",
+    "Herkes önerisini şu bölümden gönderebilir:"
   ],
   [
     "“Write For Us”",
@@ -434,7 +609,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "“Escreva para nós”",
     "„Pište pro nás“",
     "“기고하기”",
-    "«Пишіть для нас»"
+    "«Пишіть для нас»",
+    "„Пишите за нас“",
+    "„Пишете за нас“",
+    "“Bizim için yazın”"
   ],
   [
     "section. To keep up with our new publications, follow us on",
@@ -446,7 +624,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "seção. Para ficar por dentro das nossas novas publicações, siga-nos no",
     "sekce. Chcete-li být informováni o našich nových publikacích, sledujte nás na",
     "섹션. 새로운 간행물을 놓치지 않으려면 저희를 팔로우해 주세요.",
-    "розділ. Щоб бути в курсі наших нових публікацій, підпишіться на нас у"
+    "розділ. Щоб бути в курсі наших нових публікацій, підпишіться на нас у",
+    ". Да бисте пратили наше нове текстове, пратите нас на",
+    ". За да следите новите ни публикации, последвайте ни в",
+    ". Yeni yayınlarımızı takip etmek için bizi şu platformlarda izleyin:"
   ],
   [
     "or",
@@ -458,7 +639,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "ou",
     "nebo",
     "또는",
-    "або"
+    "або",
+    "или",
+    "или",
+    "veya"
   ],
   [
     "Tell us what the headlines are missing.",
@@ -470,7 +654,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Diga-nos o que está faltando nas manchetes.",
     "Řekněte nám, co v těchto titulcích chybí.",
     "이 헤드라인에서 빠진 내용이 무엇인지 알려주세요.",
-    "Скажіть нам, чого бракує у цих заголовках."
+    "Скажіть нам, чого бракує у цих заголовках.",
+    "Реците нам шта недостаје у насловима.",
+    "Кажете ни какво пропускат заглавията.",
+    "Manşetlerin neyi gözden kaçırdığını bize anlatın."
   ],
   [
     "We are looking for young writers with something to say. Submit your article proposal, and we will get back to you within 48 hours.",
@@ -482,7 +669,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Estamos procurando jovens escritores que tenham algo a dizer. Envie sua proposta de artigo e entraremos em contato com você em até 48 horas.",
     "Hledáme mladé autory, kteří mají co říct. Zašlete nám návrh článku a my se vám ozveme do 48 hodin.",
     "전할 메시지가 있는 젊은 필자를 찾고 있습니다. 기사 기획안을 제출해 주시면 48시간 이내에 답변해 드리겠습니다.",
-    "Ми шукаємо молодих авторів, яким є що сказати. Надішліть нам пропозицію статті, і ми відповімо вам протягом 48 годин."
+    "Ми шукаємо молодих авторів, яким є що сказати. Надішліть нам пропозицію статті, і ми відповімо вам протягом 48 годин.",
+    "Тражимо младе ауторе који имају шта да кажу. Пошаљите предлог чланка и одговорићемо вам у року од 48 сати.",
+    "Търсим млади автори, които имат какво да кажат. Изпратете предложение за статия и ще ви отговорим в рамките на 48 часа.",
+    "Söyleyecek sözü olan genç yazarlar arıyoruz. Makale önerinizi gönderin; 48 saat içinde size dönüş yapalım."
   ],
   [
     "Name",
@@ -494,7 +684,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Nome",
     "Jméno",
     "이름",
-    "Ім’я"
+    "Ім’я",
+    "Име",
+    "Име",
+    "Ad"
   ],
   [
     "Your name",
@@ -506,7 +699,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Seu nome",
     "Vaše jméno",
     "이름",
-    "Ваше ім’я"
+    "Ваше ім’я",
+    "Ваше име",
+    "Вашето име",
+    "Adınız"
   ],
   [
     "Home country / region",
@@ -518,7 +714,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "País/região de origem",
     "Vlastní země / region",
     "본국/지역",
-    "Країна/регіон походження"
+    "Країна/регіон походження",
+    "Земља / регион порекла",
+    "Родна държава / регион",
+    "Ülkeniz / bölgeniz"
   ],
   [
     "Country or region",
@@ -530,7 +729,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "País ou região",
     "Země nebo region",
     "국가 또는 지역",
-    "Країна або регіон"
+    "Країна або регіон",
+    "Земља или регион",
+    "Държава или регион",
+    "Ülke veya bölge"
   ],
   [
     "Email",
@@ -542,7 +744,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "E-mail",
     "E-mail",
     "이메일",
-    "Електронна пошта"
+    "Електронна пошта",
+    "Имејл",
+    "Имейл",
+    "E-posta"
   ],
   [
     "Pitch",
@@ -554,7 +759,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Proposta de artigo",
     "Námět článku",
     "기사 제안",
-    "Пропозиція статті"
+    "Пропозиція статті",
+    "Предлог чланка",
+    "Предложение за статия",
+    "Makale önerisi"
   ],
   [
     "Submit",
@@ -566,7 +774,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Enviar",
     "Odeslat",
     "제출",
-    "Надіслати"
+    "Надіслати",
+    "Пошаљи",
+    "Изпрати",
+    "Gönder"
   ],
   [
     "What is happening in your country that international audiences misunderstand or are not paying enough attention to?",
@@ -578,7 +789,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "O que está acontecendo no seu país que o público internacional interpreta erroneamente ou ao qual não está prestando atenção suficiente?",
     "Co se ve vaší zemi děje, čemu mezinárodní veřejnost nerozumí nebo čemu nevěnuje dostatečnou pozornost?",
     "귀국에서 일어나고 있는 일 중, 국제 사회가 오해하고 있거나 충분히 주목하지 못하고 있는 것은 무엇입니까?",
-    "Що відбувається у вашій країні, що міжнародна аудиторія неправильно розуміє або чому не приділяє достатньої уваги?"
+    "Що відбувається у вашій країні, що міжнародна аудиторія неправильно розуміє або чому не приділяє достатньої уваги?",
+    "Шта се дешава у вашој земљи што међународна јавност погрешно разуме или чему не посвећује довољно пажње?",
+    "Какво се случва във вашата държава, което международната публика разбира погрешно или на което не обръща достатъчно внимание?",
+    "Ülkenizde uluslararası kamuoyunun yanlış anladığı veya yeterince ilgi göstermediği neler oluyor?"
   ],
   [
     "Thank you. Your proposal has been submitted.",
@@ -590,7 +804,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Obrigado. Sua proposta foi enviada.",
     "Děkujeme. Váš návrh byl odeslán.",
     "감사합니다. 제안서가 제출되었습니다.",
-    "Дякуємо. Ваша пропозиція була надіслана."
+    "Дякуємо. Ваша пропозиція була надіслана.",
+    "Хвала. Ваш предлог је послат.",
+    "Благодарим ви. Предложението ви е изпратено.",
+    "Teşekkürler. Öneriniz gönderildi."
   ],
   [
     "Search Deadline Journal",
@@ -602,7 +819,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Pesquisar no Deadline Journal",
     "Vyhledat v časopise Deadline Journal",
     "&#x27;Deadline Journal&#x27; 검색",
-    "Пошук у «Deadline Journal»"
+    "Пошук у «Deadline Journal»",
+    "Претражите Deadline Journal",
+    "Търсене в Deadline Journal",
+    "Deadline Journal'da arayın"
   ],
   [
     "REGIONAL DESK",
@@ -614,7 +834,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "REDAÇÃO REGIONAL",
     "REGIONÁLNÍ REDAKCE",
     "지역 데스크",
-    "РЕГІОНАЛЬНИЙ ВІДДІЛ"
+    "РЕГІОНАЛЬНИЙ ВІДДІЛ",
+    "РЕГИОНАЛНА РУБРИКА",
+    "РЕГИОНАЛНА РУБРИКА",
+    "BÖLGE DOSYASI"
   ],
   [
     "GLOBAL ACTORS",
@@ -626,7 +849,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "ATORES GLOBAIS",
     "GLOBÁLNÍ AKTÉŘI",
     "글로벌 행위자",
-    "ГЛОБАЛЬНІ АКТОРИ"
+    "ГЛОБАЛЬНІ АКТОРИ",
+    "ГЛОБАЛНИ АКТЕРИ",
+    "ГЛОБАЛНИ УЧАСТНИЦИ",
+    "KÜRESEL AKTÖRLER"
   ],
   [
     "COUNTRY DESKS",
@@ -638,7 +864,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "ESCRITÓRIOS POR PAÍS",
     "ZEMSKÉ REDAKCE",
     "국가 담당 데스크",
-    "РЕДАКЦІЇ ПО КРАЇНАХ"
+    "РЕДАКЦІЇ ПО КРАЇНАХ",
+    "РУБРИКЕ ПО ЗЕМЉАМА",
+    "РУБРИКИ ПО ДЪРЖАВИ",
+    "ÜLKE DOSYALARI"
   ],
   [
     "COUNTRY DESK",
@@ -650,7 +879,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "ESCRITÓRIO NACIONAL",
     "ZEMĚSKÁ REDAKCE",
     "국가 담당 데스크",
-    "РЕДАКЦІЯ ПО КРАЇНАХ"
+    "РЕДАКЦІЯ ПО КРАЇНАХ",
+    "РУБРИКА ЗЕМЉЕ",
+    "РУБРИКА ЗА ДЪРЖАВАТА",
+    "ÜLKE DOSYASI"
   ],
   [
     "Explore this region",
@@ -662,7 +894,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Explore esta região",
     "Prozkoumejte tento region",
     "이 지역 살펴보기",
-    "Дослідіть цей регіон"
+    "Дослідіть цей регіон",
+    "Истражите овај регион",
+    "Разгледайте този регион",
+    "Bu bölgeyi keşfedin"
   ],
   [
     "No published stories in this region yet.",
@@ -674,7 +909,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ainda não há matérias publicadas nesta região.",
     "V této oblasti zatím nebyly zveřejněny žádné články.",
     "이 지역에는 아직 게시된 기사가 없습니다.",
-    "У цьому регіоні поки що немає опублікованих матеріалів."
+    "У цьому регіоні поки що немає опублікованих матеріалів.",
+    "Још нема објављених текстова из овог региона.",
+    "Все още няма публикувани материали от този регион.",
+    "Bu bölgeyle ilgili henüz yayımlanmış yazı yok."
   ],
   [
     "Know this place? Write for Deadline",
@@ -686,7 +924,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Conhece este lugar? Escreva para o Deadline",
     "Znáte toto místo? Napište pro Deadline",
     "이 장소를 아시나요? ‘데드라인’에 기고해 주세요.",
-    "Знаєте це місце? Напишіть для «Deadline»"
+    "Знаєте це місце? Напишіть для «Deadline»",
+    "Познајете ово место? Пишите за Deadline",
+    "Познавате това място? Пишете за Deadline",
+    "Burayı tanıyor musunuz? Deadline için yazın"
   ],
   [
     "Return to the world map",
@@ -698,7 +939,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Voltar ao mapa-múndi",
     "Zpět na mapu světa",
     "세계 지도로 돌아가기",
-    "Повернутися до карти світу"
+    "Повернутися до карти світу",
+    "Назад на мапу света",
+    "Назад към картата на света",
+    "Dünya haritasına dön"
   ],
   [
     "Country not found",
@@ -710,7 +954,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "País não encontrado",
     "Země nebyla nalezena",
     "해당 국가를 찾을 수 없습니다",
-    "Країну не знайдено"
+    "Країну не знайдено",
+    "Земља није пронађена",
+    "Държавата не е намерена",
+    "Ülke bulunamadı"
   ],
   [
     "Article not found",
@@ -722,7 +969,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Artigo não encontrado",
     "Článek nebyl nalezen",
     "해당 기사를 찾을 수 없습니다",
-    "Статтю не знайдено"
+    "Статтю не знайдено",
+    "Чланак није пронађен",
+    "Статията не е намерена",
+    "Makale bulunamadı"
   ],
   [
     "This article may be a draft or may have been removed.",
@@ -734,7 +984,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Este artigo pode ser um rascunho ou pode ter sido removido.",
     "Tento článek může být pouze návrhem nebo mohl být odstraněn.",
     "이 기사는 초안일 수도 있고, 삭제되었을 수도 있습니다.",
-    "Ця стаття може бути чернеткою або була видалена."
+    "Ця стаття може бути чернеткою або була видалена.",
+    "Овај чланак је можда нацрт или је уклоњен.",
+    "Тази статия може да е чернова или да е премахната.",
+    "Bu makale taslak olabilir veya kaldırılmış olabilir."
   ],
   [
     "SOURCES",
@@ -746,7 +999,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "FONTES",
     "ZDROJE",
     "출처",
-    "ДЖЕРЕЛА"
+    "ДЖЕРЕЛА",
+    "ИЗВОРИ",
+    "ИЗТОЧНИЦИ",
+    "KAYNAKLAR"
   ],
   [
     "Analytics settings",
@@ -758,7 +1014,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Configurações de análise",
     "Nastavení analytiky",
     "분석 설정",
-    "Налаштування аналітики"
+    "Налаштування аналітики",
+    "Подешавања аналитике",
+    "Настройки на аналитиката",
+    "Analitik ayarları"
   ],
   [
     "Decline",
@@ -770,7 +1029,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Recusar",
     "Odmítnout",
     "거절",
-    "Відхилити"
+    "Відхилити",
+    "Одбиј",
+    "Отказ",
+    "Reddet"
   ],
   [
     "Allow analytics",
@@ -782,7 +1044,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Permitir análises",
     "Povolit analytiku",
     "분석 기능 허용",
-    "Дозволити аналітику"
+    "Дозволити аналітику",
+    "Дозволи аналитику",
+    "Разреши аналитиката",
+    "Analitiğe izin ver"
   ],
   [
     "We use analytics to better understand audience preferences and improve the Deadline Journal.",
@@ -794,7 +1059,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Utilizamos análises de dados para entender melhor as preferências do público e aprimorar o Deadline Journal.",
     "Využíváme analytické nástroje, abychom lépe porozuměli preferencím čtenářů a vylepšili časopis Deadline Journal.",
     "저희는 분석 데이터를 활용하여 독자의 선호도를 더 잘 파악하고 ‘Deadline Journal’을 개선해 나가고 있습니다.",
-    "Ми використовуємо аналітику, щоб краще розуміти вподобання аудиторії та вдосконалювати «Deadline Journal»."
+    "Ми використовуємо аналітику, щоб краще розуміти вподобання аудиторії та вдосконалювати «Deadline Journal».",
+    "Користимо аналитику да бисмо боље разумели интересовања публике и унапредили Deadline Journal.",
+    "Използваме аналитични данни, за да разбираме по-добре предпочитанията на аудиторията и да подобряваме Deadline Journal.",
+    "Okuyucuların tercihlerini daha iyi anlamak ve Deadline Journal'ı geliştirmek için analitik kullanıyoruz."
   ],
   [
     "You can change this choice at any time in our footer.",
@@ -806,7 +1074,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Você pode alterar essa opção a qualquer momento no rodapé da página.",
     "Tuto volbu můžete kdykoli změnit v zápatí stránky.",
     "이 설정은 사이트 하단에서 언제든지 변경할 수 있습니다.",
-    "Ви можете змінити цей вибір будь-коли внизу сторінки."
+    "Ви можете змінити цей вибір будь-коли внизу сторінки.",
+    "Ову одлуку можете променити у било ком тренутку у подножју странице.",
+    "Можете да промените този избор по всяко време в долната част на сайта.",
+    "Bu tercihi sitenin alt bölümünden istediğiniz zaman değiştirebilirsiniz."
   ],
   [
     "Analytics preferences",
@@ -818,7 +1089,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Preferências de análise",
     "Předvolby analytiky",
     "분석 설정",
-    "Налаштування аналітики"
+    "Налаштування аналітики",
+    "Подешавања аналитике",
+    "Предпочитания за аналитиката",
+    "Analitik tercihleri"
   ],
   [
     "Close",
@@ -830,7 +1104,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Fechar",
     "Zavřít",
     "닫기",
-    "Закрити"
+    "Закрити",
+    "Затвори",
+    "Затвори",
+    "Kapat"
   ],
   [
     "Your browser requests that you are not tracked. Analytics stays off while this preference is enabled.",
@@ -842,7 +1119,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Seu navegador solicita que você não seja rastreado. O Analytics permanece desativado enquanto essa preferência estiver ativada.",
     "Váš prohlížeč požaduje, aby nedocházelo k vašemu sledování. Dokud je toto nastavení zapnuté, zůstává služba Analytics vypnutá.",
     "사용자 브라우저에서 추적되지 않도록 요청했습니다. 이 설정이 활성화된 동안 분석 기능은 비활성화된 상태로 유지됩니다.",
-    "Ваш браузер надсилає запит про те, щоб вас не відстежували. Поки ця настройка увімкнена, аналітика залишається вимкненою."
+    "Ваш браузер надсилає запит про те, щоб вас не відстежували. Поки ця настройка увімкнена, аналітика залишається вимкненою.",
+    "Ваш прегледач захтева да се ваше активности не прате. Аналитика остаје искључена док је ово подешавање активно.",
+    "Вашият браузър изисква да не бъдете проследявани. Аналитиката остава изключена, докато това предпочитание е включено.",
+    "Tarayıcınız takip edilmemenizi istiyor. Bu tercih etkin olduğu sürece analitik kapalı kalır."
   ],
   [
     "Regions",
@@ -854,7 +1134,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Regiões",
     "Regiony",
     "지역",
-    "Регіони"
+    "Регіони",
+    "Региони",
+    "Региони",
+    "Bölgeler"
   ],
   [
     "Full world",
@@ -866,7 +1149,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Mundo inteiro",
     "Celý svět",
     "전 세계",
-    "Весь світ"
+    "Весь світ",
+    "Цео свет",
+    "Целият свят",
+    "Tüm dünya"
   ],
   [
     "Zoom in",
@@ -878,7 +1164,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ampliar",
     "Zvětšit",
     "확대",
-    "Збільшити"
+    "Збільшити",
+    "Увећај",
+    "Увеличи",
+    "Yakınlaştır"
   ],
   [
     "Zoom out",
@@ -890,7 +1179,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Reduzir",
     "Oddálit",
     "축소",
-    "Зменшити масштаб"
+    "Зменшити масштаб",
+    "Умањи",
+    "Намали",
+    "Uzaklaştır"
   ],
   [
     "Zoom in to explore, or select a country.",
@@ -902,7 +1194,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Amplie o mapa para explorar ou selecione um país.",
     "Přibližte si mapu pro prozkoumání nebo vyberte zemi.",
     "확대하여 살펴보거나, 국가를 선택하십시오.",
-    "Збільште масштаб, щоб ознайомитися з картою, або виберіть країну."
+    "Збільште масштаб, щоб ознайомитися з картою, або виберіть країну.",
+    "Увећајте да истражите или изаберите земљу.",
+    "Увеличете, за да разгледате, или изберете държава.",
+    "Keşfetmek için yakınlaştırın veya bir ülke seçin."
   ],
   [
     "Swipe to explore. Select a country to read its stories.",
@@ -914,7 +1209,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Deslize para explorar. Selecione um país para ler suas matérias.",
     "Přejeďte prstem a prozkoumejte obsah. Vyberte si zemi a přečtěte si články o ní.",
     "화면을 스와이프하여 둘러보세요. 국가를 선택하면 해당 국가의 기사를 읽을 수 있습니다.",
-    "Проведіть пальцем, щоб переглянути. Виберіть країну, щоб прочитати статті про неї."
+    "Проведіть пальцем, щоб переглянути. Виберіть країну, щоб прочитати статті про неї.",
+    "Превуците да истражите. Изаберите земљу да прочитате текстове о њој.",
+    "Плъзнете, за да разгледате. Изберете държава, за да прочетете материалите за нея.",
+    "Keşfetmek için kaydırın. Yazılarını okumak için bir ülke seçin."
   ],
   [
     "Skip to content",
@@ -926,7 +1224,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Ir para o conteúdo",
     "Přejít k obsahu",
     "본문으로 건너뛰기",
-    "Перейти до вмісту"
+    "Перейти до вмісту",
+    "Пређи на садржај",
+    "Към съдържанието",
+    "İçeriğe geç"
   ],
   [
     "Close search",
@@ -938,7 +1239,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Fechar pesquisa",
     "Zavřít vyhledávání",
     "검색 닫기",
-    "Закрити пошук"
+    "Закрити пошук",
+    "Затвори претрагу",
+    "Затвори търсенето",
+    "Aramayı kapat"
   ],
   [
     "Search articles",
@@ -950,7 +1254,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Pesquisar artigos",
     "Vyhledat články",
     "기사 검색",
-    "Пошук статей"
+    "Пошук статей",
+    "Претражи чланке",
+    "Търсене на статии",
+    "Makalelerde ara"
   ],
   [
     "United Nations",
@@ -962,7 +1269,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Nações Unidas",
     "Organizace spojených národů",
     "유엔",
-    "Організація Об’єднаних Націй"
+    "Організація Об’єднаних Націй",
+    "Уједињене нације",
+    "Организация на обединените нации",
+    "Birleşmiş Milletler"
   ],
   [
     "Complete the verification step after submitting. If you have trouble, email your proposal directly to",
@@ -974,7 +1284,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Conclua a etapa de verificação após o envio. Se tiver alguma dificuldade, envie sua proposta diretamente por e-mail para",
     "Po odeslání proveďte ověření. Pokud narazíte na potíže, zašlete svůj návrh přímo e-mailem na adresu",
     "제출 후 인증 절차를 완료해 주십시오. 문제가 발생할 경우, 제안서를 다음 이메일 주소로 직접 보내주십시오.",
-    "Після подання пропозиції пройдіть етап верифікації. Якщо у вас виникнуть труднощі, надішліть свою пропозицію безпосередньо на електронну адресу"
+    "Після подання пропозиції пройдіть етап верифікації. Якщо у вас виникнуть труднощі, надішліть свою пропозицію безпосередньо на електронну адресу",
+    "Након слања довршите корак за верификацију. Ако имате потешкоћа, пошаљите предлог директно имејлом на",
+    "След изпращането завършете стъпката за потвърждение. Ако имате затруднения, изпратете предложението си директно по имейл на",
+    "Gönderdikten sonra doğrulama adımını tamamlayın. Sorun yaşarsanız önerinizi doğrudan şu adrese e-postayla gönderin:"
   ],
   [
     "Updated",
@@ -986,7 +1299,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Atualizado",
     "Aktualizováno",
     "업데이트됨",
-    "Оновлено"
+    "Оновлено",
+    "Ажурирано",
+    "Обновено",
+    "Güncellendi"
   ],
   [
     "Email updates",
@@ -998,7 +1314,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Atualizações por e-mail",
     "Aktualizace e-mailem",
     "이메일 업데이트",
-    "Оновлення по електронній пошті"
+    "Оновлення по електронній пошті",
+    "Обавештења имејлом",
+    "Известия по имейл",
+    "E-posta bildirimleri"
   ],
   [
     "Close email signup",
@@ -1010,7 +1329,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Fechar inscrição por e-mail",
     "Zavřít registraci k odběru e-mailů",
     "이메일 구독 닫기",
-    "Закрити форму реєстрації електронної пошти"
+    "Закрити форму реєстрації електронної пошти",
+    "Затвори пријаву за имејл",
+    "Затвори абонамента по имейл",
+    "E-posta aboneliğini kapat"
   ],
   [
     "Stay close to the story.",
@@ -1022,7 +1344,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Acompanhe os acontecimentos de perto.",
     "Buďte blízko dění.",
     "현장의 이야기를 가까이에서 만나보세요.",
-    "Будьте ближче до подій."
+    "Будьте ближче до подій.",
+    "Будите близу приче.",
+    "Бъдете близо до историята.",
+    "Hikâyeye yakın kalın."
   ],
   [
     "New articles, new editions, and occasional announcements. Delivered to your inbox.",
@@ -1034,7 +1359,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Novos artigos, novas edições e comunicados ocasionais. Enviados diretamente para sua caixa de entrada.",
     "Nové články, nová vydání a příležitostná oznámení. Doručujeme přímo do vaší e-mailové schránky.",
     "새로운 기사, 최신호, 그리고 때때로 게시되는 공지사항. 여러분의 이메일 수신함으로 직접 전달해 드립니다.",
-    "Нові статті, нові випуски та періодичні оголошення. Доставляються на вашу електронну пошту."
+    "Нові статті, нові випуски та періодичні оголошення. Доставляються на вашу електронну пошту.",
+    "Нови чланци, нова издања и повремена обавештења. Директно у ваше пријемно сандуче.",
+    "Нови статии, нови броеве и периодични съобщения. Директно във вашата поща.",
+    "Yeni makaleler, yeni sayılar ve ara sıra duyurular. Doğrudan gelen kutunuza."
   ],
   [
     "Email address",
@@ -1046,7 +1374,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Endereço de e-mail",
     "E-mailová adresa",
     "이메일 주소",
-    "Адреса електронної пошти"
+    "Адреса електронної пошти",
+    "Имејл адреса",
+    "Имейл адрес",
+    "E-posta adresi"
   ],
   [
     "I agree to receive emails from Deadline Journal.",
@@ -1058,7 +1389,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Concordo em receber e-mails da Deadline Journal.",
     "Souhlasím s přijímáním e-mailů od časopisu Deadline Journal.",
     "저는 ‘Deadline Journal’로부터 이메일을 수신하는 데 동의합니다.",
-    "Я погоджуюся отримувати електронні листи від «Deadline Journal»."
+    "Я погоджуюся отримувати електронні листи від «Deadline Journal».",
+    "Пристајем да примам имејлове од Deadline Journal-а.",
+    "Съгласен/съгласна съм да получавам имейли от Deadline Journal.",
+    "Deadline Journal'dan e-posta almayı kabul ediyorum."
   ],
   [
     "Keep me updated",
@@ -1070,7 +1404,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Mantenha-me informado",
     "Informujte mě o novinkách",
     "최신 정보를 계속 알려주세요",
-    "Тримайте мене в курсі"
+    "Тримайте мене в курсі",
+    "Обавештавајте ме",
+    "Уведомявайте ме",
+    "Beni haberdar et"
   ],
   [
     "Confirm your subscription by email. Unsubscribe at any time.",
@@ -1082,7 +1419,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Confirme sua assinatura por e-mail. Cancele a assinatura a qualquer momento.",
     "Potvrďte své předplatné e-mailem. Předplatné můžete kdykoli zrušit.",
     "이메일을 통해 구독을 확인해 주세요. 언제든지 구독을 취소할 수 있습니다.",
-    "Підтвердьте підписку електронною поштою. Ви можете скасувати підписку в будь-який час."
+    "Підтвердьте підписку електронною поштою. Ви можете скасувати підписку в будь-який час.",
+    "Потврдите пријаву имејлом. Можете се одјавити у било ком тренутку.",
+    "Потвърдете абонамента си по имейл. Можете да се отпишете по всяко време.",
+    "Aboneliğinizi e-postayla doğrulayın. İstediğiniz zaman abonelikten çıkabilirsiniz."
   ],
   [
     "Email subscriptions are managed by",
@@ -1094,7 +1434,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "As assinaturas por e-mail são gerenciadas por",
     "E-mailové předplatné spravuje",
     "이메일 구독은 다음에서 관리합니다.",
-    "Підписка на розсилку електронною поштою здійснюється через"
+    "Підписка на розсилку електронною поштою здійснюється через",
+    "Пријавама за имејл управља",
+    "Абонаментите по имейл се управляват от",
+    "E-posta abonelikleri şu hizmet tarafından yönetilir:"
   ],
   [
     "Preview only. No email address will be saved or sent.",
@@ -1106,7 +1449,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Apenas visualização. Nenhum endereço de e-mail será salvo ou enviado.",
     "Pouze náhled. Žádná e-mailová adresa nebude uložena ani odeslána.",
     "미리보기용입니다. 이메일 주소는 저장되거나 전송되지 않습니다.",
-    "Лише попередній перегляд. Жодна адреса електронної пошти не буде збережена чи надіслана."
+    "Лише попередній перегляд. Жодна адреса електронної пошти не буде збережена чи надіслана.",
+    "Само преглед. Ниједна имејл адреса неће бити сачувана нити послата.",
+    "Само предварителен преглед. Няма да бъде запазен или изпратен имейл адрес.",
+    "Yalnızca önizleme. Hiçbir e-posta adresi kaydedilmeyecek veya gönderilmeyecektir."
   ],
   [
     "Disclaimer",
@@ -1118,7 +1464,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Isenção de responsabilidade",
     "Prohlášení o vyloučení odpovědnosti",
     "면책 조항",
-    "Застереження"
+    "Застереження",
+    "Напомена",
+    "Уточнение",
+    "Açıklama"
   ],
   [
     "The Deadline Journal does not endorse any particular political ideology, opinion, or orientation. It serves as an independent platform where contributors can share their perspectives and readers can engage with ideas from across the world and political spectrum. The views expressed in individual articles belong to their respective authors.",
@@ -1130,7 +1479,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "O Deadline Journal não endossa nenhuma ideologia política, opinião ou orientação específica. Ele funciona como uma plataforma independente onde os colaboradores podem compartilhar suas perspectivas e os leitores podem interagir com ideias de todo o mundo e de todo o espectro político. As opiniões expressas em artigos individuais pertencem aos respectivos autores.",
     "Časopis Deadline Journal nepodporuje žádnou konkrétní politickou ideologii, názor ani orientaci. Slouží jako nezávislá platforma, kde přispěvatelé mohou sdílet své pohledy a čtenáři se mohou seznámit s myšlenkami z celého světa a napříč politickým spektrem. Názory vyjádřené v jednotlivých článcích jsou názory jejich autorů.",
     "&#x27;Deadline Journal&#x27;은 특정 정치적 이념, 의견 또는 성향을 지지하지 않습니다. 본지는 기고자들이 자신의 관점을 공유하고, 독자들이 전 세계 및 다양한 정치적 스펙트럼에 걸친 아이디어와 소통할 수 있는 독립적인 플랫폼 역할을 합니다. 개별 기사에 표현된 견해는 해당 저자의 것입니다.",
-    "«Deadline Journal» не підтримує жодної конкретної політичної ідеології, думки чи орієнтації. Видання слугує незалежною платформою, де автори можуть ділитися своїми поглядами, а читачі — знайомитися з ідеями з усього світу та всього політичного спектру. Погляди, висловлені в окремих статтях, належать їхнім авторам."
+    "«Deadline Journal» не підтримує жодної конкретної політичної ідеології, думки чи орієнтації. Видання слугує незалежною платформою, де автори можуть ділитися своїми поглядами, а читачі — знайомитися з ідеями з усього світу та всього політичного спектру. Погляди, висловлені в окремих статтях, належать їхнім авторам.",
+    "Deadline Journal не подржава ниједну одређену политичку идеологију, мишљење или опредељење. Он је независна платформа на којој сарадници могу да поделе своје ставове, а читаоци да се упознају са идејама из целог света и са свих страна политичког спектра. Ставови изнети у појединачним чланцима припадају њиховим ауторима.",
+    "Deadline Journal не подкрепя конкретна политическа идеология, мнение или ориентация. Изданието е независима платформа, в която сътрудниците могат да споделят своите гледни точки, а читателите да се запознават с идеи от целия свят и от целия политически спектър. Възгледите, изразени в отделните статии, принадлежат на съответните им автори.",
+    "Deadline Journal belirli bir siyasi ideolojiyi, görüşü veya yönelimi desteklemez. Yazarların bakış açılarını paylaşabildiği ve okuyucuların dünyanın ve siyasi yelpazenin her kesiminden fikirlerle buluşabildiği bağımsız bir platformdur. Makalelerde ifade edilen görüşler ilgili yazarlarına aittir."
   ],
   [
     "We are committed to maintaining high standards of factual accuracy. Evidentiary claims and statistics are reviewed before publication. If you encounter content that you believe is factually incorrect or generally concerning, please contact us directly.",
@@ -1142,7 +1494,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Estamos comprometidos em manter altos padrões de precisão factual. Afirmações baseadas em evidências e estatísticas são revisadas antes da publicação. Caso encontre algum conteúdo que considere factualmente incorreto ou que suscite preocupações em geral, entre em contato conosco diretamente.",
     "Zavázali jsme se k dodržování vysokých standardů faktické přesnosti. Tvrzení podložená důkazy a statistické údaje jsou před zveřejněním prověřovány. Pokud narazíte na obsah, který považujete za fakticky nesprávný nebo obecně znepokojivý, kontaktujte nás prosím přímo.",
     "저희는 사실의 정확성에 있어 높은 기준을 유지하기 위해 최선을 다하고 있습니다. 증거에 기반한 주장과 통계 자료는 게재 전에 검토를 거칩니다. 사실과 다르다고 생각되거나 전반적으로 문제가 있다고 판단되는 내용을 발견하신 경우, 저희에게 직접 연락해 주시기 바랍니다.",
-    "Ми прагнемо дотримуватися високих стандартів фактичної точності. Твердження, що ґрунтуються на доказах, та статистичні дані перевіряються перед публікацією. Якщо ви натрапили на матеріал, який, на вашу думку, містить фактичні неточності або викликає занепокоєння, будь ласка, зверніться до нас безпосередньо."
+    "Ми прагнемо дотримуватися високих стандартів фактичної точності. Твердження, що ґрунтуються на доказах, та статистичні дані перевіряються перед публікацією. Якщо ви натрапили на матеріал, який, на вашу думку, містить фактичні неточності або викликає занепокоєння, будь ласка, зверніться до нас безпосередньо.",
+    "Посвећени смо одржавању високих стандарда чињеничне тачности. Тврдње поткрепљене доказима и статистички подаци проверавају се пре објављивања. Ако наиђете на садржај који сматрате чињенично нетачним или на други начин забрињавајућим, обратите нам се директно.",
+    "Стремим се да поддържаме високи стандарти за фактическа точност. Твърденията, основани на доказателства, и статистическите данни се проверяват преди публикуване. Ако попаднете на съдържание, което смятате за фактически невярно или по друг начин обезпокоително, моля, свържете се директно с нас.",
+    "Olgusal doğruluk konusunda yüksek standartları korumaya kararlıyız. Kanıta dayalı iddialar ve istatistikler yayımlanmadan önce incelenir. Olgusal olarak yanlış veya başka bir açıdan kaygı verici olduğunu düşündüğünüz içeriklerle karşılaşırsanız lütfen doğrudan bizimle iletişime geçin."
   ],
   [
     "Move map",
@@ -1154,7 +1509,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Mover mapa",
     "Posunout mapu",
     "지도 이동",
-    "Перемістити карту"
+    "Перемістити карту",
+    "Помери мапу",
+    "Премести картата",
+    "Haritayı hareket ettir"
   ],
   [
     "Done",
@@ -1166,7 +1524,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Concluído",
     "Hotovo",
     "완료",
-    "Готово"
+    "Готово",
+    "Готово",
+    "Готово",
+    "Bitti"
   ],
   [
     "Drag to explore. On touchscreens, choose Move map first.",
@@ -1178,7 +1539,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Arraste para explorar. Em telas sensíveis ao toque, escolha primeiro Mover mapa.",
     "Procházejte mapu tažením. Na dotykové obrazovce nejprve zvolte Posunout mapu.",
     "드래그하여 둘러보세요. 터치스크린에서는 먼저 지도 이동을 선택하세요.",
-    "Перетягуйте, щоб дослідити карту. На сенсорному екрані спочатку виберіть «Перемістити карту»."
+    "Перетягуйте, щоб дослідити карту. На сенсорному екрані спочатку виберіть «Перемістити карту».",
+    "Превуците да истражите. На екранима осетљивим на додир прво изаберите „Помери мапу“.",
+    "Плъзнете, за да разгледате. На сензорен екран първо изберете „Премести картата“.",
+    "Keşfetmek için sürükleyin. Dokunmatik ekranlarda önce “Haritayı hareket ettir” seçeneğini seçin."
   ],
   [
     "Drag to move the map. Choose Done to scroll the page.",
@@ -1190,7 +1554,10 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Arraste para mover o mapa. Escolha Concluído para rolar a página.",
     "Tažením posouvejte mapu. Pro posouvání stránky zvolte Hotovo.",
     "드래그하여 지도를 이동하세요. 페이지를 스크롤하려면 완료를 선택하세요.",
-    "Перетягуйте карту. Виберіть «Готово», щоб прокручувати сторінку."
+    "Перетягуйте карту. Виберіть «Готово», щоб прокручувати сторінку.",
+    "Превуците да померите мапу. Изаберите „Готово“ да наставите да померате страницу.",
+    "Плъзнете, за да преместите картата. Изберете „Готово“, за да превъртате страницата.",
+    "Haritayı hareket ettirmek için sürükleyin. Sayfayı kaydırmak için “Bitti” seçeneğini seçin."
   ],
   [
     "· Updated",
@@ -1202,28 +1569,249 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "· Atualizado",
     "· Aktualizováno",
     "· 업데이트",
-    "· Оновлено"
+    "· Оновлено",
+    "· Ажурирано",
+    "· Обновено",
+    "· Güncellendi"
+  ],
+  [
+    "Editions",
+    "Ediciones",
+    "Éditions",
+    "Ausgaben",
+    "Edities",
+    "Lapszámok",
+    "Edições",
+    "Vydání",
+    "발행호",
+    "Випуски",
+    "Издања",
+    "Броеве",
+    "Sayılar"
+  ],
+  [
+    "Edition",
+    "Edición",
+    "Édition",
+    "Ausgabe",
+    "Editie",
+    "Lapszám",
+    "Edição",
+    "Vydání",
+    "발행호",
+    "Випуск",
+    "Издање",
+    "Брой",
+    "Sayı"
+  ],
+  [
+    "Coming soon",
+    "Próximamente",
+    "À paraître",
+    "Demnächst",
+    "Binnenkort",
+    "Hamarosan",
+    "Em breve",
+    "Již brzy",
+    "곧 공개",
+    "Незабаром",
+    "Ускоро",
+    "Очаквайте скоро",
+    "Yakında"
+  ],
+  [
+    "The journal, issue by issue",
+    "La revista, edición a edición",
+    "Le journal, numéro après numéro",
+    "Das Journal, Ausgabe für Ausgabe",
+    "Het tijdschrift, editie na editie",
+    "A folyóirat, lapszámról lapszámra",
+    "A revista, edição por edição",
+    "Časopis, vydání po vydání",
+    "발행호별로 만나는 저널",
+    "Журнал, випуск за випуском",
+    "Часопис, издање по издање",
+    "Списанието, брой по брой",
+    "Sayı sayı dergi"
+  ],
+  [
+    "All editions",
+    "Todas las ediciones",
+    "Toutes les éditions",
+    "Alle Ausgaben",
+    "Alle edities",
+    "Minden lapszám",
+    "Todas as edições",
+    "Všechna vydání",
+    "전체 발행호",
+    "Усі випуски",
+    "Сва издања",
+    "Всички броеве",
+    "Tüm sayılar"
+  ],
+  [
+    "Explore this edition",
+    "Explorar esta edición",
+    "Découvrir cette édition",
+    "Diese Ausgabe entdecken",
+    "Ontdek deze editie",
+    "A lapszám felfedezése",
+    "Explore esta edição",
+    "Prozkoumat toto vydání",
+    "이번 호 살펴보기",
+    "Переглянути цей випуск",
+    "Истражите ово издање",
+    "Разгледайте този брой",
+    "Bu sayıyı keşfedin"
+  ],
+  [
+    "In this edition",
+    "En esta edición",
+    "Dans cette édition",
+    "In dieser Ausgabe",
+    "In deze editie",
+    "Ebben a lapszámban",
+    "Nesta edição",
+    "V tomto vydání",
+    "이번 호의 기사",
+    "У цьому випуску",
+    "У овом издању",
+    "В този брой",
+    "Bu sayıda"
+  ],
+  [
+    "articles",
+    "artículos",
+    "articles",
+    "Artikel",
+    "artikelen",
+    "cikk",
+    "artigos",
+    "článků",
+    "기사",
+    "статей",
+    "чланака",
+    "статии",
+    "makale"
+  ],
+  [
+    "Get the next edition.",
+    "Recibe la próxima edición.",
+    "Recevez la prochaine édition.",
+    "Erhalte die nächste Ausgabe.",
+    "Ontvang de volgende editie.",
+    "Kapd meg a következő lapszámot.",
+    "Receba a próxima edição.",
+    "Získejte příští vydání.",
+    "다음 호를 받아보세요.",
+    "Отримайте наступний випуск.",
+    "Примите следеће издање.",
+    "Получете следващия брой.",
+    "Bir sonraki sayıyı alın."
+  ],
+  [
+    "Share this article",
+    "Comparte este artículo",
+    "Partager cet article",
+    "Diesen Artikel teilen",
+    "Deel dit artikel",
+    "A cikk megosztása",
+    "Compartilhe este artigo",
+    "Sdílet tento článek",
+    "기사 공유",
+    "Поділитися статтею",
+    "Подели овај чланак",
+    "Споделете тази статия",
+    "Bu makaleyi paylaş"
+  ],
+  [
+    "Share",
+    "Compartir",
+    "Partager",
+    "Teilen",
+    "Delen",
+    "Megosztás",
+    "Compartilhar",
+    "Sdílet",
+    "공유",
+    "Поділитися",
+    "Подели",
+    "Сподели",
+    "Paylaş"
+  ],
+  [
+    "Copy link",
+    "Copiar enlace",
+    "Copier le lien",
+    "Link kopieren",
+    "Link kopiëren",
+    "Hivatkozás másolása",
+    "Copiar link",
+    "Kopírovat odkaz",
+    "링크 복사",
+    "Копіювати посилання",
+    "Копирај везу",
+    "Копирай връзката",
+    "Bağlantıyı kopyala"
+  ],
+  [
+    "Email",
+    "Correo electrónico",
+    "E-mail",
+    "E-Mail",
+    "E-mail",
+    "E-mail",
+    "E-mail",
+    "E-mail",
+    "이메일",
+    "Електронна пошта",
+    "Имејл",
+    "Имейл",
+    "E-posta"
+  ],
+  [
+    "Link copied.",
+    "Enlace copiado.",
+    "Lien copié.",
+    "Link kopiert.",
+    "Link gekopieerd.",
+    "Hivatkozás másolva.",
+    "Link copiado.",
+    "Odkaz zkopírován.",
+    "링크가 복사되었습니다.",
+    "Посилання скопійовано.",
+    "Веза је копирана.",
+    "Връзката е копирана.",
+    "Bağlantı kopyalandı."
+  ],
+  [
+    "Select and copy the link below.",
+    "Selecciona y copia el enlace de abajo.",
+    "Sélectionnez et copiez le lien ci-dessous.",
+    "Wähle den Link unten aus und kopiere ihn.",
+    "Selecteer en kopieer de onderstaande link.",
+    "Jelöld ki és másold ki az alábbi hivatkozást.",
+    "Selecione e copie o link abaixo.",
+    "Vyberte a zkopírujte odkaz níže.",
+    "아래 링크를 선택하여 복사하세요.",
+    "Виділіть і скопіюйте посилання нижче.",
+    "Изаберите и копирајте везу испод.",
+    "Изберете и копирайте връзката по-долу.",
+    "Aşağıdaki bağlantıyı seçip kopyalayın."
+  ],
+  [
+    "Copy this article link",
+    "Copia el enlace de este artículo",
+    "Copiez le lien de cet article",
+    "Kopiere den Link zu diesem Artikel",
+    "Kopieer de link naar dit artikel",
+    "Másold ki a cikk hivatkozását",
+    "Copie o link deste artigo",
+    "Zkopírujte odkaz na tento článek",
+    "기사 링크 복사",
+    "Скопіюйте посилання на цю статтю",
+    "Копирај везу до овог чланка",
+    "Копирай връзката към тази статия",
+    "Bu makalenin bağlantısını kopyala"
   ]
 ];
-
-window.JOURNAL_LANGUAGE_CATALOG.push(...[
-["Editions","Ediciones","Éditions","Ausgaben","Edities","Lapszámok","Edições","Vydání","발행호","Випуски"],
-["Edition","Edición","Édition","Ausgabe","Editie","Lapszám","Edição","Vydání","발행호","Випуск"],
-["Coming soon","Próximamente","À paraître","Demnächst","Binnenkort","Hamarosan","Em breve","Již brzy","곧 공개","Незабаром"],
-["The journal, issue by issue","La revista, edición a edición","Le journal, numéro après numéro","Das Journal, Ausgabe für Ausgabe","Het tijdschrift, editie na editie","A folyóirat, lapszámról lapszámra","A revista, edição por edição","Časopis, vydání po vydání","발행호별로 만나는 저널","Журнал, випуск за випуском"],
-["All editions","Todas las ediciones","Toutes les éditions","Alle Ausgaben","Alle edities","Minden lapszám","Todas as edições","Všechna vydání","전체 발행호","Усі випуски"],
-["Explore this edition","Explorar esta edición","Découvrir cette édition","Diese Ausgabe entdecken","Ontdek deze editie","A lapszám felfedezése","Explore esta edição","Prozkoumat toto vydání","이번 호 살펴보기","Переглянути цей випуск"],
-["In this edition","En esta edición","Dans cette édition","In dieser Ausgabe","In deze editie","Ebben a lapszámban","Nesta edição","V tomto vydání","이번 호의 기사","У цьому випуску"],
-["articles","artículos","articles","Artikel","artikelen","cikk","artigos","článků","기사","статей"]
-]);
-
-window.JOURNAL_LANGUAGE_CATALOG.push(
-["Get the next edition.","Recibe la próxima edición.","Recevez la prochaine édition.","Erhalte die nächste Ausgabe.","Ontvang de volgende editie.","Kapd meg a következő lapszámot.","Receba a próxima edição.","Získejte příští vydání.","다음 호를 받아보세요.","Отримайте наступний випуск."],
-["Share this article","Comparte este artículo","Partager cet article","Diesen Artikel teilen","Deel dit artikel","A cikk megosztása","Compartilhe este artigo","Sdílet tento článek","기사 공유","Поділитися статтею"],
-["Share","Compartir","Partager","Teilen","Delen","Megosztás","Compartilhar","Sdílet","공유","Поділитися"],
-["Copy link","Copiar enlace","Copier le lien","Link kopieren","Link kopiëren","Hivatkozás másolása","Copiar link","Kopírovat odkaz","링크 복사","Копіювати посилання"],
-["Email","Correo electrónico","E-mail","E-Mail","E-mail","E-mail","E-mail","E-mail","이메일","Електронна пошта"],
-["Link copied.","Enlace copiado.","Lien copié.","Link kopiert.","Link gekopieerd.","Hivatkozás másolva.","Link copiado.","Odkaz zkopírován.","링크가 복사되었습니다.","Посилання скопійовано."],
-["Select and copy the link below.","Selecciona y copia el enlace de abajo.","Sélectionnez et copiez le lien ci-dessous.","Wähle den Link unten aus und kopiere ihn.","Selecteer en kopieer de onderstaande link.","Jelöld ki és másold ki az alábbi hivatkozást.","Selecione e copie o link abaixo.","Vyberte a zkopírujte odkaz níže.","아래 링크를 선택하여 복사하세요.","Виділіть і скопіюйте посилання нижче."],
-["Copy this article link","Copia el enlace de este artículo","Copiez le lien de cet article","Kopiere den Link zu diesem Artikel","Kopieer de link naar dit artikel","Másold ki a cikk hivatkozását","Copie o link deste artigo","Zkopírujte odkaz na tento článek","기사 링크 복사","Скопіюйте посилання на цю статтю"]
-);
