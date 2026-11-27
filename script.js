@@ -266,7 +266,7 @@ function openSearch(){
   window.visualViewport?.addEventListener('resize',fitSearchViewport);
   window.visualViewport?.addEventListener('scroll',fitSearchViewport);
   const i=document.getElementById('searchInput');
-  if(i){i.focus({preventScroll:true});renderSearch('');}
+  if(i){i.value='';getSearchSuggestions(true);i.focus({preventScroll:true});renderSearch('');}
 }
 function closeSearch(){
   const overlay=document.getElementById('searchOverlay');
@@ -291,11 +291,20 @@ document.addEventListener('keydown',event=>{
   if(event.shiftKey&&(document.activeElement===first||!overlay.contains(document.activeElement))){event.preventDefault();last?.focus()}
   else if(!event.shiftKey&&(document.activeElement===last||!overlay.contains(document.activeElement))){event.preventDefault();first?.focus()}
 });
+let searchSuggestions=null;
+function getSearchSuggestions(refresh=false){
+  if(refresh||!searchSuggestions){
+    const pool=articles.filter(a=>(!a.status||a.status==='published')&&!a.is_placeholder&&(!a.published_at||Date.parse(a.published_at)<=Date.now()));
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+    searchSuggestions=pool.slice(0,4);
+  }
+  return searchSuggestions;
+}
+window.getSearchSuggestions=getSearchSuggestions;
 function renderSearch(q){
   const t=(q||'').trim().toLowerCase(),o=document.getElementById('searchResults');
   if(!o)return;
-  if(!t){o.replaceChildren();return;}
-  o.innerHTML=articles.filter(a=>!t||[a.title,a.country,articleTopics(a).join(' '),a.author,a.region,a.dek].join(' ').toLowerCase().includes(t))
+  o.innerHTML=(t?articles.filter(a=>[a.title,a.country,articleTopics(a).join(' '),a.author,a.region,a.dek].join(' ').toLowerCase().includes(t)):getSearchSuggestions())
     .map(a=>`<a class="search-result" href="${articleUrl(a)}">
       <div>${articleMeta(a)}</div><h3>${a.title}</h3></a>`).join('');
   if(!o.children.length){const empty=document.createElement('p');empty.className='search-empty';empty.setAttribute('role','status');empty.textContent=window.journalTranslate?.('No articles found. Try another search.')||'No articles found. Try another search.';o.append(empty);}
