@@ -296,7 +296,7 @@ function getSearchSuggestions(refresh=false){
   if(refresh||!searchSuggestions){
     const pool=articles.filter(a=>(!a.status||a.status==='published')&&!a.is_placeholder&&(!a.published_at||Date.parse(a.published_at)<=Date.now()));
     for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
-    searchSuggestions=pool.slice(0,4);
+    searchSuggestions=pool.slice(0,5);
   }
   return searchSuggestions;
 }
