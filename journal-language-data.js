@@ -1813,5 +1813,50 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Копирај везу до овог чланка",
     "Копирай връзката към тази статия",
     "Bu makalenin bağlantısını kopyala"
+  ],
+  [
+    "Enable map dragging",
+    "Activar arrastre del mapa",
+    "Activer le déplacement de la carte",
+    "Kartenverschiebung aktivieren",
+    "Kaart verslepen inschakelen",
+    "Térképhúzás engedélyezése",
+    "Ativar arraste do mapa",
+    "Povolit přetahování mapy",
+    "지도 드래그 활성화",
+    "Увімкнути перетягування карти",
+    "Омогући превлачење мапе",
+    "Активирай плъзгането на картата",
+    "Harita sürüklemeyi etkinleştir"
+  ],
+  [
+    "Choose Enable map dragging to explore.",
+    "Selecciona Activar arrastre del mapa para explorar.",
+    "Choisissez Activer le déplacement de la carte pour explorer.",
+    "Zum Erkunden Kartenverschiebung aktivieren wählen.",
+    "Kies Kaart verslepen inschakelen om te verkennen.",
+    "A böngészéshez válaszd a Térképhúzás engedélyezése lehetőséget.",
+    "Selecione Ativar arraste do mapa para explorar.",
+    "Pro prozkoumání zvolte Povolit přetahování mapy.",
+    "탐색하려면 지도 드래그 활성화를 선택하세요.",
+    "Щоб дослідити карту, виберіть «Увімкнути перетягування карти».",
+    "За истраживање изаберите „Омогући превлачење мапе“.",
+    "За да разгледате, изберете „Активирай плъзгането на картата“.",
+    "Keşfetmek için Harita sürüklemeyi etkinleştir seçeneğini seçin."
+  ],
+  [
+    "Drag to explore.",
+    "Arrastra para explorar.",
+    "Faites glisser pour explorer.",
+    "Zum Erkunden ziehen.",
+    "Sleep om te verkennen.",
+    "Húzd a térképet a böngészéshez.",
+    "Arraste para explorar.",
+    "Prozkoumejte přetažením.",
+    "드래그하여 탐색하세요.",
+    "Перетягуйте, щоб дослідити.",
+    "Превуците да истражите.",
+    "Плъзнете, за да разгледате.",
+    "Keşfetmek için sürükleyin."
   ]
 ];
