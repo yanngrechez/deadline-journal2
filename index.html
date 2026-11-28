@@ -63,7 +63,7 @@ const map=window.DEADLINE_MAP;
 const mapSvg=document.getElementById('worldMap');
 const mapTooltip=document.getElementById('mapTooltip');
 const tooltipText=(country,count)=>`${country.name} — ${count} ${count===1?'article':'articles'}`;
-const mapLink=(country,count,shape)=>`<a class="map-country-link" href="${countryUrl(country)}" aria-label="${tooltipText(country,count)}" data-tooltip="${tooltipText(country,count)}">${shape}<title>${tooltipText(country,count)}</title></a>`;
+const mapLink=(country,count,shape)=>`<a class="map-country-link" href="${countryUrl(country)}" aria-label="${tooltipText(country,count)}" data-country="${country.code}" data-count="${count}" data-tooltip="${tooltipText(country,count)}">${shape}<title>${tooltipText(country,count)}</title></a>`;
 if(map&&mapSvg){
  mapSvg.setAttribute('viewBox',map.viewBox);
  const pathMarkup=map.paths.map(item=>{
@@ -84,6 +84,31 @@ if(map&&mapSvg){
    return mapLink(country,count,`<circle class="map-marker ${count?'is-covered':''}" cx="${item.x}" cy="${item.y}" r="${radius}"></circle>`);
  }).join('');
  mapSvg.innerHTML=`<path class="map-sphere" d="${map.sphere}"></path><g>${pathMarkup}</g><g class="map-markers">${markerMarkup}</g>`;
+ const shell=document.getElementById('worldMapShell');
+ const preview=document.createElement('div');preview.className='map-country-preview';preview.hidden=true;
+ preview.setAttribute('role','region');preview.setAttribute('aria-label','View stories');
+ const info=document.createElement('div'),heading=document.createElement('strong'),countLabel=document.createElement('span');
+ heading.id='mapPreviewCountry';preview.setAttribute('aria-labelledby',heading.id);info.append(heading,countLabel);
+ const visit=document.createElement('a');visit.textContent='View stories';
+ const dismiss=document.createElement('button');dismiss.type='button';dismiss.textContent='×';dismiss.setAttribute('aria-label','Close');
+ preview.append(info,visit,dismiss);shell.after(preview);
+ const hidePreview=()=>{preview.hidden=true;mapSvg.querySelectorAll('[data-selected]').forEach(el=>el.removeAttribute('data-selected'));};
+ dismiss.addEventListener('click',hidePreview);
+ document.addEventListener('keydown',event=>{if(event.key==='Escape')hidePreview();});
+ document.addEventListener('pointerdown',event=>{if(!shell.contains(event.target)&&!preview.contains(event.target))hidePreview();});
+ let pointerType='mouse';mapSvg.addEventListener('pointerdown',event=>{pointerType=event.pointerType;});
+ mapSvg.addEventListener('click',event=>{
+  const link=event.target.closest('.map-country-link');
+  if(!link||event.defaultPrevented||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||event.detail===0)return;
+  if((event.pointerType||pointerType)==='mouse')return;
+  event.preventDefault();event.stopImmediatePropagation();hidePreview();
+  const country=countryByCode(link.dataset.country),count=Number(link.dataset.count);
+  heading.textContent=window.journalTranslate?.(country.name)||country.name;
+  const text=count+' '+(count===1?'article':'articles');countLabel.textContent=window.journalTranslate?.(text)||text;
+  visit.href=link.getAttribute('href');visit.textContent=window.journalTranslate?.('View stories')||'View stories';
+  link.setAttribute('data-selected','true');preview.hidden=false;mapTooltip.setAttribute('aria-hidden','true');
+  preview.scrollIntoView({block:'nearest',behavior:'instant'});
+ },true);
  mapSvg.querySelectorAll('.map-country-link').forEach(link=>{
    const show=(clientX,clientY)=>{
      const bounds=document.getElementById('worldMapShell').getBoundingClientRect();
@@ -92,8 +117,8 @@ if(map&&mapSvg){
      mapTooltip.style.top=`${document.getElementById('worldMapShell').scrollTop+Math.max(8,clientY-bounds.top-38)}px`;
      mapTooltip.setAttribute('aria-hidden','false');
    };
-   link.addEventListener('pointerenter',event=>show(event.clientX,event.clientY));
-   link.addEventListener('pointermove',event=>show(event.clientX,event.clientY));
+   link.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse')show(event.clientX,event.clientY)});
+   link.addEventListener('pointermove',event=>{if(event.pointerType==='mouse')show(event.clientX,event.clientY)});
    link.addEventListener('pointerleave',()=>mapTooltip.setAttribute('aria-hidden','true'));
    link.addEventListener('focus',()=>{
      const bounds=document.getElementById('worldMapShell').getBoundingClientRect();

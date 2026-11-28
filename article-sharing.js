@@ -26,6 +26,19 @@
  copy.addEventListener('click',copyLink);
  if(typeof navigator.share==='function'){
   native.hidden=false;
+  const compact=matchMedia('(max-width:700px)');
+  let secondary;
+  function arrange(){
+   if(compact.matches&&!secondary){
+    secondary=document.createElement('details');secondary.className='article-share-more';
+    const toggle=document.createElement('summary');toggle.textContent='⋯';toggle.setAttribute('aria-label','Share this article');
+    secondary.append(toggle);copy.before(secondary);secondary.append(copy);
+   }else if(!compact.matches&&secondary){secondary.before(copy);secondary.remove();secondary=null;}
+  }
+  arrange();compact.addEventListener('change',arrange);
+  document.addEventListener('click',event=>{if(secondary&&!secondary.contains(event.target))secondary.open=false;});
+  controls.addEventListener('keydown',event=>{if(event.key==='Escape'&&secondary?.open){secondary.open=false;secondary.querySelector('summary').focus();}});
+  copy.addEventListener('click',()=>{if(secondary)secondary.open=false;});
   native.addEventListener('click',async()=>{
    try{await navigator.share({title:title(),url});}
    catch(error){if(error.name!=='AbortError')manualCopy();}

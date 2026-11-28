@@ -470,6 +470,7 @@ function initializeMapZoom(){
     shell.scrollLeft=x*shell.clientWidth*zoom-shell.clientWidth/2;
     shell.scrollTop=y*shell.clientHeight*zoom-shell.clientHeight/2;
     controls.querySelector('[data-map-zoom="out"]').disabled=zoom===1;
+    controls.querySelector('[data-map-zoom="reset"]').hidden=zoom===1;
     controls.querySelector('[data-map-zoom="in"]').disabled=zoom===4;
     endDrag();setPanMode(false);panButton.hidden=zoom===1||!touchControls.matches;
     shell.tabIndex=zoom>1?0:-1;
