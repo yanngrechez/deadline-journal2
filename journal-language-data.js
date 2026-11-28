@@ -660,19 +660,19 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Yerel bakış açınız küresel bir kitleyi hak ediyor."
   ],
   [
-    "<strong>Something happening in your community that the world should know about?</strong> Bring it into the spotlight.",
-    "<strong>¿Está pasando algo en tu comunidad que el mundo debería conocer?</strong> Ponlo en el foco.",
-    "<strong>Il se passe quelque chose dans votre communauté que le monde devrait connaître ?</strong> Mettez-le en lumière.",
-    "<strong>Passiert in deiner Gemeinschaft etwas, von dem die Welt erfahren sollte?</strong> Rücke es ins Rampenlicht.",
-    "<strong>Gebeurt er iets in jouw gemeenschap waar de wereld van moet weten?</strong> Zet het in de schijnwerpers.",
-    "<strong>Történik valami a közösségedben, amiről a világnak tudnia kellene?</strong> Állítsd reflektorfénybe.",
-    "<strong>Algo está acontecendo na sua comunidade que o mundo deveria conhecer?</strong> Coloque isso em destaque.",
-    "<strong>Děje se ve vaší komunitě něco, o čem by měl svět vědět?</strong> Přiveďte to do centra pozornosti.",
-    "<strong>여러분의 지역사회에서 전 세계가 알아야 할 일이 일어나고 있나요?</strong> 그 이야기에 빛을 비춰 주세요.",
-    "<strong>У вашій громаді відбувається щось, про що має знати світ?</strong> Приверніть до цього увагу.",
-    "<strong>Дешава ли се у вашој заједници нешто за шта би свет требало да зна?</strong> Ставите то у средиште пажње.",
-    "<strong>Случва ли се нещо във вашата общност, за което светът трябва да знае?</strong> Поставете го в светлината на прожекторите.",
-    "<strong>Topluluğunuzda dünyanın bilmesi gereken bir şeyler mi oluyor?</strong> Onu gündeme taşıyın."
+    "Something happening in your community that the world should know about? Bring it into the spotlight.",
+    "¿Está pasando algo en tu comunidad que el mundo debería conocer? Ponlo en el foco.",
+    "Il se passe quelque chose dans votre communauté que le monde devrait connaître ? Mettez-le en lumière.",
+    "Passiert in deiner Gemeinschaft etwas, von dem die Welt erfahren sollte? Rücke es ins Rampenlicht.",
+    "Gebeurt er iets in jouw gemeenschap waar de wereld van moet weten? Zet het in de schijnwerpers.",
+    "Történik valami a közösségedben, amiről a világnak tudnia kellene? Állítsd reflektorfénybe.",
+    "Algo está acontecendo na sua comunidade que o mundo deveria conhecer? Coloque isso em destaque.",
+    "Děje se ve vaší komunitě něco, o čem by měl svět vědět? Přiveďte to do centra pozornosti.",
+    "여러분의 지역사회에서 전 세계가 알아야 할 일이 일어나고 있나요? 그 이야기에 빛을 비춰 주세요.",
+    "У вашій громаді відбувається щось, про що має знати світ? Приверніть до цього увагу.",
+    "Дешава ли се у вашој заједници нешто за шта би свет требало да зна? Ставите то у средиште пажње.",
+    "Случва ли се нещо във вашата общност, за което светът трябва да знае? Поставете го в светлината на прожекторите.",
+    "Topluluğunuzda dünyanın bilmesi gereken bir şeyler mi oluyor? Onu gündeme taşıyın."
   ],
   [
     "Name",
@@ -1858,5 +1858,20 @@ window.JOURNAL_LANGUAGE_CATALOG=[
     "Превуците да истражите.",
     "Плъзнете, за да разгледате.",
     "Keşfetmek için sürükleyin."
+  ],
+  [
+    "Submit your proposal and we will get back to you within 48 hours.",
+    "Envía tu propuesta y te responderemos en un plazo de 48 horas.",
+    "Envoyez votre proposition et nous vous répondrons sous 48 heures.",
+    "Schicke uns deinen Vorschlag, und wir melden uns innerhalb von 48 Stunden bei dir.",
+    "Stuur je voorstel in en je krijgt binnen 48 uur een reactie van ons.",
+    "Küldd el a javaslatodat, és 48 órán belül válaszolunk.",
+    "Envie sua proposta e responderemos em até 48 horas.",
+    "Pošlete svůj návrh a ozveme se vám do 48 hodin.",
+    "제안을 보내 주시면 48시간 이내에 답변드리겠습니다.",
+    "Надішліть свою пропозицію, і ми відповімо протягом 48 годин.",
+    "Пошаљите свој предлог и одговорићемо вам у року од 48 сати.",
+    "Изпратете предложението си и ще ви отговорим в рамките на 48 часа.",
+    "Önerinizi gönderin; 48 saat içinde size dönüş yapalım."
   ]
 ];
