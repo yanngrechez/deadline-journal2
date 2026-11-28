@@ -520,3 +520,11 @@ img{height:auto}
 .article-share-more summary::-webkit-details-marker{display:none}
 .article-share-more summary:focus-visible{outline:1px solid var(--purple);outline-offset:2px}
 .article-share-more[open] [data-copy-link]{position:absolute;right:0;bottom:100%;min-width:130px;white-space:nowrap;padding:12px 16px;background:var(--paper);border:1px solid var(--rule);box-shadow:0 4px 14px #17141a12;z-index:2}
+
+.map-zoom-icon,.map-zoom-label{display:none}
+@media(min-width:701px){
+ .map-controls button[data-map-zoom="in"]{display:inline-flex;align-items:center;gap:7px;font-size:11px}
+ .map-zoom-symbol{display:none}
+ .map-zoom-icon,.map-zoom-label{display:inline-block}
+ .map-zoom-icon{flex-shrink:0}
+}
